@@ -1,0 +1,16 @@
+{
+  "Id": "Amiya",
+  "Name": "阿米娅",
+  "Version": "0.1.0",
+  "Author": "Your Name",
+  "Description": "来自明日方舟的阿米娅加入杀戮尖塔2！拥有多种形态和独特的战斗机制。",
+  "GameVersion": "1.0.0",
+  "Dependencies": [
+    {
+      "Id": "BaseLib",
+      "Version": "3.1.2"
+    }
+  ],
+  "EntryPoint": "Amiya.Entry",
+  "AssemblyName": "Amiya.dll"
+}

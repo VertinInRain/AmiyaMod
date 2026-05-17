@@ -1,0 +1,91 @@
+{
+  "AMIYA-FORM_MANAGER.title": "形态切换",
+  "AMIYA-FORM_MANAGER.description": "在近卫、术士、医疗三种形态间切换。",
+  
+  "AMIYA-DEMON_LORD_CALL.title": "魔王之唤",
+  "AMIYA-DEMON_LORD_CALL.description": "累积至7层时进入魔王形态。",
+  
+  "AMIYA-BLACK_CROWN.title": "黑冠",
+  "AMIYA-BLACK_CROWN.description": "造成的伤害翻倍。每出一张牌，受到3点伤害。",
+  
+  "AMIYA-EMBER.title": "燃烬",
+  "AMIYA-EMBER.description": "触发形态转换时，改为选择消耗手牌中的一张牌。",
+  
+  "AMIYA-JUDGMENT.title": "裁决",
+  "AMIYA-JUDGMENT.description": "获得魔王之唤时，对所有敌人造成9点伤害。",
+  
+  "AMIYA-SOUL_FORTRESS.title": "灵魂堡垒",
+  "AMIYA-SOUL_FORTRESS.description": "成功形态转换后，获得{Amount}点格挡。",
+  
+  "AMIYA-WILDFIRE.title": "燎原",
+  "AMIYA-WILDFIRE.description": "每次触发形态转换时，获得{Amount}点临时力量。",
+  
+  "AMIYA-SPREAD.title": "蔓延",
+  "AMIYA-SPREAD.description": "每当你触发形态转换时，抽{Amount}张牌。",
+  
+  "AMIYA-RUNNING_NIGHT.title": "奔夜",
+  "AMIYA-RUNNING_NIGHT.description": "每次触发形态转换时，将此牌放入手牌。",
+  
+  "AMIYA-IRON_GUARD.title": "铁卫",
+  "AMIYA-IRON_GUARD.description": "每次进入近卫形态时，获得{Amount}层覆甲。",
+  
+  "AMIYA-TURBULENCE.title": "湍流",
+  "AMIYA-TURBULENCE.description": "每次抽到打击或防御时，抽一张牌。",
+  
+  "AMIYA-DEMON_LORD_VESSEL.title": "魔王的祭器",
+  "AMIYA-DEMON_LORD_VESSEL.description": "每打出一张魔王词条牌时，对随机敌人造成{Amount}点伤害。",
+  
+  "AMIYA-DEMON_LORD_BANNER.title": "魔王的旗帜",
+  "AMIYA-DEMON_LORD_BANNER.description": "每打出一张魔王词条牌时，抽{Amount}张牌。",
+  
+  "AMIYA-NURSING_CARD.title": "疗养特供卡",
+  "AMIYA-NURSING_CARD.description": "每打出一张感染牌时，获得1点能量。",
+  
+  "AMIYA-FINAL_SHADOW.title": "终焉之影",
+  "AMIYA-FINAL_SHADOW.description": "每消耗一张牌，获得一层魔王之唤。",
+  
+  "AMIYA-WILD_ROAR.title": "旷野轰鸣",
+  "AMIYA-WILD_ROAR.description": "每回合结束时，对全体敌人造成{Amount}点伤害。",
+  
+  "AMIYA-PROPHECY_IMAGE.title": "预言显像",
+  "AMIYA-PROPHECY_IMAGE.description": "每回合开始时，将一张存续先兆加入你的手牌。",
+  
+  "AMIYA-VOID_FRAGMENT.title": "虚空残片",
+  "AMIYA-VOID_FRAGMENT.description": "每回合第一张牌可以免费打出。",
+  
+  "AMIYA-TODAY_TOMORROW_DEVIATION.title": "今时明日的偏差",
+  "AMIYA-TODAY_TOMORROW_DEVIATION.description": "每打出一张攻击牌，在下回合获得{Amount}点格挡。",
+  
+  "AMIYA-ARRIVED.title": "已至",
+  "AMIYA-ARRIVED.description": "在你的回合开始时，获得1点能量并额外抽1张牌。",
+  
+  "AMIYA-BURIED_UNDERGROUND.title": "深埋地底",
+  "AMIYA-BURIED_UNDERGROUND.description": "每当你的打击命中敌人时，本回合减去该敌人{Amount}点力量。",
+  
+  "AMIYA-SEE_LIGHT.title": "得见光芒",
+  "AMIYA-SEE_LIGHT.description": "每打出一张打击，获得6点格挡。每打出一张防御，对随机敌人造成6点伤害。",
+  
+  "AMIYA-ORDINARY_JOY.title": "平凡亦是喜乐",
+  "AMIYA-ORDINARY_JOY.description": "所有打击牌和防御牌数值增加{Amount}点。",
+  
+  "AMIYA-SWORD_NEVER_SLEEPS.title": "剑不眠",
+  "AMIYA-SWORD_NEVER_SLEEPS.description": "下一张领袖牌耗能为0。",
+  
+  "AMIYA-AMIYA_MECHANICS.title": "阿米娅机制",
+  "AMIYA-AMIYA_MECHANICS.description": "处理感染牌变换和墓园牌移动。",
+  
+  "AMIYA-REFUSE_MOURN.title": "拒绝哀悼",
+  "AMIYA-REFUSE_MOURN.description": "每当感染牌变为打击或防御时，对所有敌人造成{Amount}点伤害。",
+  
+  "AMIYA-SOUL_TENACITY_COUNTER.title": "神魂坚韧",
+  "AMIYA-SOUL_TENACITY_COUNTER.description": "追踪本场战斗中的格挡次数。",
+  
+  "AMIYA-SUPPORT_FUTURE.title": "支援未来",
+  "AMIYA-SUPPORT_FUTURE.description": "战斗结束时获得等同于造成伤害的金币。",
+  
+  "AMIYA-PHASE_CHANGE.title": "相变不息",
+  "AMIYA-PHASE_CHANGE.description": "本回合每获得一次格挡，触发一次形态转换。",
+  
+  "AMIYA-ENDLESS_FLOOD_COUNTER.title": "洪流不息",
+  "AMIYA-ENDLESS_FLOOD_COUNTER.description": "追踪本回合已打出的攻击牌数量。"
+}

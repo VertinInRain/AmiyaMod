@@ -1,0 +1,28 @@
+# 快速打包测试指南
+# =============================================
+
+# 步骤1：编译DLL
+cd AmiyaMod
+dotnet build -c Release
+# 输出: .godot\mono\temp\bin\Release\Amiya.dll
+
+# 步骤2：准备角色视觉（用静态图先测试）
+# 从idle动画第一帧复制作为临时角色图
+mkdir Amiya\images\char\guard\idle -Force
+# 运行ffmpeg转换（只需idle的1帧即可测试）
+.\ffmpeg.exe -i "..\阿米娅动画\近卫\idle_loop.webm" -vframes 1 "Amiya\images\char\guard\idle\frame_0001.png" -y
+.\ffmpeg.exe -i "..\阿米娅动画\术士\idle_loop.webm" -vframes 1 "Amiya\images\char\caster\idle\frame_0001.png" -y
+.\ffmpeg.exe -i "..\阿米娅动画\医疗\idle_loop.webm" -vframes 1 "Amiya\images\char\medic\idle\frame_0001.png" -y
+.\ffmpeg.exe -i "..\阿米娅动画\魔王\idle_loop.webm" -vframes 1 "Amiya\images\char\demonlord\idle\frame_0001.png" -y
+
+# 步骤3：打开Godot 4.5编辑器
+# 打开 AmiyaMod/project.godot
+# 菜单: 项目 → 导出
+# 添加 PCK/ZIP 预设
+# 导出为 Amiya.pck
+
+# 步骤4：最终文件
+# 将以下3个文件放入游戏Mods目录:
+#   Amiya.dll
+#   Amiya.pck
+#   Amiya.json

@@ -1,0 +1,13 @@
+{
+  "AMIYA-DEMON_LORD.title": "魔王",
+  "AMIYA-DEMON_LORD.description": "打出时获得1层魔王之唤。",
+  
+  "AMIYA-INFECTION.title": "感染",
+  "AMIYA-INFECTION.description": "回合开始时，若此牌在弃牌堆中，将其变为打击或防御。",
+  
+  "AMIYA-LEADER.title": "领袖",
+  "AMIYA-LEADER.description": "打出时可以选择将这张牌放入抽牌堆、弃牌堆或消耗堆。",
+  
+  "AMIYA-GRAVEYARD.title": "墓园",
+  "AMIYA-GRAVEYARD.description": "战斗开始时，将此牌放入弃牌堆。"
+}

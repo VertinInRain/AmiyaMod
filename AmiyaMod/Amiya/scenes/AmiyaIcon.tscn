@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://amiya_icon_v2"]
+
+[ext_resource type="Texture2D" path="res://Amiya/images/icon/character_icon.png" id="1"]
+
+[node name="AmiyaIcon" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1")
+expand_mode = 1
+stretch_mode = 5
