@@ -1,0 +1,318 @@
+﻿public static class BaseLibMain
+public static bool IsMainThread;
+public const string ModId = "BaseLib";
+public static Logger Logger { get; } = new Logger("BaseLib", LogType.Generic);
+public static void Initialize()
+public static class CommonActions
+public static AttackCommand CardAttack(CardModel card, Creature? target, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, CardPlay? play, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, Creature? target, decimal damage, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, Creature? target, decimal damage, ValueProp valueProp, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, CardPlay? cardPlay, Creature? target, decimal damage, ValueProp valueProp, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, Creature? target, CalculatedDamageVar calculatedDamage, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, CardPlay? cardPlay, Creature? target, CalculatedDamageVar calculatedDamage, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, Creature? target, CalculatedDamageVar calculatedDamage, ValueProp valueProp, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static AttackCommand CardAttack(CardModel card, CardPlay? cardPlay, Creature? target, CalculatedDamageVar calculatedDamage, ValueProp valueProp, int hitCount = 1, string? vfx = null, string? sfx = null, string? tmpSfx = null)
+public static async Task<decimal> CardBlock(CardModel card, CardPlay? play)
+public static async Task<decimal> CardBlock(CardModel card, BlockVar blockVar, CardPlay? play)
+public static async Task<decimal> CardBlock(CardModel card, DynamicVar var, CardPlay? play, bool fast = false)
+public static async Task<IEnumerable<CardModel>> Draw(CardModel card, PlayerChoiceContext context)
+public static async Task<T?> Apply<T>(Creature target, DynamicVarSource dynVarSource, bool silent = false) where T : PowerModel
+public static async Task<IReadOnlyList<T>> Apply<T>(IEnumerable<Creature> targets, DynamicVarSource dynVarSource, bool silent = false) where T : PowerModel
+public static async Task<T?> Apply<T>(Creature target, CardModel card, bool silent = false) where T : PowerModel
+public static async Task<T?> Apply<T>(Creature target, CardModel? card, decimal amount, bool silent = false) where T : PowerModel
+public static async Task<T?> ApplySelf<T>(CardModel card, bool silent = false) where T : PowerModel
+public static async Task<T?> ApplySelf<T>(CardModel card, decimal amount, bool silent = false) where T : PowerModel
+public static async Task<T?> Apply<T>(PlayerChoiceContext context, Creature target, DynamicVarSource dynVarSource, bool silent = false) where T : PowerModel
+public static async Task<IReadOnlyList<T>> Apply<T>(PlayerChoiceContext context, IEnumerable<Creature> targets, DynamicVarSource dynVarSource, bool silent = false) where T : PowerModel
+public static async Task<T?> Apply<T>(PlayerChoiceContext context, Creature target, CardModel card, bool silent = false) where T : PowerModel
+public static async Task<T?> Apply<T>(PlayerChoiceContext context, Creature target, CardModel? card, decimal amount, bool silent = false) where T : PowerModel
+public static async Task<T?> ApplySelf<T>(PlayerChoiceContext context, CardModel card, bool silent = false) where T : PowerModel
+public static async Task<T?> ApplySelf<T>(PlayerChoiceContext context, CardModel card, decimal amount, bool silent = false) where T : PowerModel
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, CardSelectorPrefs prefs, PlayerChoiceContext context, PileType pileType)
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, CardSelectorPrefs prefs, PlayerChoiceContext context, PileType pileType, Func<CardModel, bool>? filter)
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType, int count = 1)
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType, Func<CardModel, bool>? filter, int count = 1)
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType, int minCount, int maxCount)
+public static async Task<IEnumerable<CardModel>> SelectCards(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType, Func<CardModel, bool>? filter, int minCount, int maxCount)
+public static async Task<CardModel?> SelectSingleCard(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType)
+public static async Task<CardModel?> SelectSingleCard(CardModel card, LocString selectionPrompt, PlayerChoiceContext context, PileType pileType, Func<CardModel, bool>? filter)
+public static async Task<IReadOnlyList<T>> Apply<T>(PlayerChoiceContext ctx, CardModel card, CardPlay? cardPlay, bool silent = false) where T : PowerModel
+public static IEnumerable<CardModel> GenerateCards(CardModel card, int count, Func<CardModel, bool>? filter = null)
+public static CardModel? GenerateSingleCard(CardModel card, Func<CardModel, bool>? filter = null)
+public abstract class CustomActModel : ActModel, ICustomModel, ISceneConversions
+public class CustomActGenerateBackgroundAssets
+public static bool UseCustomBackgroundAssets(ActModel __instance, Rng rng, ref BackgroundAssets __result)
+public static class CustomActTreasureChest
+public static void InsertCustomChestVisualNode(NTreasureRoom __instance)
+public int ActNumber => this.ActNumber();
+public override int Index { get; }
+public override Color MapTraveledColor => new Color("27221C");
+public override Color MapUntraveledColor => new Color("6E7750");
+public override Color MapBgColor => new Color("9B9562");
+public override string[] BgMusicOptions => new string[2] { "event:/music/act3_a1_v1", "event:/music/act3_a2_v1" };
+public override string[] MusicBankPaths => new string[2] { "res://banks/desktop/act3_a1.bank", "res://banks/desktop/act3_a2.bank" };
+public override string AmbientSfx => "event:/sfx/ambience/act3_ambience";
+public override string ChestSpineResourcePath => "res://animations/backgrounds/treasure_room/chest_room_act_3_skel_data.tres";
+public override string ChestSpineSkinNameNormal => "act3";
+public override string ChestSpineSkinNameStroke => "act3_stroke";
+public override string ChestOpenSfx => "event:/sfx/ui/treasure/treasure_act3";
+public override bool IsDefault => false;
+public override IEnumerable<AncientEventModel> AllAncients => Index switch
+public override IEnumerable<EncounterModel> BossDiscoveryOrder => Array.Empty<EncounterModel>();
+public virtual string? CustomChestScene => null;
+public override IEnumerable<AncientEventModel> GetUnlockedAncients(UnlockState state)
+public override bool IsUnlocked(UnlockState unlockState)
+public override MapPointTypeCounts GetMapPointTypes(Rng mapRng)
+public void RegisterSceneConversions()
+public abstract class CustomAncientModel : AncientEventModel, ICustomModel, ILocalizationProvider
+public virtual List<(string, string)>? Localization => null;
+public OptionPools OptionPools
+public override IEnumerable<EventOption> AllPossibleOptions => OptionPools.AllOptions.SelectMany((AncientOption option) => option.AllVariants.Select((RelicModel relic) => RelicOption(relic)));
+public virtual string? CustomScenePath => null;
+public virtual string? CustomMapIconPath => null;
+public virtual string? CustomMapIconOutlinePath => null;
+public virtual string? CustomRunHistoryIconPath => null;
+public virtual string? CustomRunHistoryIconOutlinePath => null;
+public CustomAncientModel(bool autoAdd = true, bool logDialogueLoad = false)
+public virtual bool IsValidForAct(ActModel act)
+public virtual bool ShouldForceSpawn(ActModel act, AncientEventModel? rngChosenAncient)
+public static WeightedList<AncientOption> MakePool(params RelicModel[] options)
+public static WeightedList<AncientOption> MakePool(params AncientOption[] options)
+public static AncientOption AncientOption<T>(int weight = 1, Func<T, RelicModel>? relicPrep = null, Func<T, IEnumerable<RelicModel>>? makeAllVariants = null) where T : RelicModel
+public override IEnumerable<string> GetAssetPaths(IRunState runState)
+public abstract class CustomCardModel : CardModel, ICustomModel, ILocalizationProvider
+public override bool GainsBlock => base.DynamicVars.Any<KeyValuePair<string, DynamicVar>>(delegate(KeyValuePair<string, DynamicVar> dynVar)
+public virtual Texture2D? CustomFrame => null;
+public Material? CustomFrameMaterial
+public Material? CustomBannerMaterial
+public virtual Material? CreateCustomFrameMaterial => null;
+public virtual Material? CreateCustomBannerMaterial => null;
+public virtual string? CustomBannerMaterialPath => null;
+public virtual string? CustomPortraitPath => null;
+public virtual Texture2D? CustomPortrait => null;
+public virtual List<(string, string)>? Localization => null;
+public CustomCardModel(int baseCost, CardType type, CardRarity rarity, TargetType target, bool showInCardLibrary = true, bool autoAdd = true)
+public static IEnumerable<DynamicVar> FinishMakeCalculatedVar(CalculatedVar var, int baseVal, int bonusVal)
+public static IEnumerable<DynamicVar> MakeCalculatedVar(string name, int baseVal, Func<CardModel, Creature?, decimal> bonus, int mult = 1)
+public static IEnumerable<DynamicVar> MakeCalculatedDamage(int baseVal, Func<CardModel, Creature?, decimal> bonus, int mult = 1, ValueProp props = ValueProp.Move)
+public static IEnumerable<DynamicVar> MakeCalculatedDamage(string name, int baseVal, Func<CardModel, Creature?, decimal> bonus, int mult = 1, ValueProp props = ValueProp.Move)
+public static IEnumerable<DynamicVar> MakeCalculatedBlock(int baseVal, Func<CardModel, Creature?, decimal> bonus, int mult = 1, ValueProp props = ValueProp.Move)
+public static IEnumerable<DynamicVar> MakeCalculatedBlock(string name, int baseVal, Func<CardModel, Creature?, decimal> bonus, int mult = 1, ValueProp props = ValueProp.Move)
+public abstract class CustomCardPoolModel : CardPoolModel, ICustomModel, ICustomEnergyIconPool
+public override string CardFrameMaterialPath => "card_frame_red";
+public virtual Color ShaderColor => new Color("FFFFFF");
+public virtual float H
+public virtual float S
+public virtual float V
+public virtual bool IsShared => false;
+public override string EnergyColorName => CustomEnergyIconPatches.GetEnergyColorName(base.Id);
+public virtual string? BigEnergyIconPath => null;
+public virtual string? TextEnergyIconPath => null;
+public virtual bool SeenByDefault => false;
+public CustomCardPoolModel()
+public virtual Texture2D? CustomFrame(CustomCardModel card)
+public abstract class CustomCharacterModel : CharacterModel, ICustomModel, ILocalizationProvider, ISceneConversions
+public virtual List<(string, string)>? Localization => null;
+public virtual bool HideFromVanillaCharacterSelect => false;
+public virtual bool AllowInVanillaRandomCharacterSelect => !HideFromVanillaCharacterSelect;
+public virtual bool HideInCompendium => false;
+public virtual ModelId DefaultCompendiumOpenModelId => base.Id;
+public virtual string? CustomVisualPath => null;
+public virtual string? CustomTrailPath => null;
+public virtual string? CustomIconTexturePath => null;
+public virtual string? CustomIconOutlineTexturePath => null;
+public virtual string? CustomIconPath => null;
+public virtual Control? CustomIcon => null;
+public virtual CustomEnergyCounter? CustomEnergyCounter => null;
+public virtual string? CustomEnergyCounterPath => null;
+public virtual string? CustomRestSiteAnimPath => null;
+public virtual string? CustomMerchantAnimPath => null;
+public virtual string? CustomArmPointingTexturePath => null;
+public virtual string? CustomArmRockTexturePath => null;
+public virtual string? CustomArmPaperTexturePath => null;
+public virtual string? CustomArmScissorsTexturePath => null;
+public virtual RelicIconData? CustomYummyCookie => null;
+public virtual string? CustomCharacterSelectBg => null;
+public virtual string? CustomCharacterSelectIconPath => null;
+public virtual string? CustomCharacterSelectLockedIconPath => null;
+public virtual string? CustomCharacterSelectTransitionPath => null;
+public virtual string? CustomMapMarkerPath => null;
+public virtual string? CustomAttackSfx => null;
+public virtual string? CustomCastSfx => null;
+public virtual string? CustomDeathSfx => null;
+public override int StartingGold => 99;
+public override float AttackAnimDelay => 0.15f;
+public override float CastAnimDelay => 0.25f;
+public virtual float DeathAnimTime => 1.5f;
+public CustomCharacterModel()
+public virtual NCreatureVisuals? CreateCustomVisuals()
+public virtual CreatureAnimator? SetupCustomAnimationStates(MegaSprite controller)
+public static CreatureAnimator SetupAnimationState(MegaSprite controller, string idleName, string? deadName = null, bool deadLoop = false, string? hitName = null, bool hitLoop = false, string? attackName = null, bool attackLoop = false, string? castName = null, bool castLoop = false, string? relaxedName = null, bool relaxedLoop = true)
+public void RegisterSceneConversions()
+public abstract class CustomPotionPoolModel : PotionPoolModel, ICustomModel, ICustomEnergyIconPool
+public virtual bool IsShared => false;
+public override string EnergyColorName => CustomEnergyIconPatches.GetEnergyColorName(base.Id);
+public virtual string? BigEnergyIconPath => null;
+public virtual string? TextEnergyIconPath => null;
+public virtual bool SeenByDefault => false;
+public CustomPotionPoolModel()
+public abstract class CustomPowerModel : PowerModel, ICustomPower, ICustomModel, ILocalizationProvider, IHealthBarForecastSource
+public virtual string? CustomPackedIconPath => null;
+public virtual string? CustomBigIconPath => null;
+public virtual string? CustomBigBetaIconPath => null;
+public virtual List<(string, string)>? Localization => null;
+public virtual IEnumerable<HealthBarForecastSegment> GetHealthBarForecastSegments(HealthBarForecastContext context)
+public abstract class CustomRelicModel : RelicModel, ICustomModel, ILocalizationProvider
+public virtual List<(string, string)>? Localization => null;
+public CustomRelicModel(bool autoAdd = true)
+public virtual RelicModel? GetUpgradeReplacement()
+public abstract class CustomRelicPoolModel : RelicPoolModel, ICustomModel, ICustomEnergyIconPool
+public virtual bool IsShared => false;
+public override string EnergyColorName => CustomEnergyIconPatches.GetEnergyColorName(base.Id);
+public virtual string? BigEnergyIconPath => null;
+public virtual string? TextEnergyIconPath => null;
+public virtual bool SeenByDefault => false;
+public CustomRelicPoolModel()
+public static class ModelDbExtensions
+public static T CardModifier<T>() where T : CardModifier
+public static T CardModifier<T>(bool mutableClone = true) where T : CardModifier
+public static class ModelDb
+public static Type[] AllAbstractModelSubtypes
+public static IEnumerable<AbstractModel> All => _contentById.Values;
+public static IEnumerable<AfflictionModel> DebugAfflictions => from t in AllAbstractModelSubtypes
+public static IEnumerable<EnchantmentModel> DebugEnchantments => from t in AllAbstractModelSubtypes
+public static IEnumerable<CardModel> AllCards => _allCards ?? (_allCards = AllCardPools.SelectMany((CardPoolModel p) => p.AllCards).Concat(AllCharacters.SelectMany((CharacterModel c) => c.StartingDeck).Distinct()).Distinct());
+public static IEnumerable<CardPoolModel> AllCardPools => _allCardPools ?? (_allCardPools = AllCharacterCardPools.Concat(AllSharedCardPools).Distinct());
+public static IEnumerable<CardPoolModel> AllSharedCardPools => new global::<>z__ReadOnlyArray<CardPoolModel>(new CardPoolModel[7]
+public static IEnumerable<CardPoolModel> AllCharacterCardPools => _allCharacterCardPools ?? (_allCharacterCardPools = AllCharacters.Select((CharacterModel c) => c.CardPool));
+public static IEnumerable<CharacterModel> AllCharacters => new global::<>z__ReadOnlyArray<CharacterModel>(new CharacterModel[5]
+public static IEnumerable<EventModel> AllSharedEvents => _allSharedEvents ?? (_allSharedEvents = new global::<>z__ReadOnlyArray<EventModel>(new EventModel[18]
+public static IEnumerable<AncientEventModel> AllAncients => Acts.SelectMany((ActModel a) => a.AllAncients).Concat(AllSharedAncients).Distinct();
+public static IEnumerable<AncientEventModel> AllSharedAncients => new global::<>z__ReadOnlySingleElementList<AncientEventModel>(AncientEvent<Darv>());
+public static IEnumerable<EventModel> AllEvents => _allEvents ?? (_allEvents = Acts.SelectMany((ActModel a) => a.AllEvents).Concat(AllSharedEvents).Distinct());
+public static IEnumerable<MonsterModel> Monsters => Acts.SelectMany((ActModel act) => act.AllMonsters).Concat(EventEncounters.SelectMany((EncounterModel e) => e.AllPossibleMonsters)).Distinct();
+public static IEnumerable<EncounterModel> AllEncounters => _allEncounters ?? (_allEncounters = Acts.SelectMany((ActModel a) => a.AllEncounters).Concat(EventEncounters).Distinct());
+public static IEnumerable<EncounterModel> EventEncounters => _eventEncounters ?? (_eventEncounters = new global::<>z__ReadOnlyArray<EncounterModel>(new EncounterModel[5]
+public static IEnumerable<PotionModel> AllPotions => _allPotions ?? (_allPotions = from p in AllPotionPools.SelectMany((PotionPoolModel p) => p.AllPotions).Distinct()
+public static IEnumerable<PotionPoolModel> AllPotionPools => _allPotionPools ?? (_allPotionPools = AllCharacterPotionPools.Concat(AllSharedPotionPools).Distinct());
+public static IEnumerable<PotionPoolModel> AllCharacterPotionPools => _allCharacterPotionPools ?? (_allCharacterPotionPools = AllCharacters.Select((CharacterModel c) => c.PotionPool));
+public static IEnumerable<RelicPoolModel> AllCharacterRelicPools => _allCharacterRelicPools ?? (_allCharacterRelicPools = AllCharacters.Select((CharacterModel c) => c.RelicPool));
+public static IEnumerable<PowerModel> AllPowers => _allPowers ?? (_allPowers = from t in AllAbstractModelSubtypes
+public static IEnumerable<RelicModel> AllRelics => _allRelics ?? (_allRelics = from r in AllRelicPools.SelectMany((RelicPoolModel p) => p.AllRelics).Concat(AllCharacters.SelectMany((CharacterModel c) => c.StartingRelics)).Distinct()
+public static IEnumerable<RelicPoolModel> AllRelicPools => CharacterRelicPools.Concat(AllSharedRelicPools).Distinct();
+public static IEnumerable<RelicPoolModel> CharacterRelicPools => AllCharacters.Select((CharacterModel c) => c.RelicPool);
+public static IEnumerable<OrbModel> Orbs => new global::<>z__ReadOnlyArray<OrbModel>(new OrbModel[4]
+public static IEnumerable<ActModel> Acts
+public static IReadOnlyList<IReadOnlyList<ActModel>> ActsByIndex
+public static IReadOnlyList<BadgeModel> BadgeModels
+public static IReadOnlyList<AchievementModel> Achievements
+public static IReadOnlyList<ModifierModel> GoodModifiers => new global::<>z__ReadOnlyArray<ModifierModel>(new ModifierModel[9]
+public static IReadOnlyList<ModifierModel> BadModifiers => new global::<>z__ReadOnlyArray<ModifierModel>(new ModifierModel[7]
+public static IReadOnlyList<IReadOnlySet<ModifierModel>> MutuallyExclusiveModifiers => new global::<>z__ReadOnlySingleElementList<IReadOnlySet<ModifierModel>>(new HashSet<ModifierModel>
+public static void Init(Type[]? injectedModelTypes = null)
+public static void Inject([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] Type type)
+public static void Remove(Type type)
+public static void ResetForTest()
+public static void InitIds()
+public static void Preload()
+public static ModelId GetId<T>() where T : AbstractModel
+public static ModelId GetId(Type type)
+public static Type GetCategoryType(Type type)
+public static string GetCategory(Type type)
+public static string GetEntry(Type type)
+public static T? GetByIdOrNull<T>(ModelId id) where T : AbstractModel
+public static T GetById<T>(ModelId id) where T : AbstractModel
+public static bool Contains(Type type)
+public static T Affliction<T>() where T : AfflictionModel
+public static T Enchantment<T>() where T : EnchantmentModel
+public static T Card<T>() where T : CardModel
+public static T CardPool<T>() where T : CardPoolModel
+public static T Character<T>() where T : CharacterModel
+public static T Event<T>() where T : EventModel
+public static T AncientEvent<T>() where T : AncientEventModel
+public static T Monster<T>() where T : MonsterModel
+public static T Encounter<T>() where T : EncounterModel
+public static T Potion<T>() where T : PotionModel
+public static T PotionPool<T>() where T : PotionPoolModel
+public static T Power<T>() where T : PowerModel
+public static PowerModel DebugPower(Type type)
+public static T Relic<T>() where T : RelicModel
+public static T RelicPool<T>() where T : RelicPoolModel
+public static T Orb<T>() where T : OrbModel
+public static OrbModel? DebugOrb(Type type)
+public static T Act<T>() where T : ActModel
+public static T Singleton<T>() where T : SingletonModel
+public static T Badge<T>() where T : BadgeModel
+public static T Achievement<T>() where T : AchievementModel
+public static T Modifier<T>() where T : ModifierModel
+public abstract class CharacterModel : AbstractModel
+public const string locTable = "characters";
+public const string relaxedAnim = "relaxed_loop";
+public virtual bool IsPlayable => true;
+public LocString Title => new LocString("characters", base.Id.Entry + ".title");
+public LocString TitleObject => new LocString("characters", base.Id.Entry + ".titleObject");
+public abstract Color NameColor { get; }
+public abstract CharacterGender Gender { get; }
+public LocString BestiarySeenQuote => new LocString("characters", base.Id.Entry + ".bestiaryQuote");
+public LocString? BestiaryKillQuote => LocString.GetIfExists("characters", base.Id.Entry + ".bestiaryKillQuote");
+public LocString PronounObject => new LocString("characters", base.Id.Entry + ".pronounObject");
+public LocString PossessiveAdjective => new LocString("characters", base.Id.Entry + ".possessiveAdjective");
+public LocString PronounPossessive => new LocString("characters", base.Id.Entry + ".pronounPossessive");
+public LocString PronounSubject => new LocString("characters", base.Id.Entry + ".pronounSubject");
+public LocString CardsModifierTitle => new LocString("characters", base.Id.Entry + ".cardsModifierTitle");
+public LocString CardsModifierDescription => new LocString("characters", base.Id.Entry + ".cardsModifierDescription");
+public LocString EventDeathPreventionLine => new LocString("characters", base.Id.Entry + ".eventDeathPrevention");
+public string TrailPath => SceneHelper.GetScenePath("vfx/card_trail_" + base.Id.Entry.ToLowerInvariant());
+public abstract int StartingHp { get; }
+public abstract int StartingGold { get; }
+public virtual int MaxEnergy => 3;
+public virtual Color EnergyLabelOutlineColor => new Color("0000000D");
+public virtual int BaseOrbSlotCount => 0;
+public virtual bool ShouldAlwaysShowStarCounter => false;
+public abstract CardPoolModel CardPool { get; }
+public abstract RelicPoolModel RelicPool { get; }
+public abstract PotionPoolModel PotionPool { get; }
+public abstract IEnumerable<CardModel> StartingDeck { get; }
+public abstract IReadOnlyList<RelicModel> StartingRelics { get; }
+public virtual IReadOnlyList<PotionModel> StartingPotions => Array.Empty<PotionModel>();
+public Texture2D IconTexture => PreloadManager.Cache.GetTexture2D(IconTexturePath);
+public Texture2D IconOutlineTexture => PreloadManager.Cache.GetTexture2D(IconOutlineTexturePath);
+public Control Icon => PreloadManager.Cache.GetScene(IconPath).Instantiate<Control>((GenEditState)0);
+public string EnergyCounterPath => SceneHelper.GetScenePath("combat/energy_counters/" + base.Id.Entry.ToLowerInvariant() + "_energy_counter");
+public string MerchantAnimPath => SceneHelper.GetScenePath("merchant/characters/" + base.Id.Entry.ToLowerInvariant() + "_merchant");
+public string RestSiteAnimPath => SceneHelper.GetScenePath("rest_site/characters/" + base.Id.Entry.ToLowerInvariant() + "_rest_site");
+public Texture2D ArmPointingTexture => PreloadManager.Cache.GetTexture2D(ArmPointingTexturePath);
+public Texture2D ArmRockTexture => PreloadManager.Cache.GetTexture2D(ArmRockTexturePath);
+public Texture2D ArmPaperTexture => PreloadManager.Cache.GetTexture2D(ArmPaperTexturePath);
+public Texture2D ArmScissorsTexture => PreloadManager.Cache.GetTexture2D(ArmScissorsTexturePath);
+public Achievement RunWonAchievement => Enum.Parse<Achievement>(StringExtensions.Capitalize(base.Id.Entry) + "Win");
+public string CharacterSelectTitle => base.Id.Entry.ToUpperInvariant() + ".title";
+public string CharacterSelectDesc => base.Id.Entry.ToUpperInvariant() + ".description";
+public string CharacterSelectBg => SceneHelper.GetScenePath("screens/char_select/char_select_bg_" + base.Id.Entry.ToLowerInvariant());
+public CompressedTexture2D CharacterSelectIcon => ResourceLoader.Load<CompressedTexture2D>(CharacterSelectIconPath, (string)null, (CacheMode)1);
+public CompressedTexture2D CharacterSelectLockedIcon => ResourceLoader.Load<CompressedTexture2D>(CharacterSelectLockedIconPath, (string)null, (CacheMode)1);
+public string CharacterSelectTransitionPath => "res://materials/transitions/" + base.Id.Entry.ToLowerInvariant() + "_transition_mat.tres";
+public CompressedTexture2D MapMarker => PreloadManager.Cache.GetCompressedTexture2D(MapMarkerPath);
+public virtual Color DialogueColor { get; } = new Color("28454f");
+public virtual VfxColor SpeechBubbleColor { get; } = VfxColor.Cyan;
+public virtual Color MapDrawingColor => Colors.Black;
+public virtual Color RemoteTargetingLineColor => Colors.Black;
+public virtual Color RemoteTargetingLineOutline => Colors.Black;
+public IEnumerable<string> AssetPathsCharacterSelect => new global::<>z__ReadOnlyArray<string>(new string[5] { CharacterSelectBg, CharacterSelectIconPath, IconTexturePath, CharacterSelectLockedIconPath, CharacterSelectTransitionPath });
+public IEnumerable<string> AssetPaths => new string[9] { VisualsPath, IconTexturePath, IconPath, EnergyCounterPath, RestSiteAnimPath, MerchantAnimPath, CharacterSelectTransitionPath, MapMarkerPath, TrailPath }.Concat(ExtraAssetPaths);
+public abstract float AttackAnimDelay { get; }
+public abstract float CastAnimDelay { get; }
+public virtual float PowerUpAnimDelay => CastAnimDelay;
+public virtual string CharacterSelectSfx => $"event:/sfx/characters/{base.Id.Entry.ToLowerInvariant()}/{base.Id.Entry.ToLowerInvariant()}_select";
+public string AttackSfx => $"event:/sfx/characters/{base.Id.Entry.ToLowerInvariant()}/{base.Id.Entry.ToLowerInvariant()}_attack";
+public string CastSfx => $"event:/sfx/characters/{base.Id.Entry.ToLowerInvariant()}/{base.Id.Entry.ToLowerInvariant()}_cast";
+public string PowerUpSfx => CastSfx;
+public string DeathSfx => $"event:/sfx/characters/{base.Id.Entry.ToLowerInvariant()}/{base.Id.Entry.ToLowerInvariant()}_die";
+public virtual string CharacterTransitionSfx => "event:/sfx/ui/wipe_" + base.Id.Entry.ToLowerInvariant();
+public override bool ShouldReceiveCombatHooks => false;
+public NCreatureVisuals CreateVisuals()
+public abstract List<string> GetArchitectAttackVfx();
+public virtual CreatureAnimator GenerateAnimator(MegaSprite controller, Creature creature)
+public void AddDetailsTo(LocString str)
+public LocString GetUnlockText()

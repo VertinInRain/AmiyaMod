@@ -1,0 +1,4 @@
+﻿条目,type,官方名,skinGroup,tags,文件,文件数,成功数,总字节,来源
+enemy_2092_skzamy,Enemy,“阿米娅”，炉芯终曲,领袖敌人,"Enemy,EnemyBoss","enemy_2092_skzamy.atlas,enemy_2092_skzamy.png,enemy_2092_skzamy.skel",3,3,1151262,Ark-Models镜像
+enemy_1552_mmamiy,Enemy,“阿米娅”,领袖敌人,"Enemy,EnemyBoss","enemy_1552_mmamiy.atlas,enemy_1552_mmamiy.png,enemy_1552_mmamiy.skel",3,3,396646,Ark-Models镜像
+enemy_3008_lramiy,Enemy,演出阿米娅,普通敌人,"Enemy,EnemyNormal","enemy_3008_lramiy.atlas,enemy_3008_lramiy.png,enemy_3008_lramiy.skel",3,3,413281,Ark-Models镜像

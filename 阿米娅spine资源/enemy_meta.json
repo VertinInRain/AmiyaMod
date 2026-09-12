@@ -1,0 +1,35 @@
+{
+ "2092_skzamy": {
+  "entry": "2092_skzamy",
+  "name": "“阿米娅”，炉芯终曲",
+  "skinGroup": "领袖敌人",
+  "files": {
+   ".atlas": "enemy_2092_skzamy.atlas",
+   ".png": "enemy_2092_skzamy.png",
+   ".skel": "enemy_2092_skzamy.skel"
+  },
+  "via": "Ark-Models镜像"
+ },
+ "1552_mmamiy": {
+  "entry": "1552_mmamiy",
+  "name": "“阿米娅”",
+  "skinGroup": "领袖敌人",
+  "files": {
+   ".atlas": "enemy_1552_mmamiy.atlas",
+   ".png": "enemy_1552_mmamiy.png",
+   ".skel": "enemy_1552_mmamiy.skel"
+  },
+  "via": "Ark-Models镜像"
+ },
+ "3008_lramiy": {
+  "entry": "3008_lramiy",
+  "name": "演出阿米娅",
+  "skinGroup": "普通敌人",
+  "files": {
+   ".atlas": "enemy_3008_lramiy.atlas",
+   ".png": "enemy_3008_lramiy.png",
+   ".skel": "enemy_3008_lramiy.skel"
+  },
+  "via": "Ark-Models镜像"
+ }
+}

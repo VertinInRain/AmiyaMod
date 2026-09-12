@@ -1,0 +1,36 @@
+阿米娅 Spine 战斗小人资源
+来源: isHarryh/Ark-Models (github.com/isHarryh/Ark-Models), models_data.json 索引, 原始版权属 Hypergryph/鹰角网络。
+格式: .skel=Spine 3.8 二进制骨骼, .atlas=图集描述, .png=纹理贴图; 可在 Spine 编辑器/支持 Spine 的引擎中加载。
+注意: 官方游戏资源, 仅供学习/非商用 mod 参考; 发布分发请自行确认合规(游戏许可/鹰角规则), 并保留署名来源。
+PRTS 相关: 该站动态立绘/干员查看器从 https://static.prts.wiki/spine38/ 读取同源资源, 可在对应干员页预览。
+====================================================================================================
+[002_amiya] 阿米娅  assetId=build_char_002_amiya
+    skinGroup: 默认服装 | tags: Operator,Rarity_5 | 文件: build_char_002_amiya.atlas,build_char_002_amiya.png,build_char_002_amiya.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/002_amiya
+[002_amiya_winter#1] 阿米娅  assetId=build_char_002_amiya_winter#1
+    skinGroup: 忒斯特收藏/I | tags: Operator,Rarity_5,Skinned | 文件: build_char_002_amiya_winter#1.atlas,build_char_002_amiya_winter#1.png,build_char_002_amiya_winter#1.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/002_amiya_winter%231
+[002_amiya_epoque#4] 阿米娅  assetId=build_char_002_amiya_epoque#4
+    skinGroup: 忒斯特收藏/II | tags: Operator,Rarity_5,Skinned | 文件: build_char_002_amiya_epoque#4.atlas,build_char_002_amiya_epoque#4.png,build_char_002_amiya_epoque#4.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/002_amiya_epoque%234
+[002_amiya_test#1] 阿米娅  assetId=build_char_002_amiya_test#1
+    skinGroup: 忒斯特收藏/IV | tags: Operator,Rarity_5,Skinned | 文件: build_char_002_amiya_test#1.atlas,build_char_002_amiya_test#1.png,build_char_002_amiya_test#1.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/002_amiya_test%231
+[1037_amiya3_sale#13] 阿米娅  assetId=build_char_1037_amiya3_sale#13
+    skinGroup: 忒斯特收藏/XIV | tags: Operator,Rarity_5,Skinned | 文件: build_char_1037_amiya3_sale#13.atlas,build_char_1037_amiya3_sale#13.png,build_char_1037_amiya3_sale#13.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/1037_amiya3_sale%2313
+[1001_amiya2_sale#16] 阿米娅  assetId=build_char_1001_amiya2_sale#16
+    skinGroup: 忒斯特收藏/XVIII | tags: Operator,Rarity_5,Skinned | 文件: build_char_1001_amiya2_sale#16.atlas,build_char_1001_amiya2_sale#16.png,build_char_1001_amiya2_sale#16.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/1001_amiya2_sale%2316
+[1001_amiya2_casc#1] 阿米娅  assetId=build_char_1001_amiya2_casc#1
+    skinGroup: CASC | tags: Operator,Rarity_5,Skinned | 文件: build_char_1001_amiya2_casc#1.atlas,build_char_1001_amiya2_casc#1.png,build_char_1001_amiya2_casc#1.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/1001_amiya2_casc%231
+[1037_amiya3] 阿米娅  assetId=build_char_1037_amiya3
+    skinGroup: 默认服装 | tags: Operator,Rarity_5,Skinned | 文件: build_char_1037_amiya3.atlas,build_char_1037_amiya3.png,build_char_1037_amiya3.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models/1037_amiya3
+[dyn_illust_1001_amiya2_sale#16] 阿米娅  assetId=dyn_illust_1001_amiya2_sale#16
+    skinGroup: 忒斯特收藏/XVIII | tags: Operator,Rarity_5,Skinned,DynIllust | 文件: dyn_illust_char_1001_amiya2_sale#16.atlas,dyn_illust_char_1001_amiya2_sale#16.png,dyn_illust_char_1001_amiya2_sale#16.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models_illust/dyn_illust_1001_amiya2_sale%2316
+[dyn_illust_1037_amiya3_sale#13] 阿米娅  assetId=dyn_illust_1037_amiya3_sale#13
+    skinGroup: 忒斯特收藏/XIV | tags: Operator,Rarity_5,Skinned,DynIllust | 文件: dyn_illust_char_1037_amiya3_sale#13.atlas,dyn_illust_char_1037_amiya3_sale#13.png,dyn_illust_char_1037_amiya3_sale#13.skel
+    仓库: https://github.com/isHarryh/Ark-Models/tree/main/models_illust/dyn_illust_1037_amiya3_sale%2313

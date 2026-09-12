@@ -1,0 +1,90 @@
+{
+ "ArrivedPower": {
+  "icon": "屏幕截图 2026-05-16 070210.png",
+  "res": "res://Amiya/images/powers/ArrivedPower.png"
+ },
+ "BlackCrownPower": {
+  "icon": "屏幕截图 2026-05-16 070233.png",
+  "res": "res://Amiya/images/powers/BlackCrownPower.png"
+ },
+ "DemonLordBannerPower": {
+  "icon": "屏幕截图 2026-05-16 070238.png",
+  "res": "res://Amiya/images/powers/DemonLordBannerPower.png"
+ },
+ "DemonLordCallPower": {
+  "icon": "屏幕截图 2026-05-16 070243.png",
+  "res": "res://Amiya/images/powers/DemonLordCallPower.png"
+ },
+ "DemonLordVesselPower": {
+  "icon": "屏幕截图 2026-05-16 070249.png",
+  "res": "res://Amiya/images/powers/DemonLordVesselPower.png"
+ },
+ "EmberPower": {
+  "icon": "屏幕截图 2026-05-16 070255.png",
+  "res": "res://Amiya/images/powers/EmberPower.png"
+ },
+ "FinalShadowPower": {
+  "icon": "屏幕截图 2026-05-16 070259.png",
+  "res": "res://Amiya/images/powers/FinalShadowPower.png"
+ },
+ "FormManagerPower": {
+  "icon": "屏幕截图 2026-05-16 070304.png",
+  "res": "res://Amiya/images/powers/FormManagerPower.png"
+ },
+ "IAmYoursPower": {
+  "icon": "屏幕截图 2026-05-16 070308.png",
+  "res": "res://Amiya/images/powers/IAmYoursPower.png"
+ },
+ "IronGuardPower": {
+  "icon": "屏幕截图 2026-05-16 070315.png",
+  "res": "res://Amiya/images/powers/IronGuardPower.png"
+ },
+ "JudgmentPower": {
+  "icon": "屏幕截图 2026-05-16 070320.png",
+  "res": "res://Amiya/images/powers/JudgmentPower.png"
+ },
+ "RefuseMournPower": {
+  "icon": "屏幕截图 2026-05-16 070323.png",
+  "res": "res://Amiya/images/powers/RefuseMournPower.png"
+ },
+ "SoulFortressPower": {
+  "icon": "屏幕截图 2026-05-16 070331.png",
+  "res": "res://Amiya/images/powers/SoulFortressPower.png"
+ },
+ "SpreadPower": {
+  "icon": "屏幕截图 2026-05-16 070337.png",
+  "res": "res://Amiya/images/powers/SpreadPower.png"
+ },
+ "SwordNeverSleepsPower": {
+  "icon": "屏幕截图 2026-05-16 070355.png",
+  "res": "res://Amiya/images/powers/SwordNeverSleepsPower.png"
+ },
+ "TodayTomorrowDeviationPower": {
+  "icon": "屏幕截图 2026-05-16 070402.png",
+  "res": "res://Amiya/images/powers/TodayTomorrowDeviationPower.png"
+ },
+ "TurbulencePower": {
+  "icon": "屏幕截图 2026-05-16 070435.png",
+  "res": "res://Amiya/images/powers/TurbulencePower.png"
+ },
+ "VoidFragmentPower": {
+  "icon": "屏幕截图 2026-05-16 070441.png",
+  "res": "res://Amiya/images/powers/VoidFragmentPower.png"
+ },
+ "WildfirePower": {
+  "icon": "屏幕截图 2026-05-16 070449.png",
+  "res": "res://Amiya/images/powers/WildfirePower.png"
+ },
+ "WildRoarPower": {
+  "icon": "屏幕截图 2026-05-16 070517.png",
+  "res": "res://Amiya/images/powers/WildRoarPower.png"
+ },
+ "PaleBlessingRelic": {
+  "icon": "屏幕截图 2026-05-16 070342.png",
+  "res": "res://Amiya/images/relic/PaleBlessingRelic.png"
+ },
+ "PaleCrownRelic": {
+  "icon": "屏幕截图 2026-05-16 070734.png",
+  "res": "res://Amiya/images/relic/PaleCrownRelic.png"
+ }
+}

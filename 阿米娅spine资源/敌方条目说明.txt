@@ -1,0 +1,9 @@
+阿米娅 敌方/特殊形态 Spine 资源
+prts 页面: https://prts.wiki/w/“阿米娅”，炉芯终曲   (页面内 SPINEDATA 前缀即 torappu.prts.wiki/assets/enemy_spine/enemy_2092_skzamy/)
+来源: prts(游戏资源镜像) + isHarryh/Ark-Models 敌方目录, 版权属 Hypergryph/鹰角网络, 仅供学习/非商用参考。
+[enemy_2092_skzamy] 官方名=“阿米娅”，炉芯终曲 皮肤组=领袖敌人 tags=Enemy,EnemyBoss 来源=Ark-Models镜像
+  文件: enemy_2092_skzamy.atlas,enemy_2092_skzamy.png,enemy_2092_skzamy.skel
+[enemy_1552_mmamiy] 官方名=“阿米娅” 皮肤组=领袖敌人 tags=Enemy,EnemyBoss 来源=Ark-Models镜像
+  文件: enemy_1552_mmamiy.atlas,enemy_1552_mmamiy.png,enemy_1552_mmamiy.skel
+[enemy_3008_lramiy] 官方名=演出阿米娅 皮肤组=普通敌人 tags=Enemy,EnemyNormal 来源=Ark-Models镜像
+  文件: enemy_3008_lramiy.atlas,enemy_3008_lramiy.png,enemy_3008_lramiy.skel

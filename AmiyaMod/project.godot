@@ -1,11 +1,6 @@
 ; Engine configuration file.
-; It's best edited using the editor UI and not directly,
-; since the parameters that go here are not all obvious.
-;
-; Format:
-;   [section] ; section goes between []
-;   param=value ; assign values to parameters
-
+; Godot 4.5 project for the Amiya mod (Slay the Spire 2).
+; NOTE: manifest keys/entry-point confirmed during M0 loader API scan.
 config_version=5
 
 [application]
@@ -16,7 +11,3 @@ config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 [dotnet]
 
 project/assembly_name="Amiya"
-
-[editor_plugins]
-
-enabled=PackedStringArray()

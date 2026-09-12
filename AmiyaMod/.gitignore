@@ -1,0 +1,13 @@
+# Godot / build artifacts
+.godot/
+bin/
+obj/
+export_presets.cfg
+*.pck
+*.zip
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo

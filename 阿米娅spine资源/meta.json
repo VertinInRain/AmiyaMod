@@ -1,0 +1,122 @@
+{
+ "002_amiya": {
+  "entry": "002_amiya",
+  "type": "Operator",
+  "assetId": "build_char_002_amiya",
+  "name": "阿米娅",
+  "skinGroupName": "默认服装",
+  "files": {
+   "atlas": "build_char_002_amiya.atlas",
+   "png": "build_char_002_amiya.png",
+   "skel": "build_char_002_amiya.skel"
+  }
+ },
+ "002_amiya_winter#1": {
+  "entry": "002_amiya_winter#1",
+  "type": "Operator",
+  "assetId": "build_char_002_amiya_winter#1",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/I",
+  "files": {
+   "atlas": "build_char_002_amiya_winter#1.atlas",
+   "png": "build_char_002_amiya_winter#1.png",
+   "skel": "build_char_002_amiya_winter#1.skel"
+  }
+ },
+ "002_amiya_epoque#4": {
+  "entry": "002_amiya_epoque#4",
+  "type": "Operator",
+  "assetId": "build_char_002_amiya_epoque#4",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/II",
+  "files": {
+   "atlas": "build_char_002_amiya_epoque#4.atlas",
+   "png": "build_char_002_amiya_epoque#4.png",
+   "skel": "build_char_002_amiya_epoque#4.skel"
+  }
+ },
+ "002_amiya_test#1": {
+  "entry": "002_amiya_test#1",
+  "type": "Operator",
+  "assetId": "build_char_002_amiya_test#1",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/IV",
+  "files": {
+   "atlas": "build_char_002_amiya_test#1.atlas",
+   "png": "build_char_002_amiya_test#1.png",
+   "skel": "build_char_002_amiya_test#1.skel"
+  }
+ },
+ "1037_amiya3_sale#13": {
+  "entry": "1037_amiya3_sale#13",
+  "type": "Operator",
+  "assetId": "build_char_1037_amiya3_sale#13",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/XIV",
+  "files": {
+   "atlas": "build_char_1037_amiya3_sale#13.atlas",
+   "png": "build_char_1037_amiya3_sale#13.png",
+   "skel": "build_char_1037_amiya3_sale#13.skel"
+  }
+ },
+ "1001_amiya2_sale#16": {
+  "entry": "1001_amiya2_sale#16",
+  "type": "Operator",
+  "assetId": "build_char_1001_amiya2_sale#16",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/XVIII",
+  "files": {
+   "atlas": "build_char_1001_amiya2_sale#16.atlas",
+   "png": "build_char_1001_amiya2_sale#16.png",
+   "skel": "build_char_1001_amiya2_sale#16.skel"
+  }
+ },
+ "1001_amiya2_casc#1": {
+  "entry": "1001_amiya2_casc#1",
+  "type": "Operator",
+  "assetId": "build_char_1001_amiya2_casc#1",
+  "name": "阿米娅",
+  "skinGroupName": "CASC",
+  "files": {
+   "atlas": "build_char_1001_amiya2_casc#1.atlas",
+   "png": "build_char_1001_amiya2_casc#1.png",
+   "skel": "build_char_1001_amiya2_casc#1.skel"
+  }
+ },
+ "1037_amiya3": {
+  "entry": "1037_amiya3",
+  "type": "Operator",
+  "assetId": "build_char_1037_amiya3",
+  "name": "阿米娅",
+  "skinGroupName": "默认服装",
+  "files": {
+   "atlas": "build_char_1037_amiya3.atlas",
+   "png": "build_char_1037_amiya3.png",
+   "skel": "build_char_1037_amiya3.skel"
+  }
+ },
+ "dyn_illust_1001_amiya2_sale#16": {
+  "entry": "dyn_illust_1001_amiya2_sale#16",
+  "type": "DynIllust",
+  "assetId": "dyn_illust_1001_amiya2_sale#16",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/XVIII",
+  "files": {
+   "atlas": "dyn_illust_char_1001_amiya2_sale#16.atlas",
+   "png": "dyn_illust_char_1001_amiya2_sale#16.png",
+   "skel": "dyn_illust_char_1001_amiya2_sale#16.skel"
+  }
+ },
+ "dyn_illust_1037_amiya3_sale#13": {
+  "entry": "dyn_illust_1037_amiya3_sale#13",
+  "type": "DynIllust",
+  "assetId": "dyn_illust_1037_amiya3_sale#13",
+  "name": "阿米娅",
+  "skinGroupName": "忒斯特收藏/XIV",
+  "files": {
+   "atlas": "dyn_illust_char_1037_amiya3_sale#13.atlas",
+   "png": "dyn_illust_char_1037_amiya3_sale#13.png",
+   "skel": "dyn_illust_char_1037_amiya3_sale#13.skel"
+  }
+ }
+}

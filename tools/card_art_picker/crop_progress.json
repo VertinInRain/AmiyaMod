@@ -1,0 +1,643 @@
+{
+ "done": {
+  "AmiyaResolve": {
+   "s": 0.7121558180420863,
+   "ox": -109.73168041081817,
+   "oy": 59.09663999999981,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\AmiyaResolve.png"
+  },
+  "AmiyaStrike": {
+   "s": 0.8928571428571429,
+   "ox": 177.5,
+   "oy": 62.81578947368422,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\AmiyaStrike.png"
+  },
+  "AmiyaDefend": {
+   "s": 1.0378484121600005,
+   "ox": 177.5,
+   "oy": -55.243154560000164,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\AmiyaDefend.png"
+  },
+  "AmiyaFormSwitch": {
+   "s": 0.7233796296296297,
+   "ox": 177.5,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\AmiyaFormSwitch.png"
+  },
+  "AbandonAbyss": {
+   "s": 0.9875259875259875,
+   "ox": 50.46812196812198,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\AbandonAbyss.png"
+  },
+  "DemonLordSword": {
+   "s": 0.48828125,
+   "ox": 177.5,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\DemonLordSword.png"
+  },
+  "EmotionAbsorption": {
+   "s": 0.6756756756756757,
+   "ox": 177.5,
+   "oy": -21.20270270270271,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\EmotionAbsorption.png"
+  },
+  "HuiHuan": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\HuiHuan.png"
+  },
+  "OneStrikeEndsAll": {
+   "s": 0.813210039630119,
+   "ox": 163.38573315719947,
+   "oy": 31.200000000000045,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\OneStrikeEndsAll.png"
+  },
+  "RoaringLight": {
+   "s": 0.6651140456182474,
+   "ox": -1.8355342136856052,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RoaringLight.png"
+  },
+  "StormAssault": {
+   "s": 0.49668049792531127,
+   "ox": 174.99999999999994,
+   "oy": 100.6,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\StormAssault.png"
+  },
+  "TacticalChant": {
+   "s": 0.6537656903765691,
+   "ox": 177.5,
+   "oy": 29.675732217573227,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TacticalChant.png"
+  },
+  "TruthRemnant": {
+   "s": 0.8928571428571429,
+   "ox": 177.5,
+   "oy": 78.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TruthRemnant.png"
+  },
+  "OrdinaryJoy": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 62.633689839572185,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\OrdinaryJoy.png"
+  },
+  "ArmorUp": {
+   "s": 0.740521327014218,
+   "ox": 177.5,
+   "oy": -137.11826798793624,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ArmorUp.png"
+  },
+  "BodyAsWall": {
+   "s": 0.529212531752752,
+   "ox": 177.4999999999999,
+   "oy": -68.90939881456399,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BodyAsWall.png"
+  },
+  "GracefulHeart": {
+   "s": 0.6975446428571429,
+   "ox": 177.5,
+   "oy": 86.375,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\GracefulHeart.png"
+  },
+  "GriefEmpathy": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 41.49999999999994,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\GriefEmpathy.png"
+  },
+  "InsightEye": {
+   "s": 1.6255010348574128,
+   "ox": 105.95999999999992,
+   "oy": -240.48617345053378,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\InsightEye.png"
+  },
+  "SurvivalOmen": {
+   "s": 0.9188059701492537,
+   "ox": -26.403582089552174,
+   "oy": 80.26000000000005,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SurvivalOmen.png"
+  },
+  "TurnBackSmile": {
+   "s": 0.7225433526011561,
+   "ox": 177.5,
+   "oy": 34.0924855491329,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TurnBackSmile.png"
+  },
+  "BloodForBlood": {
+   "s": 0.9149391469194316,
+   "ox": -116.99796018957363,
+   "oy": -60.977920000000154,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BloodForBlood.png"
+  },
+  "EndlessFlood": {
+   "s": 0.740521327014218,
+   "ox": 177.5,
+   "oy": -127.20917707884524,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\EndlessFlood.png"
+  },
+  "PainConnection": {
+   "s": 0.625,
+   "ox": 177.5,
+   "oy": 13.977272727272748,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\PainConnection.png"
+  },
+  "RabbitKick": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 81.9973262032085,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RabbitKick.png"
+  },
+  "RageWhirlwind": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 35.08823529411768,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RageWhirlwind.png"
+  },
+  "RedDawnDraw": {
+   "s": 0.9066109090909094,
+   "ox": 32.575967272727155,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RedDawnDraw.png"
+  },
+  "RunningNight": {
+   "s": 0.7458233890214797,
+   "ox": 177.5,
+   "oy": -171.640269038837,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RunningNight.png"
+  },
+  "SufferingCradle": {
+   "s": 0.625,
+   "ox": 177.5,
+   "oy": -50.75,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SufferingCradle.png"
+  },
+  "SupportFuture": {
+   "s": 0.5496921723834652,
+   "ox": 177.5,
+   "oy": 11.052631578947398,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SupportFuture.png"
+  },
+  "SwordNeverSleeps": {
+   "s": 1.3008905660377361,
+   "ox": -58.39849056603782,
+   "oy": 73.99999999999994,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SwordNeverSleeps.png"
+  },
+  "TacticalBombardment": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": 48.823529411764696,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TacticalBombardment.png"
+  },
+  "DemonLordBanner": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": -16.911764705882376,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\DemonLordBanner.png"
+  },
+  "DemonLordVessel": {
+   "s": 3.4722222222222223,
+   "ox": 177.5,
+   "oy": 9.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\DemonLordVessel.png"
+  },
+  "IronGuard": {
+   "s": 0.5420641803989592,
+   "ox": 177.5,
+   "oy": -219.54813529921938,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\IronGuard.png"
+  },
+  "NursingCard": {
+   "s": 0.5824790307548928,
+   "ox": 177.5,
+   "oy": 84.14072693383036,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\NursingCard.png"
+  },
+  "ProphecyImage": {
+   "s": 0.7503001200480192,
+   "ox": 177.5,
+   "oy": -169.72509003601442,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ProphecyImage.png"
+  },
+  "RefuseMourn": {
+   "s": 0.7621951219512195,
+   "ox": 177.5,
+   "oy": -57.646341463414615,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\RefuseMourn.png"
+  },
+  "SoulFortress": {
+   "s": 0.5952380952380952,
+   "ox": 132.85714285714283,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SoulFortress.png"
+  },
+  "TodayTomorrowDeviation": {
+   "s": 1.5759360000000007,
+   "ox": -127.76691200000039,
+   "oy": -7.493888000000084,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TodayTomorrowDeviation.png"
+  },
+  "Turbulence": {
+   "s": 0.7603406326034063,
+   "ox": 177.5,
+   "oy": -0.2043795620438118,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Turbulence.png"
+  },
+  "VoidFragment": {
+   "s": 0.5208333333333334,
+   "ox": 177.5,
+   "oy": 27.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\VoidFragment.png"
+  },
+  "Wildfire": {
+   "s": 0.503177966101695,
+   "ox": 123.32022912743253,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Wildfire.png"
+  },
+  "ActOrdinary": {
+   "s": 0.6067961165048543,
+   "ox": 177.5,
+   "oy": 73.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ActOrdinary.png"
+  },
+  "BelieveTomorrow": {
+   "s": 0.5830223880597015,
+   "ox": 177.5,
+   "oy": 86.73320895522386,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BelieveTomorrow.png"
+  },
+  "BoneVoice": {
+   "s": 0.7445141065830722,
+   "ox": -15.385579937303987,
+   "oy": 102.49999999999994,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BoneVoice.png"
+  },
+  "BorrowTomorrow": {
+   "s": 0.5627962085308057,
+   "ox": 106.90284360189571,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BorrowTomorrow.png"
+  },
+  "BrokenHorn": {
+   "s": 0.589622641509434,
+   "ox": 177.5,
+   "oy": 70.78301886792451,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BrokenHorn.png"
+  },
+  "DanceInFlowers": {
+   "s": 0.589066918001885,
+   "ox": 177.5,
+   "oy": 16.1998114985862,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\DanceInFlowers.png"
+  },
+  "GoodNightDying": {
+   "s": 0.8620689655172413,
+   "ox": 164.62068965517238,
+   "oy": 102.50000000000006,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\GoodNightDying.png"
+  },
+  "Her": {
+   "s": 0.3125,
+   "ox": 177.5,
+   "oy": -20.499999999999943,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Her.png"
+  },
+  "HorizonFireCloud": {
+   "s": 0.8296772046589019,
+   "ox": 137.3871880199667,
+   "oy": 90.68199999999996,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\HorizonFireCloud.png"
+  },
+  "Pursuit": {
+   "s": 0.5922693266832918,
+   "ox": 45.79800498753116,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Pursuit.png"
+  },
+  "SculptureInstallation": {
+   "s": 3.4722222222222223,
+   "ox": 177.5,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SculptureInstallation.png"
+  },
+  "SeeThrough": {
+   "s": 0.5627962085308057,
+   "ox": 67.90284360189571,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SeeThrough.png"
+  },
+  "SeeWhatISee": {
+   "s": 0.6565126050420168,
+   "ox": 177.5,
+   "oy": 48.61554621848745,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SeeWhatISee.png"
+  },
+  "TimeHasCome": {
+   "s": 0.5778588807785888,
+   "ox": 143.2846715328467,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TimeHasCome.png"
+  },
+  "TomorrowAgain": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": -13.397058823529505,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\TomorrowAgain.png"
+  },
+  "Behead": {
+   "s": 0.6169792694965449,
+   "ox": 177.5,
+   "oy": 43.2655478775913,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Behead.png"
+  },
+  "BlackCrownShock": {
+   "s": 0.7841907151819323,
+   "ox": 177.5,
+   "oy": -54.51442910915938,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BlackCrownShock.png"
+  },
+  "BloodBladeSuspended": {
+   "s": 3.0863554371621356,
+   "ox": -698.3325365427193,
+   "oy": -504.15313606012603,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BloodBladeSuspended.png"
+  },
+  "LongSpearNightFire": {
+   "s": 0.6088351648351649,
+   "ox": 80.55835164835162,
+   "oy": 90.68199999999999,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\LongSpearNightFire.png"
+  },
+  "ReturnToBeginning": {
+   "s": 0.9674922600619195,
+   "ox": 177.5,
+   "oy": 35.711300309597505,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ReturnToBeginning.png"
+  },
+  "SoulTenacitySong": {
+   "s": 3.4722222222222223,
+   "ox": 177.5,
+   "oy": 58.75,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SoulTenacitySong.png"
+  },
+  "UnattainableDesire": {
+   "s": 0.6489071038251366,
+   "ox": 125.6386612021858,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\UnattainableDesire.png"
+  },
+  "UntunedRage": {
+   "s": 1.2230919765166341,
+   "ox": 177.5,
+   "oy": 27.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\UntunedRage.png"
+  },
+  "Arrived": {
+   "s": 0.6908229426433916,
+   "ox": 172.56685785536155,
+   "oy": 62.97999999999996,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Arrived.png"
+  },
+  "BuriedUnderground": {
+   "s": 0.6977833753148615,
+   "ox": -33.33753148614608,
+   "oy": 62.98000000000002,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\BuriedUnderground.png"
+  },
+  "FinalShadow": {
+   "s": 0.5787037037037037,
+   "ox": 177.5,
+   "oy": -142.2060185185186,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\FinalShadow.png"
+  },
+  "IAmYours": {
+   "s": 0.8088235294117647,
+   "ox": 155.25,
+   "oy": 55.279411764705856,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\IAmYours.png"
+  },
+  "Sowing": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": -37.411764705882376,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Sowing.png"
+  },
+  "Spread": {
+   "s": 1.289838555033195,
+   "ox": 20.037785071004123,
+   "oy": 10.44385023999979,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Spread.png"
+  },
+  "WildRoar": {
+   "s": 0.7042881355932203,
+   "ox": 30.783898305084676,
+   "oy": 95.68199999999996,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\WildRoar.png"
+  },
+  "CannotRefuse": {
+   "s": 0.7744733581164808,
+   "ox": 177.5,
+   "oy": 86.25278810408923,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\CannotRefuse.png"
+  },
+  "CyanRage": {
+   "s": 0.4941883052527255,
+   "ox": 107.25115758176412,
+   "oy": 90.68199999999999,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\CyanRage.png"
+  },
+  "Hello": {
+   "s": 0.7352941176470589,
+   "ox": 177.5,
+   "oy": -30.264705882352985,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Hello.png"
+  },
+  "MercyVision": {
+   "s": 0.6097560975609756,
+   "ox": 177.5,
+   "oy": -0.31707317073170316,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\MercyVision.png"
+  },
+  "MyHeartFollows": {
+   "s": 0.46798029556650245,
+   "ox": 139.01477832512313,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\MyHeartFollows.png"
+  },
+  "PhaseChange": {
+   "s": 0.6564454976303318,
+   "ox": 28.665876777251185,
+   "oy": 71.98000000000002,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\PhaseChange.png"
+  },
+  "ShowMeTruth": {
+   "s": 0.6133464180569186,
+   "ox": 177.5,
+   "oy": 44.99018645731104,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ShowMeTruth.png"
+  },
+  "StormWatch": {
+   "s": 0.6542699724517906,
+   "ox": 177.5,
+   "oy": 102.5,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\StormWatch.png"
+  },
+  "WastelandOfDeadGods": {
+   "s": 0.5852535211267607,
+   "ox": 160.79489436619713,
+   "oy": 90.68199999999996,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\WastelandOfDeadGods.png"
+  },
+  "WhereToGo": {
+   "s": 0.9497828571428573,
+   "ox": 41.34228571428565,
+   "oy": 78.86399999999992,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\WhereToGo.png"
+  },
+  "SeeLight": {
+   "s": 0.23165017555059048,
+   "ox": 264.77180338333864,
+   "oy": 70.0,
+   "ow": 712,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SeeLight.png"
+  },
+  "ThousandVisions": {
+   "s": 0.3919104000000001,
+   "ox": 32.6908416,
+   "oy": 70.0,
+   "ow": 712,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\ThousandVisions.png"
+  },
+  "DustHazeCrown": {
+   "s": 1.15,
+   "ox": 182.0,
+   "oy": 70.0,
+   "ow": 250,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\DustHazeCrown.png"
+  },
+  "Wish": {
+   "s": 0.9460154241645244,
+   "ox": 182.0,
+   "oy": 70.0,
+   "ow": 250,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\Wish.png"
+  },
+  "SurvivalOmen_0": {
+   "s": 4.0,
+   "ox": 198.0,
+   "oy": 21.0,
+   "ow": 250,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SurvivalOmen_0.png"
+  },
+  "SurvivalOmen_1": {
+   "s": 4.0,
+   "ox": 198.0,
+   "oy": 60.0,
+   "ow": 250,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SurvivalOmen_1.png"
+  },
+  "SurvivalOmen_2": {
+   "s": 4.0,
+   "ox": 198.0,
+   "oy": -9.660714285714278,
+   "ow": 250,
+   "file": "C:\\Users\\33761\\Desktop\\mod2\\tools\\card_art_picker\\cropped\\SurvivalOmen_2.png"
+  }
+ },
+ "order": [
+  "AmiyaResolve",
+  "AmiyaStrike",
+  "AmiyaDefend",
+  "AmiyaFormSwitch",
+  "AbandonAbyss",
+  "DemonLordSword",
+  "EmotionAbsorption",
+  "HuiHuan",
+  "OneStrikeEndsAll",
+  "RoaringLight",
+  "StormAssault",
+  "TacticalChant",
+  "TruthRemnant",
+  "OrdinaryJoy",
+  "ArmorUp",
+  "BodyAsWall",
+  "GracefulHeart",
+  "GriefEmpathy",
+  "InsightEye",
+  "SurvivalOmen",
+  "TurnBackSmile",
+  "BloodForBlood",
+  "EndlessFlood",
+  "PainConnection",
+  "RabbitKick",
+  "RageWhirlwind",
+  "RedDawnDraw",
+  "RunningNight",
+  "SufferingCradle",
+  "SupportFuture",
+  "SwordNeverSleeps",
+  "TacticalBombardment",
+  "DemonLordBanner",
+  "DemonLordVessel",
+  "IronGuard",
+  "NursingCard",
+  "ProphecyImage",
+  "RefuseMourn",
+  "SoulFortress",
+  "TodayTomorrowDeviation",
+  "Turbulence",
+  "VoidFragment",
+  "Wildfire",
+  "ActOrdinary",
+  "BelieveTomorrow",
+  "BoneVoice",
+  "BorrowTomorrow",
+  "BrokenHorn",
+  "DanceInFlowers",
+  "GoodNightDying",
+  "Her",
+  "HorizonFireCloud",
+  "Pursuit",
+  "SculptureInstallation",
+  "SeeThrough",
+  "SeeWhatISee",
+  "TimeHasCome",
+  "TomorrowAgain",
+  "Behead",
+  "BlackCrownShock",
+  "BloodBladeSuspended",
+  "LongSpearNightFire",
+  "ReturnToBeginning",
+  "SoulTenacitySong",
+  "UnattainableDesire",
+  "UntunedRage",
+  "Arrived",
+  "BuriedUnderground",
+  "FinalShadow",
+  "IAmYours",
+  "Sowing",
+  "Spread",
+  "WildRoar",
+  "CannotRefuse",
+  "CyanRage",
+  "Hello",
+  "MercyVision",
+  "MyHeartFollows",
+  "PhaseChange",
+  "ShowMeTruth",
+  "StormWatch",
+  "WastelandOfDeadGods",
+  "WhereToGo",
+  "SeeLight",
+  "ThousandVisions",
+  "DustHazeCrown",
+  "Wish",
+  "SurvivalOmen_0",
+  "SurvivalOmen_1",
+  "SurvivalOmen_2"
+ ]
+}

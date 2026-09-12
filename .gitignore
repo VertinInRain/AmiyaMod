@@ -36,3 +36,14 @@ BaseLib.3.1.2/
 images/
 阿米娅卡图/
 阿米娅图片/
+# 参考图集（不入库；实际使用的卡图在 AmiyaMod/assets/card_art/）
+补充卡图/
+阿米娅卡图候选/
+阿米娅卡图第三批/
+阿米娅卡图第四批/
+阿米娅精选卡图/
+bg.jpg
+ffmpeg.exe
+study-guard/
+release/
+tools/card_export.json

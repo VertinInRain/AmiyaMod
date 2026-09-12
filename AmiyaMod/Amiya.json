@@ -1,16 +1,17 @@
 {
-  "Id": "Amiya",
-  "Name": "阿米娅",
-  "Version": "0.1.0",
-  "Author": "Your Name",
-  "Description": "来自明日方舟的阿米娅加入杀戮尖塔2！拥有多种形态和独特的战斗机制。",
-  "GameVersion": "1.0.0",
-  "Dependencies": [
+  "id": "Amiya",
+  "name": "阿米娅",
+  "author": "AmiyaMod Team",
+  "description": "来自明日方舟的阿米娅加入杀戮尖塔2：近卫/术士/医疗三形态与魔王系统。",
+  "version": "0.2.0",
+  "has_dll": true,
+  "has_pck": true,
+  "affects_gameplay": true,
+  "min_game_version": "0.111.0",
+  "dependencies": [
     {
-      "Id": "BaseLib",
-      "Version": "3.1.2"
+      "id": "BaseLib",
+      "min_version": "3.4.5"
     }
-  ],
-  "EntryPoint": "Amiya.Entry",
-  "AssemblyName": "Amiya.dll"
+  ]
 }

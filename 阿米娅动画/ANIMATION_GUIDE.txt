@@ -1,0 +1,33 @@
+# 阿米娅动画序列帧使用说明
+# ==========================================
+
+## 第一步：转换WebM为PNG序列帧
+# 运行：
+#   powershell -ExecutionPolicy Bypass -File convert_animations.ps1
+#
+# 输出结构：
+#   AmiyaMod/Amiya/images/char/
+#     guard/idle/frame_0001.png, frame_0002.png, ...
+#     guard/attack/frame_0001.png, ...
+#     guard/death/frame_0001.png, ...
+#     guard/cast/frame_0001.png, ...
+#     caster/idle/...
+#     medic/idle/...
+#     demonlord/idle/...
+#
+# 每种形态有4种动画：idle(待机), attack(攻击), death(死亡), cast(入场)
+# 受击动画使用idle即可
+
+## 第二步：在Godot中创建SpriteFrames
+# 1. 打开 Godot 4.5 → 打开项目 AmiyaMod/project.godot
+# 2. 在文件系统中找到 Amiya/images/char/guard/idle/
+# 3. 选中所有frame_*.png，拖入 Godot 的 "SpriteFrames" 面板
+# 4. 创建动画 "Idle"，设置帧率 30fps
+# 5. 重复为 attack → "Attack", death → "Death", cast → "Cast"
+# 6. 为4种形态各重复以上步骤
+# 7. 保存为 Amiya/scenes/guard_animations.res (SpriteFrames资源)
+#    同样创建 caster_animations.res, medic_animations.res, demonlord_animations.res
+
+## 第三步：创建角色场景（已经在character_visual.tscn中准备好了模板）
+# 如果游戏调用AnimatedSprite2D的Play方法即可工作
+# 如果不行，需要使用Spine（最终方案）
