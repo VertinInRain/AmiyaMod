@@ -31,6 +31,10 @@ public static class Entry
         AncientRelicPatch.Apply(harmony);
         // 人工制品补丁：同上，显式注册并打印结果
         AmiyaArtifactPatch.Apply(harmony);
+        // 克雷松 boss：强制替换三层 boss（新局 + 读档两个补丁点）
+        KresonBossPatch.Apply(harmony);
+        // 克雷松的地图节点/血条图标：注册进资源缓存，供引擎按 res:// 路径加载
+        Amiya.Boss.KresonVisuals.RegisterIcons();
         // 类级 [HarmonyPatch] 的挂载确认（本环境下 PatchAll 有可能静默跳过某些条目）
         foreach (var type in typeof(AmiyaPowerIconPatch).Assembly.GetTypes())
         {
