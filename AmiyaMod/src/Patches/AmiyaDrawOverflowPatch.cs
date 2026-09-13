@@ -30,7 +30,7 @@ internal static class AmiyaDrawOverflowPatch
         try
         {
             drawn = await __result;
-            if (FormManagerPower.Current?.Owner is { } owner && owner.Player == player && owner.HasPower<DrawOverflowExhaustPower>())
+            if (FormManagerPower.Of(player) is { } fm && fm.Owner.HasPower<DrawOverflowExhaustPower>())
             {
                 int requested = Math.Max(0, (int)Math.Ceiling(count));
                 int remaining = requested - drawn.Count();

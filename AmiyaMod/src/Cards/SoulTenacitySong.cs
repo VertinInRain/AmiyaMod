@@ -27,7 +27,7 @@ public sealed class SoulTenacitySong : BaseAmiyaCard
         {
             var vars = new List<DynamicVar> { new DamageVar(8m, ValueProp.Move) };
             vars.AddRange(MakeCalculatedVar("FB", 0,
-                (CardModel _, Creature? _) => FormManagerPower.Current?.FullyBlockedCount ?? 0));
+                (CardModel card, Creature? _) => FormManagerPower.Of(card.Owner)?.FullyBlockedCount ?? 0));
             return vars;
         }
     }
@@ -47,7 +47,7 @@ public sealed class SoulTenacitySong : BaseAmiyaCard
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        int hits = 1 + (FormManagerPower.Current?.FullyBlockedCount ?? 0);
+        int hits = 1 + (FormManagerPower.Of(Owner)?.FullyBlockedCount ?? 0);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .WithHitCount(hits)
             .FromCard(this, cardPlay)

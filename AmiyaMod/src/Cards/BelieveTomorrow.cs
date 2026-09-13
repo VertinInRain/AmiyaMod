@@ -48,7 +48,7 @@ public sealed class BelieveTomorrow : BaseAmiyaCard
                 // 官方 HandTrick/ApplySingleTurnSly 同款刷新；带重试（选牌容器收回期间节点暂不可达）
                 _ = BaseAmiyaCard.RefreshCardVisualsAsync(card);
                 // 领袖白光特效随奇偶刷新
-                if (FormManagerPower.Current is { } fm)
+                if (FormManagerPower.Of(Owner) is { } fm)
                 {
                     _ = fm.RefreshLeaderGlow(Owner!);
                 }

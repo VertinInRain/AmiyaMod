@@ -28,9 +28,9 @@ public sealed class PhaseChange : BaseAmiyaCard
     {
         // 先开启"格挡→形态转换"结算，再获得升级后的 5 点格挡，
         // 这样这张牌自己给的格挡也会触发一次形态转换。
-        if (FormManagerPower.Current != null)
+        if (FormManagerPower.Of(Owner) is { } fm)
         {
-            FormManagerPower.Current.PhaseChangeActive = true;
+            fm.PhaseChangeActive = true;
         }
         if (IsUpgraded)
         {

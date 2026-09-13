@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
@@ -16,6 +17,14 @@ public sealed class DemonLordCallPower : CustomPowerModel
 {
     public override string? CustomPackedIconPath => "res://Amiya/images/powers/DemonLordCallPower.png";
     public static DemonLordCallPower? Current { get; private set; }
+
+    /// <summary>
+    /// 多人安全取用：Current 只指向"本地玩家"的实例，结算逻辑必须按实际归属者取，
+    /// 否则两名阿米娅玩家会各读自己的层数导致状态分歧（掉线）。
+    /// </summary>
+    public static DemonLordCallPower? Of(Creature? creature) => creature?.GetPower<DemonLordCallPower>();
+
+    public static DemonLordCallPower? Of(Player? player) => Of(player?.Creature);
 
     public override PowerType Type => PowerType.Buff;
 

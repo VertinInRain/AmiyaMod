@@ -38,7 +38,7 @@ public sealed class CannotRefuse : BaseAmiyaCard
                     // 手牌：交给奇偶特效逻辑（双词条领袖生效时白光优先）；非手牌：直接挂黑雾
                     if (card.Pile?.Type == PileType.Hand)
                     {
-                        if (Amiya.Powers.FormManagerPower.Current is { } fm)
+                        if (Amiya.Powers.FormManagerPower.Of(Owner) is { } fm)
                         {
                             _ = fm.RefreshLeaderGlow(Owner!);
                         }

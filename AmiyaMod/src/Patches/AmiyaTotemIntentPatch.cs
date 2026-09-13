@@ -20,8 +20,9 @@ internal static class AmiyaTotemIntentPatch
     {
         try
         {
-            if (FormManagerPower.Current?.Owner != null
-                && FormManagerPower.Current.Owner.HasPower<NamelessTotemPower>())
+            // 显示层：只按"本地玩家"的图腾减半（视觉表现，不参与结算）
+            if (FormManagerPower.Local?.Owner != null
+                && FormManagerPower.Local.Owner.HasPower<NamelessTotemPower>())
             {
                 __result = Math.Max(1, __result / 2);
             }

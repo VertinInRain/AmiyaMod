@@ -41,7 +41,7 @@ public sealed class RageWhirlwind : BaseAmiyaCard
                 .FromCard(this, cardPlay)
                 .TargetingAllOpponents(CombatState)
                 .Execute(choiceContext);
-            if (FormManagerPower.Current is { } fm)
+            if (FormManagerPower.Of(Owner) is { } fm)
             {
                 await fm.GrantTempStrength(choiceContext, tempStrength);
             }
@@ -50,7 +50,7 @@ public sealed class RageWhirlwind : BaseAmiyaCard
         // 今时明日的偏差适配：手动循环的重放段引擎不计为出牌，
         // 这里把 X 个重放段额外计入下回合格挡池（出牌本身的那次由正常钩子计入，合计 X+1 次）
         if (x > 0
-            && FormManagerPower.Current is { } fm2
+            && FormManagerPower.Of(Owner) is { } fm2
             && fm2.Owner.GetPower<TodayTomorrowDeviationPower>() is { } deviation)
         {
             fm2.AddPendingBlockNextTurn(x * (int)deviation.Amount);

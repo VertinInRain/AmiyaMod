@@ -33,7 +33,7 @@ public sealed class EndlessFlood : BaseAmiyaCard
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
 
-        int x = Math.Max(0, (FormManagerPower.Current?.TurnAttackPlayedCount ?? 1) - 1);
+        int x = Math.Max(0, (FormManagerPower.Of(Owner)?.TurnAttackPlayedCount ?? 1) - 1);
         await PlayerCmd.GainEnergy(x, Owner!);
     }
 

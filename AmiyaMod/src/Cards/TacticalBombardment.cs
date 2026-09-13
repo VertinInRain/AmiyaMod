@@ -39,7 +39,7 @@ public sealed class TacticalBombardment : BaseAmiyaCard
             return;
         }
 
-        var form = FormManagerPower.Current?.Form ?? AmiyaForm.Guard;
+        var form = FormManagerPower.Of(Owner)?.Form ?? AmiyaForm.Guard;
         switch (form)
         {
             case AmiyaForm.Guard:

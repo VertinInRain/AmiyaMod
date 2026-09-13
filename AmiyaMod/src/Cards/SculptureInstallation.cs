@@ -25,7 +25,7 @@ public sealed class SculptureInstallation : BaseAmiyaCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var form = FormManagerPower.Current?.Form;
+        var form = FormManagerPower.Of(Owner)?.Form;
         if (form == AmiyaForm.Medic)
         {
             decimal heal = IsUpgraded ? 12m : 8m;

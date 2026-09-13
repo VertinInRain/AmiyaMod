@@ -23,13 +23,15 @@ public sealed class Her : BaseAmiyaCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int stacks = DemonLordCallPower.Current?.Amount ?? 0;
-        if (Owner?.Creature != null && stacks > 0)
+        // 多人安全：按本牌归属玩家取魔王之唤，而不是本地玩家的静态 Current
+        var call = DemonLordCallPower.Of(Owner);
+        int stacks = call?.Amount ?? 0;
+        if (Owner?.Creature != null && call != null && stacks > 0)
         {
             decimal perStack = IsUpgraded ? 15m : 12m;
             await CreatureCmd.GainBlock(Owner.Creature, stacks * perStack, ValueProp.Move, cardPlay);
             // 消耗全部层数（消耗不触发裁决——裁决只挂"获得"）
-            await PowerCmd.ModifyAmount(choiceContext, DemonLordCallPower.Current!, -stacks, Owner.Creature, null, silent: true);
+            await PowerCmd.ModifyAmount(choiceContext, call, -stacks, Owner.Creature, null, silent: true);
         }
     }
 

@@ -31,10 +31,12 @@ public sealed class WastelandOfDeadGods : BaseAmiyaCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int stacks = DemonLordCallPower.Current?.Amount ?? 0;
-        if (stacks > 0)
+        // 多人安全：按本牌归属玩家取魔王之唤
+        var call = DemonLordCallPower.Of(Owner);
+        int stacks = call?.Amount ?? 0;
+        if (call != null && stacks > 0)
         {
-            await PowerCmd.ModifyAmount(choiceContext, DemonLordCallPower.Current!, -stacks, Owner!.Creature, null, silent: true);
+            await PowerCmd.ModifyAmount(choiceContext, call, -stacks, Owner!.Creature, null, silent: true);
         }
 
         bool nineHit = IsUpgraded ? stacks >= 9 : stacks == 9;

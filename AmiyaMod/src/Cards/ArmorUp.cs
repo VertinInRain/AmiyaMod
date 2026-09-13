@@ -30,7 +30,7 @@ public sealed class ArmorUp : BaseAmiyaCard
     {
         await CommonActions.CardBlock(this, cardPlay);
 
-        var form = FormManagerPower.Current?.Form ?? AmiyaForm.Guard;
+        var form = FormManagerPower.Of(Owner)?.Form ?? AmiyaForm.Guard;
         if (form == AmiyaForm.Guard || form == AmiyaForm.DemonLord)
         {
             decimal vigor = IsUpgraded ? 6m : 4m;

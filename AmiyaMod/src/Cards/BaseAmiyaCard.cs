@@ -210,7 +210,7 @@ public abstract class BaseAmiyaCard : CustomCardModel
     /// 等待完成：燃烬形态下的选牌消耗 UI 需要动作上下文存活期间完成。</summary>
     protected async Task TriggerFormSwitch(PlayerChoiceContext choiceContext)
     {
-        if (FormManagerPower.Current is { } fm)
+        if (FormManagerPower.Of(Owner) is { } fm)
         {
             await fm.Trigger(choiceContext);
         }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
@@ -39,8 +41,13 @@ public sealed class Wish : BaseAmiyaCard
 /// <summary>祈愿 Power：超支出牌许可 + 赤字计入手牌上限减少 + 弃牌到上限。</summary>
 public sealed class WishPower : CustomPowerModel
 {
-    /// <summary>SpendResources 前缀补丁记录的本回合超支赤字（BeforeCardPlayed 时结算）。</summary>
-    public static int PendingDeficit;
+    /// <summary>SpendResources 前缀补丁记录的本回合超支赤字（BeforeCardPlayed 时结算）。按实例存放，多人下各玩家独立。</summary>
+    public int PendingDeficit { get; set; }
+
+    /// <summary>多人安全取用：按生物取该玩家身上的祈愿。</summary>
+    public static WishPower? Of(Creature? creature) => creature?.GetPower<WishPower>();
+
+    public static WishPower? Of(Player? player) => Of(player?.Creature);
 
     public override string? CustomPackedIconPath => "res://Amiya/images/powers/WishPower.png";
     public override PowerType Type => PowerType.Buff;

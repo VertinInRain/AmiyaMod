@@ -36,7 +36,7 @@ public sealed class AmiyaResolve : BaseAmiyaCard
     private static decimal HitsBonus(CardModel card, Creature? target)
     {
         int cap = card.IsUpgraded ? 5 : 3;
-        int extra = Math.Min(FormManagerPower.Current?.FormSwitchTotal ?? 0, cap - 1);
+        int extra = Math.Min(FormManagerPower.Of(card.Owner)?.FormSwitchTotal ?? 0, cap - 1);
         return extra;
     }
 
@@ -56,7 +56,7 @@ public sealed class AmiyaResolve : BaseAmiyaCard
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        int formSwitches = FormManagerPower.Current?.FormSwitchTotal ?? 0;
+        int formSwitches = FormManagerPower.Of(Owner)?.FormSwitchTotal ?? 0;
         int cap = IsUpgraded ? 5 : 3;
         int hits = Math.Min(1 + formSwitches, cap);
 

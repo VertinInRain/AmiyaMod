@@ -29,7 +29,7 @@ public sealed class BodyAsWall : BaseAmiyaCard
     {
         await CommonActions.CardBlock(this, cardPlay);
 
-        if (FormManagerPower.Current?.Form != AmiyaForm.Medic)
+        if (FormManagerPower.Of(Owner)?.Form != AmiyaForm.Medic)
         {
             decimal hpLoss = IsUpgraded ? 3m : 4m;
             // 失去生命：不可格挡、不吃力量（Unblockable|Unpowered）

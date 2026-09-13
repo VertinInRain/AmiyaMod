@@ -19,7 +19,7 @@ internal static class AmiyaWishCanPlayPatch
     {
         try
         {
-            var fm = FormManagerPower.Current;
+            var fm = FormManagerPower.Of(card.Owner);
             if (fm?.Owner == null || !fm.Owner.HasPower<WishPower>())
             {
                 return;
@@ -60,9 +60,9 @@ internal static class AmiyaWishDeficitPatch
             int cost = Math.Max(0, __instance.EnergyCost.GetWithModifiers(CostModifiers.All));
             int energy = __instance.Owner.PlayerCombatState.Energy;
             int deficit = cost - energy;
-            if (deficit > 0)
+            if (deficit > 0 && WishPower.Of(creature) is { } wish)
             {
-                WishPower.PendingDeficit += deficit;
+                wish.PendingDeficit += deficit;
             }
         }
         catch (Exception)

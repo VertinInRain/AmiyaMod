@@ -89,7 +89,8 @@ public sealed class SurvivalOmen : BaseAmiyaCard
                 var candidates = Owner!.Creature.CombatState.Creatures.Where(c => c.IsAlive).ToList();
                 if (candidates.Count > 0)
                 {
-                    Creature target = candidates[Rng.Chaotic.NextInt(candidates.Count)];
+                    // 多人安全：随机目标走联机同步的 CombatTargets 流
+                    Creature target = candidates[Owner.RunState.Rng.CombatTargets.NextInt(candidates.Count)];
                     await CreatureCmd.Damage(choiceContext, target, 1m, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, null, null);
                 }
                 break;
@@ -100,7 +101,7 @@ public sealed class SurvivalOmen : BaseAmiyaCard
                 var targets = Owner!.Creature.CombatState.Creatures.Where(c => c.IsAlive).ToList();
                 if (targets.Count > 0)
                 {
-                    Creature target = targets[Rng.Chaotic.NextInt(targets.Count)];
+                    Creature target = targets[Owner.RunState.Rng.CombatTargets.NextInt(targets.Count)];
                     await PowerCmd.Apply<VulnerablePower>(choiceContext, target, 1m, Owner.Creature, null, silent: true);
                 }
                 break;

@@ -29,7 +29,7 @@ public partial class AmiyaFormVisual : Node
         _accum = 0;
         try
         {
-            var form = FormManagerPower.Current?.Form ?? AmiyaForm.Guard;
+            var form = FormManagerPower.Local?.Form ?? AmiyaForm.Guard;
             if (form == _shown)
             {
                 return;

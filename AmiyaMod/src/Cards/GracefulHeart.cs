@@ -28,7 +28,7 @@ public sealed class GracefulHeart : BaseAmiyaCard
     {
         await CommonActions.Draw(this, choiceContext);
 
-        var form = FormManagerPower.Current?.Form ?? AmiyaForm.Guard;
+        var form = FormManagerPower.Of(Owner)?.Form ?? AmiyaForm.Guard;
         if (form == AmiyaForm.Caster || form == AmiyaForm.DemonLord)
         {
             await CardPileCmd.Draw(choiceContext, 2m, Owner!);

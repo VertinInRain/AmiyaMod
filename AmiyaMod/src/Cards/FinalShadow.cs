@@ -64,10 +64,10 @@ public sealed class FinalShadowPower : CustomPowerModel
     public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
     {
         await base.AfterCardExhausted(choiceContext, card, causedByEthereal);
-        if (card.Owner?.Creature == Owner && FormManagerPower.Current != null)
+        if (card.Owner?.Creature == Owner && FormManagerPower.Of(Owner) != null)
         {
             // 传入被消耗的卡作为攻击来源卡（魔王的祭器随机伤害需要 attacker）
-            await FormManagerPower.Current.GainDemonLordCall(choiceContext, card, null);
+            await FormManagerPower.Of(Owner)!.GainDemonLordCall(choiceContext, card, null);
         }
     }
 }

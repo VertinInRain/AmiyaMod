@@ -77,7 +77,7 @@ public sealed class SeeLightPower : CustomPowerModel
             return;
         }
         // 恢复到"进入战斗时"的生命值（快照），而非满血
-        int target = FormManagerPower.Current?.CombatStartHp ?? Owner.MaxHp;
+        int target = FormManagerPower.Of(Owner)?.CombatStartHp ?? Owner.MaxHp;
         decimal restored = Math.Max(0m, (decimal)(target - Owner.CurrentHp));
         await CreatureCmd.Heal(Owner, restored);
         Log.Info($"[Amiya] sacred revival: healed {restored}");

@@ -33,7 +33,9 @@ public sealed class EmotionAbsorption : BaseAmiyaCard
 
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
 
-        bool weak = Rng.Chaotic.NextInt(2) == 0;
+        // 多人安全：随机分支必须走联机同步的 Run Rng（Rng.Chaotic 按本地时间播种，
+        // 各客户端结果不同会造成状态分歧掉线）
+        bool weak = Owner!.RunState.Rng.Niche.NextInt(2) == 0;
         if (weak)
         {
             await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, 2m, Owner!.Creature, null, silent: true);

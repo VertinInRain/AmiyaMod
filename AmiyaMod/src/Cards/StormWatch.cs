@@ -44,9 +44,9 @@ public sealed class StormWatch : BaseAmiyaCard
         // 本回合不能再抽牌（官方 NoDraw 状态）
         await PowerCmd.Apply<NoDrawPower>(choiceContext, Owner!.Creature, 1m, Owner.Creature, null, silent: true);
         // 本回合打击/防御免费（由 FormManagerPower 费用钩子结算）
-        if (FormManagerPower.Current != null)
+        if (FormManagerPower.Of(Owner) is { } fm)
         {
-            FormManagerPower.Current.StrikesDefendsFreeThisTurn = true;
+            fm.StrikesDefendsFreeThisTurn = true;
         }
     }
 

@@ -28,7 +28,7 @@ public sealed class BlackCrownShock : BaseAmiyaCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (FormManagerPower.Current?.Form != AmiyaForm.DemonLord)
+        if (FormManagerPower.Of(Owner)?.Form != AmiyaForm.DemonLord)
         {
             return;
         }

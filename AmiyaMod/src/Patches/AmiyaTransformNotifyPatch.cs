@@ -45,9 +45,9 @@ internal static class AmiyaTransformNotify
             {
                 await DealDamageToAllEnemies(context, owner, refuse.Amount);
             }
-            if (owner.GetPower<Amiya.Cards.FinalShadowPower>() != null && FormManagerPower.Current != null)
+            if (owner.GetPower<Amiya.Cards.FinalShadowPower>() != null && FormManagerPower.Of(owner) is { } fm)
             {
-                await FormManagerPower.Current.GainDemonLordCall(context, original, null);
+                await fm.GainDemonLordCall(context, original, null);
             }
         }
         catch (Exception)

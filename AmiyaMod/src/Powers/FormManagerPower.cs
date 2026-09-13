@@ -40,6 +40,14 @@ public sealed class FormManagerPower : CustomPowerModel
     public override string? CustomPackedIconPath => "res://Amiya/images/powers/FormManagerPower.png";
     public static FormManagerPower? Current { get; private set; }
 
+    /// <summary>本地玩家的形态管理器（仅用于本地视觉表现，切勿用于结算逻辑）。</summary>
+    public static FormManagerPower? Local { get; private set; }
+
+    /// <summary>澶氫汉瀹夊叏鍙栫敤锛欳urrent 鍙寚鍚戞湰鍦扮帺瀹剁殑瀹炰緥锛岀粨绠楅€昏緫蹇呴』鎸夊疄闄呭綊灞炶€呭彇锛屽惁鍒欎袱鍚嶉樋绫冲▍鐜╁浼氬悇璇昏嚜宸辩殑鐘舵€侀€犳垚鍒嗘鎺夌嚎銆?/summary>
+    public static FormManagerPower? Of(Creature? creature) => creature?.GetPower<FormManagerPower>();
+
+    public static FormManagerPower? Of(Player? player) => Of(player?.Creature);
+
     /// <summary>本场战斗阿米娅死亡时的形态（结算画面死亡立绘用；战斗开始时由 Harness 重置）。</summary>
     public static AmiyaForm? AmiyaDeathForm { get; set; }
 
@@ -165,6 +173,10 @@ public sealed class FormManagerPower : CustomPowerModel
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Current = this;
+        if (Owner?.Player != null && MegaCrit.Sts2.Core.Context.LocalContext.IsMe(Owner.Player))
+        {
+            Local = this;
+        }
         Form = AmiyaForm.Guard;
         CombatStartHp = Owner?.CurrentHp ?? 0;
         FormSwitchTotal = 0;
@@ -655,6 +667,10 @@ public sealed class FormManagerPower : CustomPowerModel
     public override Task AfterCombatEnd(CombatRoom room)
     {
         Current = null;
+        if (Local == this)
+        {
+            Local = null;
+        }
         return Task.CompletedTask;
     }
 }
