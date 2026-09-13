@@ -22,7 +22,7 @@ namespace Amiya.Boss;
 /// 结算顺序（按设计确认）：
 ///   1. 先永久解除无敌（否则自爆会被自己的无敌挡住）；
 ///   2. 引爆所有玩家 抽牌堆/手牌/弃牌堆 中的每一张【锚点】——每张独立结算一次
-///      「无视格挡的生命损失」：普通 6 点，升级后的锚点 9 点；
+///      「无视格挡的生命损失」：普通 7 点，升级后的锚点 9 点；
 ///   3. 克雷松自身失去全部生命（战斗结束；若玩家已被炸死则直接判负）。
 ///
 /// 计数方式：克雷松自己的回合结束时减 1，减到 0 时结算——
@@ -47,7 +47,7 @@ public sealed class KresonTerminusPower : CustomPowerModel
     public override List<(string, string)>? Localization => new()
     {
         ("title", "终点"),
-        ("description", "8 个克雷松回合后引爆所有【锚点】：每张令玩家失去 6 点生命（升级后 9 点），随后克雷松失去全部生命。角标为剩余回合数。")
+        ("description", "8 个克雷松回合后引爆所有【锚点】：每张令玩家失去 7 点生命（升级后 9 点），随后克雷松失去全部生命。角标为剩余回合数。")
     };
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
@@ -85,7 +85,7 @@ public sealed class KresonTerminusPower : CustomPowerModel
                 .ToList();
             foreach (CardModel anchor in anchors)
             {
-                decimal hpLoss = anchor.IsUpgraded ? 9m : 6m;
+                decimal hpLoss = anchor.IsUpgraded ? 9m : 7m;
                 await CreatureCmd.Damage(choiceContext, player.Creature, hpLoss,
                     ValueProp.Unblockable | ValueProp.Unpowered, Owner, null, null);
             }

@@ -151,14 +151,14 @@ public sealed class KresonInvinciblePower : CustomPowerModel
         return Task.CompletedTask;
     }
 
-    /// <summary>血条 ∞ + 贴图切换（无敌 / 解除无敌）。</summary>
+    /// <summary>贴图切换（无敌 / 解除无敌）。血条保持显示真实血量（不改成 ∞）。</summary>
     private void RefreshPresentation()
     {
         if (Owner?.CombatState == null)
         {
             return;
         }
-        Owner.HpDisplay = Invincible ? HpDisplay.InfiniteWithoutNumbers : HpDisplay.Normal;
+        Owner.HpDisplay = HpDisplay.Normal;
         KresonVisuals.SetState(Owner, Invincible ? KresonVisuals.State.Invincible : KresonVisuals.State.Released);
     }
 }

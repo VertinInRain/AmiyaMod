@@ -29,7 +29,7 @@ namespace Amiya.Boss;
 ///   【终点】8 个克雷松回合后自爆。
 /// 意图为 1→2→3 无限循环（确定性，无随机分支）：
 ///   1. 24(进阶27) 点伤害 + 1 层易伤
-///   2. 11×2(进阶13×2) 点伤害 + 给玩家手牌/抽牌堆/弃牌堆中随机 2 张攻击或技能牌附加 2 层【污染】
+///   2. 11×2(进阶13×2) 点伤害 + 给玩家手牌/抽牌堆/弃牌堆中随机 2 张攻击或技能牌附加 3 层【污染】
 ///   3. 获得 3 点力量，并获得 18 + 当前力量 的格挡
 /// </summary>
 public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
@@ -64,7 +64,7 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
 
     private const int VolleyHits = 2;
 
-    private const int TaintStacks = 2;
+    private const int TaintStacks = 3;
 
     private const int TaintCards = 2;
 
@@ -126,7 +126,7 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
         await PowerCmd.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), targets, 1m, Creature, null);
     }
 
-    /// <summary>意图2：二连击 + 给随机两张攻击/技能牌附加 2 层污染。</summary>
+    /// <summary>意图2：二连击 + 给随机两张攻击/技能牌附加 3 层污染。</summary>
     private async Task VolleyMove(IReadOnlyList<Creature> targets)
     {
         await DamageCmd.Attack(VolleyDamage).WithHitCount(VolleyHits).FromMonster(this).WithNoAttackerAnim().Execute(null);
@@ -143,7 +143,7 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
     }
 
     /// <summary>
-    /// 给每个玩家在「手牌 + 抽牌堆 + 弃牌堆」里的随机 2 张攻击/技能牌附加 2 层污染，
+    /// 给每个玩家在「手牌 + 抽牌堆 + 弃牌堆」里的随机 2 张攻击/技能牌附加 3 层污染，
     /// 优先挑还没被污染的牌。随机用引擎自己的 PickRandomTargets
     /// （走 RunState.Rng.CombatCardGeneration，多人两端一致）。
     /// </summary>
