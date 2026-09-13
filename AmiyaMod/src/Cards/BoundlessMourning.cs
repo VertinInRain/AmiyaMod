@@ -30,7 +30,10 @@ public sealed class BoundlessMourning : BaseAmiyaCard
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<HandLimitIncreasePower>(choiceContext, Owner!.Creature, 2m, Owner.Creature, null, silent: true);
+        // 手牌上限 +2 的实现：把"手牌上限减少"状态的层数减去 2。
+        // 该状态允许负层数（AllowNegative），所以净减少量 -2 就代表上限提高 2，
+        // 角标会直接显示 -2；与尘霾之冠/祈愿的削减叠在同一个状态上。
+        await PowerCmd.Apply<HandLimitReductionPower>(choiceContext, Owner!.Creature, -2m, Owner.Creature, null, silent: true);
     }
 
     /// <summary>
@@ -59,19 +62,4 @@ public sealed class BoundlessMourning : BaseAmiyaCard
     {
         // 升级只改"被消耗时"的代价文本与结算，费用不变
     }
-}
-
-/// <summary>手牌上限增加（层数 = 增加量）。与 HandLimitReductionPower 相反，二者按玩家分别结算。</summary>
-public sealed class HandLimitIncreasePower : CustomPowerModel
-{
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("no_draw_power");
-    public override PowerType Type => PowerType.Buff;
-
-    public override PowerStackType StackType => PowerStackType.Counter;
-
-    public override List<(string, string)>? Localization => new()
-    {
-        ("title", "手牌上限增加"),
-        ("description", "手牌上限增加（增加量 = 层数）。")
-    };
 }

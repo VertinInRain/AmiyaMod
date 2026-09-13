@@ -29,6 +29,37 @@ public static class Entry
         Log.Info($"[Amiya] harmony patches applied, count={harmony.GetPatchedMethods().Count()}");
         // 先古遗物补丁：方法级特性被 PatchAll 静默跳过，改为显式注册
         AncientRelicPatch.Apply(harmony);
+        // 人工制品补丁：同上，显式注册并打印结果
+        AmiyaArtifactPatch.Apply(harmony);
+        // 类级 [HarmonyPatch] 的挂载确认（本环境下 PatchAll 有可能静默跳过某些条目）
+        foreach (var type in typeof(AmiyaPowerIconPatch).Assembly.GetTypes())
+        {
+            foreach (var patch in type.GetCustomAttributes<HarmonyPatch>())
+            {
+                try
+                {
+                    Type? declaring = patch.info.declaringType;
+                    if (declaring == null)
+                    {
+                        continue;
+                    }
+                    System.Reflection.MethodInfo? target = patch.info.methodType switch
+                    {
+                        MethodType.Getter => AccessTools.PropertyGetter(declaring, patch.info.methodName),
+                        MethodType.Setter => AccessTools.PropertySetter(declaring, patch.info.methodName),
+                        _ => patch.info.argumentTypes is { Length: > 0 } args
+                            ? AccessTools.Method(declaring, patch.info.methodName, args)
+                            : AccessTools.Method(declaring, patch.info.methodName)
+                    };
+                    bool attached = target != null && Harmony.GetPatchInfo(target) != null;
+                    Log.Info($"[Amiya] patch(class) {declaring.Name}.{patch.info.methodName}: {(attached ? "OK" : "NOT ATTACHED")}");
+                }
+                catch (Exception ex)
+                {
+                    Log.Info($"[Amiya] patch(class) {type.Name}: 诊断失败 {ex.Message}");
+                }
+            }
+        }
         foreach (var type in typeof(AmiyaPowerIconPatch).Assembly.GetTypes())
         {
             foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))

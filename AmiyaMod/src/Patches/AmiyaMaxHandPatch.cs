@@ -9,7 +9,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 namespace Amiya.Patches;
 
 /// <summary>
-/// 手牌上限减少：尘霾之冠 / 祈愿 叠加到 HandLimitReductionPower 层数。
+/// 手牌上限：尘霾之冠 / 祈愿 / 痛悼无垠 全部叠在同一个状态 HandLimitReductionPower 的层数上
+/// （正数 = 上限降低，负数 = 上限提高）。
 /// 游戏的手牌上限是静态属性 CardPile.MaxCardsInHand => 10，没有 per-player 钩子，
 /// 只能补丁静态 getter。
 ///

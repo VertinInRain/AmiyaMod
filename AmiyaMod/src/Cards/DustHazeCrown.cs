@@ -60,7 +60,11 @@ public sealed class DustHazeCrownPower : CustomPowerModel
     }
 }
 
-/// <summary>手牌上限减少（独立状态图标）：层数 = 手牌上限减少值。尘霾之冠与祈愿都会叠加它。</summary>
+/// <summary>
+/// 手牌上限变化（独立状态图标）：层数 = 手牌上限的 <b>净减少值</b>。
+/// 尘霾之冠、祈愿把它加正（上限降低）；痛悼无垠把它减 2（上限提高，层数可为负）。
+/// 层数正好为 0 时引擎会移除它（ShouldRemoveDueToAmount），即上限回到基准值。
+/// </summary>
 public sealed class HandLimitReductionPower : CustomPowerModel
 {
     public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("no_draw_power");
@@ -68,28 +72,37 @@ public sealed class HandLimitReductionPower : CustomPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    /// <summary>
+    /// 允许层数为负。游戏里"力量/敏捷"等可负状态走的就是这条路：
+    /// 层数为负时角标直接显示负数（NPower 用 DisplayAmount.ToString() 填角标），
+    /// 且 PowerCmd.ModifyAmount 只在层数正好为 0 时才移除状态。
+    /// </summary>
+    public override bool AllowNegative => true;
+
     public override List<(string, string)>? Localization => new()
     {
         ("title", "手牌上限减少"),
-        ("description", "手牌上限减少（减少值 = 层数）。")
+        ("description", "手牌上限的变化（正数 = 减少，负数 = 提高）。")
     };
 }
 
 /// <summary>手牌上限规则：只要上限被削减/增加，就检测手牌数并丢弃末尾牌直到等于调整后的上限。</summary>
 public static class HandLimitHelper
 {
-    /// <summary>该玩家自己的手牌上限削减层数。</summary>
-    public static int ReductionFor(Player? player)
-        => player?.Creature?.GetPower<HandLimitReductionPower>() is { } r && r.Amount > 0 ? (int)r.Amount : 0;
+    /// <summary>
+    /// 该玩家手牌上限的净减少层数：正数 = 上限降低，负数 = 上限提高，0 = 基准值。
+    /// 只读该玩家自己身上的状态（多人下各算各的）。
+    /// </summary>
+    public static int NetReductionFor(Player? player)
+        => player?.Creature?.GetPower<HandLimitReductionPower>() is { } p ? p.Amount : 0;
 
-    /// <summary>该玩家自己的手牌上限增加层数（痛悼无垠等）。</summary>
-    public static int IncreaseFor(Player? player)
-        => player?.Creature?.GetPower<HandLimitIncreasePower>() is { } p && p.Amount > 0 ? (int)p.Amount : 0;
+    /// <summary>该玩家手牌上限的减少量（0 或正数）。</summary>
+    public static int ReductionFor(Player? player) => System.Math.Max(0, NetReductionFor(player));
 
-    /// <summary>净削减量（削减 − 增加，可为负表示上限提高）。</summary>
-    public static int NetReductionFor(Player? player) => ReductionFor(player) - IncreaseFor(player);
+    /// <summary>该玩家手牌上限的提高量（0 或正数，来自痛悼无垠）。</summary>
+    public static int IncreaseFor(Player? player) => System.Math.Max(0, -NetReductionFor(player));
 
-    /// <summary>该玩家自己的手牌上限（基准 10 − 净削减）。多人下各算各的。</summary>
+    /// <summary>该玩家自己的手牌上限（基准 10 − 净减少）。多人下各算各的。</summary>
     public static int LimitFor(Player? player)
         => System.Math.Max(0, Amiya.Patches.AmiyaMaxHandPatch.BaseLimit - NetReductionFor(player));
 
