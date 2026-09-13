@@ -20,7 +20,7 @@ namespace Amiya.Boss;
 ///  1. ModifyDamageMultiplicative → 0：在格挡结算之前整体归零，
 ///     不仅不掉血，格挡也不会被消耗，伤害显示为 0；
 ///  2. 四个 ModifyHpLost* 守卫 → 0：拦住「无视格挡」的生命损失（原版 BufferPower 用的就是这条）；
-///  3. 外观 HpDisplay = InfiniteWithoutNumbers：血条显示 ∞。
+///  3. 血条照常显示真实血量（不做 ∞ 效果），只是数值不会下降、格挡也不会被消耗。
 ///
 /// 解除窗口（锚点）用 DynamicVar 里的计数器实现，不走「移除再施加状态」——
 /// 那样会有 0.2 秒停顿、而且可能被其它效果拦截。
