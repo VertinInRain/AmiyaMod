@@ -39,7 +39,7 @@ public sealed class BuriedUnderground : BaseAmiyaCard
 /// <summary>深埋地底 Power：你的打击命中（每段）→ 该敌人本回合力量下降（官方 DarkShacklesPower 机制）。</summary>
 public sealed class BuriedUndergroundPower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("plating_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/BuriedUndergroundPower.png";
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;

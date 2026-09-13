@@ -50,7 +50,7 @@ public sealed class SeeLight : BaseAmiyaCard, ITomeCard
 /// <summary>神圣复苏 Power：封禁非攻击牌 2 回合；第 3 回合开始回血 + 全体敌人纯伤害。</summary>
 public sealed class SeeLightPower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("draw_cards_next_turn_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/SeeLightPower.png";
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.None;

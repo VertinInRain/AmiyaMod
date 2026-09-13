@@ -35,7 +35,7 @@ public sealed class ProphecyImage : BaseAmiyaCard
 /// <summary>预言显像 Power。由 FormManagerPower 回合开始结算。</summary>
 public sealed class ProphecyImagePower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("draw_cards_next_turn_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/ProphecyImagePower.png";
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;

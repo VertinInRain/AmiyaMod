@@ -35,7 +35,7 @@ public sealed class NursingCard : BaseAmiyaCard
 /// <summary>疗养特供卡 Power。由 FormManagerPower.AfterCardPlayed 结算。</summary>
 public sealed class NursingCardPower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("ritual_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/NursingCardPower.png";
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;

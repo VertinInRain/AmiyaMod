@@ -36,7 +36,13 @@ public sealed class KresonInvinciblePower : CustomPowerModel
     /// <summary>开启窗口的那次出牌（窗口在它自己的效果结束后才真正打开）。</summary>
     private CardPlay? _opener;
 
-    public override string? CustomPackedIconPath => PlaceholderArt.Power("no_draw_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/KresonInvinciblePower.png";
+
+    public override List<(string, string)>? Localization => new()
+    {
+        ("title", "无敌"),
+        ("description", "体力不会减少（可用【锚点】临时解除）。")
+    };
 
     public override PowerType Type => PowerType.Buff;
 

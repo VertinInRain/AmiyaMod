@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 
 namespace Amiya.Boss;
 
@@ -62,5 +65,77 @@ public sealed class KresonTaintSourcePower : CustomPowerModel
         {
             await PowerCmd.Apply<TaintedPower>(choiceContext, Owner, taint.Amount, null, null);
         }
+    }
+}
+
+/// <summary>
+/// 【育苗】：每回合开始时，为玩家牌组中随机 2 张攻击或技能牌附加 2 层污染（优先选择当前无污染的）。
+/// 挂在每个玩家身上（InstanceType None，一人一份），自己回合开始时结算自己那份。
+///
+/// 说明：「牌组」在战斗中以战斗牌堆的形式存在（PlayerCombatState.AllCards = 抽牌堆+手牌+弃牌堆+消耗堆+出牌区），
+/// 附加的污染是战斗内状态（游戏存档里不保存词条），所以实际是对这套战斗卡牌生效。
+/// </summary>
+public sealed class KresonNursingPower : CustomPowerModel
+{
+    /// <summary>每次点名的牌数。</summary>
+    public const int CardsPerTurn = 2;
+
+    /// <summary>每张牌附加的污染层数。</summary>
+    public const int StacksPerCard = 2;
+
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/KresonNursingPower.png";
+
+    public override List<(string, string)>? Localization => new()
+    {
+        ("title", "育苗"),
+        ("description", "每回合开始时，为玩家牌组中随机 2 张攻击或技能牌附加 2 层【污染】（优先选择当前无污染的）。")
+    };
+
+    public override PowerType Type => PowerType.Debuff;
+
+    public override PowerStackType StackType => PowerStackType.None;
+
+    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (Owner?.Player == null || player != Owner.Player)
+        {
+            return;
+        }
+        await KresonTaintHelper.ApplyToPlayer(choiceContext, player, CardsPerTurn, StacksPerCard);
+    }
+}
+
+/// <summary>污染施加的公共逻辑（育苗 / 其它来源共用）。</summary>
+public static class KresonTaintHelper
+{
+    /// <summary>
+    /// 给该玩家在 手牌 + 抽牌堆 + 弃牌堆 里的随机 N 张攻击/技能牌各附加 amount 层污染，
+    /// 优先挑还没被污染的牌；随机走引擎自己的 PickRandomTargets
+    /// （RunState.Rng.CombatCardGeneration，多人两端一致）。
+    /// </summary>
+    public static async Task ApplyToPlayer(PlayerChoiceContext choiceContext, Player player, int cards, int amount)
+    {
+        KresonTaint affliction = ModelDb.Affliction<KresonTaint>();
+        List<CardModel> candidates = PileType.Hand.GetPile(player).Cards
+            .Concat(PileType.Draw.GetPile(player).Cards)
+            .Concat(PileType.Discard.GetPile(player).Cards)
+            .Where(c => affliction.CanAfflict(c))
+            .ToList();
+        if (candidates.Count == 0)
+        {
+            return;
+        }
+        List<CardModel> clean = candidates.Where(c => c.Affliction == null).ToList();
+        List<CardModel> already = candidates.Where(c => c.Affliction is KresonTaint).ToList();
+        var picks = affliction.PickRandomTargets(player.RunState.Rng, clean, cards).ToList();
+        if (picks.Count < cards)
+        {
+            picks.AddRange(affliction.PickRandomTargets(player.RunState.Rng, already, cards - picks.Count));
+        }
+        if (picks.Count == 0)
+        {
+            return;
+        }
+        await CardCmd.AfflictAndPreview<KresonTaint>(picks, amount, CardPreviewStyle.HorizontalLayout);
     }
 }

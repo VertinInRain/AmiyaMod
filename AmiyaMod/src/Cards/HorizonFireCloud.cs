@@ -41,7 +41,7 @@ public sealed class HorizonFireCloud : BaseAmiyaCard
 /// <summary>天边的火烧云 Power：回合结束（AutoPostPlay 阶段，先于虚无消耗与回合结束手牌效果）时，消耗手牌中所有状态牌和诅咒牌。</summary>
 public sealed class HorizonFireCloudPower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => PlaceholderArt.Power("no_draw_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/HorizonFireCloudPower.png";
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.None;

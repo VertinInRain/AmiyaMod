@@ -24,7 +24,7 @@ public sealed class Anchor : BaseAmiyaCard
     protected override List<(string, string)>? CardLocalization => new()
     {
         ("title", "锚点"),
-        ("description", "{IfUpgraded:show:打出后克雷松本回合解除无敌，延长至接下来两次出牌。|打出后克雷松本回合解除无敌，至下张牌效果结束。}")
+        ("description", "{IfUpgraded:show:打出后解除无敌效果延长至出两次牌。|打出后克雷松本回合解除无敌至下张牌效果结束。}")
     };
 
     protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

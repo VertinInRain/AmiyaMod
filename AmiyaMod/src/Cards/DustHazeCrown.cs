@@ -67,7 +67,7 @@ public sealed class DustHazeCrownPower : CustomPowerModel
 /// </summary>
 public sealed class HandLimitReductionPower : CustomPowerModel
 {
-    public override string? CustomPackedIconPath => Amiya.Art.PlaceholderArt.Power("no_draw_power");
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/HandLimitReductionPower.png";
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Counter;

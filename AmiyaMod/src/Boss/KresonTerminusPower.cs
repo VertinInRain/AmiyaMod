@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amiya.Art;
 using Amiya.Cards;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
@@ -11,44 +10,38 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Amiya.Boss;
 
 /// <summary>
-/// 克雷松的【终点】：8 个克雷松回合后引爆（角标 = 剩余回合数）。
-/// 结算顺序（按设计确认）：
+/// 克雷松的【终点】：8 个克雷松回合后引爆（角标 = 剩余回合数，描述里的 {Amount} 同一个数）。
+/// 结算顺序：
 ///   1. 先永久解除无敌（否则自爆会被自己的无敌挡住）；
-///   2. 引爆所有玩家 抽牌堆/手牌/弃牌堆 中的每一张【锚点】——每张独立结算一次
+///   2. 消耗所有玩家 抽牌堆/手牌/弃牌堆 中的每一张【锚点】——每张独立结算一次
 ///      「无视格挡的生命损失」：普通 7 点，升级后的锚点 9 点；
 ///   3. 克雷松自身失去全部生命（战斗结束；若玩家已被炸死则直接判负）。
 ///
-/// 计数方式：克雷松自己的回合结束时减 1，减到 0 时结算——
+/// 计数方式：克雷松自己的回合结束时把 Amount 减 1，减到最后一回合后结算——
 /// 第 8 个克雷松回合结束即第 9 回合开始，与设计描述一致。
 /// </summary>
 public sealed class KresonTerminusPower : CustomPowerModel
 {
-    private const int BaseTurns = 8;
+    /// <summary>倒计时初值（克雷松自己的回合数）。</summary>
+    public const int BaseTurns = 8;
 
-    private const string TurnsKey = "Turns";
-
-    public override string? CustomPackedIconPath => PlaceholderArt.Power("no_draw_power");
-
-    public override PowerType Type => PowerType.Debuff;
-
-    public override PowerStackType StackType => PowerStackType.Counter;
-
-    public override int DisplayAmount => DynamicVars[TurnsKey].IntValue;
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => new[] { new DynamicVar(TurnsKey, BaseTurns) };
+    public override string? CustomPackedIconPath => "res://Amiya/images/powers/KresonTerminusPower.png";
 
     public override List<(string, string)>? Localization => new()
     {
         ("title", "终点"),
-        ("description", "8 个克雷松回合后引爆所有【锚点】：每张令玩家失去 7 点生命（升级后 9 点），随后克雷松失去全部生命。角标为剩余回合数。")
+        ("description", "{Amount} 回合后，消耗玩家抽牌堆、手牌、弃牌堆中所有【锚点】，每张令玩家失去 7（升级后 9）点生命，随后自身失去所有生命。")
     };
+
+    public override PowerType Type => PowerType.Debuff;
+
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
     {
@@ -56,11 +49,9 @@ public sealed class KresonTerminusPower : CustomPowerModel
         {
             return;
         }
-        int left = DynamicVars[TurnsKey].IntValue - 1;
-        DynamicVars[TurnsKey].BaseValue = left;
-        InvokeDisplayAmountChanged();
-        if (left > 0)
+        if (Amount > 1)
         {
+            SetAmount(Amount - 1, silent: true);
             return;
         }
         await Detonate(choiceContext);
@@ -76,7 +67,7 @@ public sealed class KresonTerminusPower : CustomPowerModel
             invincible.LiftForever();
         }
 
-        // 2) 引爆所有玩家三个牌堆里的锚点（每个玩家的牌堆归属明确，多人下各算各的）
+        // 2) 消耗所有玩家三个牌堆里的锚点（每个玩家的牌堆归属明确，多人下各算各的）
         foreach (Player player in combatState.Players.ToList())
         {
             List<CardModel> anchors = PileType.Draw.GetPile(player).Cards.Where(c => c is Anchor)
