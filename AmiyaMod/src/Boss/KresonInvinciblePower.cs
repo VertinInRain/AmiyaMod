@@ -117,7 +117,8 @@ public sealed class KresonInvinciblePower : CustomPowerModel
         if (_opener != null && ReferenceEquals(cardPlay, _opener))
         {
             _opener = null;
-            Window = DynamicVars[PendingKey].IntValue;
+            // 累加：窗口已经开着时又打一张锚点，次数叠加（而不是覆盖掉原来的窗口）
+            Window = System.Math.Min(4, Window + DynamicVars[PendingKey].IntValue);
             DynamicVars[PendingKey].BaseValue = 0m;
             RefreshPresentation();
             return Task.CompletedTask;

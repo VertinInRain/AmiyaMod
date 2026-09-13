@@ -24,6 +24,12 @@ namespace Amiya.Patches;
 /// </summary>
 internal static class KresonBossPatch
 {
+    /// <summary>
+    /// 【测试开关】true = 把克雷松放进第一层的 boss（跑几步就能打，方便调试）；
+    /// false = 正式行为，替换三层的 boss。测完记得改回 false。
+    /// </summary>
+    private const bool ReplaceFirstActForTesting = false;
+
     private static PropertyInfo? _stateProperty;
 
     public static void Apply(Harmony harmony)
@@ -68,21 +74,21 @@ internal static class KresonBossPatch
             {
                 return;
             }
-            ActModel lastAct = state.Acts[state.Acts.Count - 1];
+            ActModel act = state.Acts[ReplaceFirstActForTesting ? 0 : state.Acts.Count - 1];
             EncounterModel kreson = ModelDb.Encounter<KresonBossEncounter>();
             // 这里不用 AscensionHelper（它依赖 RunManager.IsInProgress，开局阶段可能还是 false），
-            // 直接读 RunState 上的进阶等级。
-            bool doubleBoss = state.AscensionLevel >= (int)AscensionLevel.DoubleBoss;
+            // 直接读 RunState 上的进阶等级。测试模式固定单 boss。
+            bool doubleBoss = !ReplaceFirstActForTesting && state.AscensionLevel >= (int)AscensionLevel.DoubleBoss;
             if (doubleBoss)
             {
-                lastAct.SetSecondBossEncounter(kreson);
+                act.SetSecondBossEncounter(kreson);
             }
             else
             {
-                lastAct.SetSecondBossEncounter(null);
-                lastAct.SetBossEncounter(kreson);
+                act.SetSecondBossEncounter(null);
+                act.SetBossEncounter(kreson);
             }
-            Log.Info($"[Amiya] kreson boss installed: act={lastAct.Id.Entry} doubleBoss={doubleBoss}");
+            Log.Info($"[Amiya] kreson boss installed: act={act.Id.Entry} doubleBoss={doubleBoss} testFirstAct={ReplaceFirstActForTesting}");
         }
         catch (Exception ex)
         {
@@ -95,7 +101,7 @@ internal static class KresonBossPatch
     {
         try
         {
-            if (__instance.Index != ModelDb.ActsByIndex.Count - 1)
+            if (__instance.Index != (ReplaceFirstActForTesting ? 0 : ModelDb.ActsByIndex.Count - 1))
             {
                 return;
             }
