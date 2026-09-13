@@ -78,6 +78,14 @@ public sealed class HandLimitReductionPower : CustomPowerModel
 /// <summary>手牌上限规则：只要上限被削减，就检测手牌数并丢弃末尾牌直到等于削减后的上限。</summary>
 public static class HandLimitHelper
 {
+    /// <summary>该玩家自己的手牌上限削减层数。</summary>
+    public static int ReductionFor(Player? player)
+        => player?.Creature?.GetPower<HandLimitReductionPower>() is { } r && r.Amount > 0 ? (int)r.Amount : 0;
+
+    /// <summary>该玩家自己的手牌上限（基准 10 - 自己的削减层数）。多人下各算各的。</summary>
+    public static int LimitFor(Player? player)
+        => System.Math.Max(0, Amiya.Patches.AmiyaMaxHandPatch.BaseLimit - ReductionFor(player));
+
     public static async Task DiscardDownToLimit(PlayerChoiceContext choiceContext, Player player)
     {
         if (player?.Creature == null)
@@ -85,8 +93,8 @@ public static class HandLimitHelper
             return;
         }
         var hand = PileType.Hand.GetPile(player);
-        // 注意：CardPile.MaxCardsInHand 已经过 AmiyaMaxHandPatch 扣减（10 - 层数），不要再减一次！
-        int limit = System.Math.Max(0, CardPile.MaxCardsInHand);
+        // 按该玩家自己的上限计算（不用全局静态值，避免把别人的削减算到自己头上）
+        int limit = LimitFor(player);
         while (hand.Cards.Count > limit)
         {
             var last = hand.Cards.LastOrDefault();

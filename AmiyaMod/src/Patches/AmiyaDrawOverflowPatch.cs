@@ -21,6 +21,23 @@ namespace Amiya.Patches;
 [HarmonyPatch(typeof(CardPileCmd), "DrawInternal")]
 internal static class AmiyaDrawOverflowPatch
 {
+    /// <summary>
+    /// 抽牌期间登记"当前抽牌玩家"，让手牌上限补丁按该玩家自己的削减层数计算
+    /// （静态 getter 拿不到玩家，只能靠这个上下文；嵌套抽牌用栈保存）。
+    /// 前缀在方法体执行前登记，后置补丁在 Task 完成后出栈。
+    /// </summary>
+    private static void Prefix(Player player)
+    {
+        try
+        {
+            AmiyaMaxHandPatch.PushDrawContext(player);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("[Amiya] push draw context failed: " + ex);
+        }
+    }
+
     // 注意：直通式异步后置补丁的返回类型必须与第一参数（__result）类型一致，
     // 且必须把原结果返回——否则调用方 await 得到 null（CentennialPuzzle 对结果
     // 调 FirstOrDefault 直接抛异常，战斗回合循环死亡 → 游戏卡死）。
@@ -64,6 +81,10 @@ internal static class AmiyaDrawOverflowPatch
         catch (Exception ex)
         {
             Log.Error("[Amiya] draw overflow patch failed: " + ex);
+        }
+        finally
+        {
+            AmiyaMaxHandPatch.PopDrawContext();
         }
         return drawn;
     }

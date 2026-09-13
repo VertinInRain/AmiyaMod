@@ -1,41 +1,55 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using Amiya.Cards;
 using Amiya.Powers;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 
 namespace Amiya.Patches;
 
 /// <summary>
 /// 手牌上限减少：尘霾之冠 / 祈愿 叠加到 HandLimitReductionPower 层数。
 /// 游戏的手牌上限是静态属性 CardPile.MaxCardsInHand => 10，没有 per-player 钩子，
-/// 只能补丁静态 getter：阿米娅拥有该力量时按层数扣减（最多减到 0）。
+/// 只能补丁静态 getter。
 ///
-/// 多人安全：不能只按"本地玩家"的层数算（两端会各按自己玩家扣减 → 抽牌数分歧掉线），
-/// 改为取所有玩家中该状态的最大层数——两端遍历到的玩家集合一致，结果必然一致。
+/// 多人安全 + 按玩家分别计算：静态 getter 本身拿不到"哪个玩家"，
+/// 因此由抽牌前缀（AmiyaDrawOverflowPatch）在抽牌期间登记"当前抽牌玩家"，
+/// 期间按该玩家自己的层数扣减；其余时刻一律返回基准值（10）。
+/// 这样每个玩家按自己的上限抽牌，且两端计算结果一致，不会产生同步分歧。
 /// </summary>
 [HarmonyPatch(typeof(CardPile), "MaxCardsInHand", MethodType.Getter)]
 internal static class AmiyaMaxHandPatch
 {
+    /// <summary>手牌上限基准值（游戏常量 10；静态初始化时无上下文，即原值）。</summary>
+    public static readonly int BaseLimit = CardPile.MaxCardsInHand;
+
+    // 抽牌可能嵌套（抽牌触发的钩子再次抽牌），用栈保存上下文
+    private static readonly List<Player?> _drawStack = new();
+
+    public static void PushDrawContext(Player player) => _drawStack.Add(player);
+
+    public static void PopDrawContext()
+    {
+        if (_drawStack.Count > 0)
+        {
+            _drawStack.RemoveAt(_drawStack.Count - 1);
+        }
+    }
+
+    public static Player? CurrentDrawPlayer => _drawStack.Count > 0 ? _drawStack[_drawStack.Count - 1] : null;
+
     private static void Postfix(ref int __result)
     {
         try
         {
-            var state = FormManagerPower.Current?.Owner?.CombatState;
-            if (state == null)
+            if (CurrentDrawPlayer is { } player)
             {
-                return;
-            }
-            int reduction = state.Players
-                .Select(p => p.Creature.GetPower<HandLimitReductionPower>())
-                .Where(r => r != null && r.Amount > 0)
-                .Select(r => (int)r!.Amount)
-                .DefaultIfEmpty(0)
-                .Max();
-            if (reduction > 0)
-            {
-                __result = Math.Max(0, __result - reduction);
+                int reduction = HandLimitHelper.ReductionFor(player);
+                if (reduction > 0)
+                {
+                    __result = Math.Max(0, __result - reduction);
+                }
             }
         }
         catch (Exception)
