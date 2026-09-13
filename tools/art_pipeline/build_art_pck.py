@@ -72,6 +72,20 @@ def new_uid():
     return orig, "uid://" + text
 
 
+RECOVERED = os.path.join(HERE, "sources")
+
+
+def pick_source(original, recovered):
+    """选源图：优先「补充卡图」里的原图（需要抠白/裁剪处理），
+    缺失时回退到 tools/recover_pck_sources.py 从旧 pck 反解出来的成品图（已是最终像素，不再处理）。
+    返回 (路径 or None, 是否已是成品)。"""
+    if os.path.exists(original):
+        return original, False
+    if recovered and os.path.exists(recovered):
+        return recovered, True
+    return None, False
+
+
 def add_texture(files, uid_cache, src_path, category, name, png_override=None):
     if png_override is not None:
         img, lossy = png_override
@@ -207,22 +221,25 @@ def main():
     # 尘霾之冠力量图标：截图已无剩余（20/20 用尽），从补充卡图裁取顶部方形区域生成。
     # 该图为白底灰阶插画（内容贴着边），用全局抠白（flood=False）。
     # 2026-09 起「补充卡图/尘霾之冠.png」已被清理，改用仓库内的卡图作源（仍是同一张画）。
-    crown_path = os.path.join(ROOT, "补充卡图", "尘霾之冠.png")
-    if not os.path.exists(crown_path):
-        crown_path = os.path.join(ROOT, "AmiyaMod", "assets", "card_art", "DustHazeCrown.png")
+    crown_path, crown_final = pick_source(os.path.join(ROOT, "补充卡图", "尘霾之冠.png"),
+                                          os.path.join(RECOVERED, "DustHazeCrownPower.png"))
+    if crown_path is None:
+        crown_path, crown_final = os.path.join(ROOT, "AmiyaMod", "assets", "card_art", "DustHazeCrown.png"), False
     crown = Image.open(crown_path)
-    if crown.mode != "RGB":
-        crown = crown.convert("RGB")
-    if os.path.basename(os.path.dirname(crown_path)) == "card_art":
+    if crown_final:
+        # 反解出来的就是最终 128×128 图标（带透明通道），直接原样使用，不要转 RGB/裁剪
+        pass
+    elif os.path.basename(os.path.dirname(crown_path)) == "card_art":
         # 卡图是宽幅横图：从中间偏上取一个正方形当力量图标
         side = min(crown.width, crown.height)
         left = (crown.width - side) // 2
         crown = crown.crop((left, 0, left + side, side))
+        crown = white_to_transparent(crown, flood=False).resize((128, 128), Image.LANCZOS)
     else:
         crown = crown.crop((30, 30, min(crown.width, crown.height) - 30, min(crown.width, crown.height) - 30))
-    crown = white_to_transparent(crown, flood=False).resize((128, 128), Image.LANCZOS)
+        crown = white_to_transparent(crown, flood=False).resize((128, 128), Image.LANCZOS)
     add_texture(files, uid_cache, None, "powers", "DustHazeCrownPower", png_override=(crown, False))
-    print("power %-26s <- %s（方形裁切）" % ("DustHazeCrownPower", os.path.relpath(crown_path, ROOT)))
+    print("power %-26s <- %s" % ("DustHazeCrownPower", os.path.relpath(crown_path, ROOT)))
 
     # 自制黑白几何图标（透明底）：溢流消耗 / 祈愿 / 打击防御数值增加
     from PIL import ImageDraw
@@ -283,9 +300,16 @@ def main():
         "BunnyDollRelic": "兔兔玩偶.png",
     }
     for cls, fn in extra_relics.items():
-        img = white_to_transparent(Image.open(os.path.join(ROOT, "补充卡图", fn)))
+        src, final = pick_source(os.path.join(ROOT, "补充卡图", fn),
+                                 os.path.join(RECOVERED, cls + ".png"))
+        if src is None:
+            print("relic %-26s 源图缺失，跳过（补充卡图/%s 与 sources/%s.png 都没有）" % (cls, fn, cls))
+            continue
+        img = Image.open(src)
+        if not final:
+            img = white_to_transparent(img)
         add_texture(files, uid_cache, None, "relic", cls, png_override=(img, False))
-        print("relic %-26s <- 补充卡图/%s" % (cls, fn))
+        print("relic %-26s <- %s%s" % (cls, os.path.relpath(src, ROOT), "（反解成品）" if final else ""))
 
     for name in ("character_icon_amiya", "char_select_amiya", "char_select_amiya_locked"):
         img = Image.open(os.path.join(IMAGES, "icon", name + ".png"))
@@ -300,12 +324,22 @@ def main():
         "demon": "魔王死亡.png",
     }
     for name, fn in death_map.items():
-        add_texture(files, uid_cache, os.path.join(ROOT, "补充卡图", fn), "death", name)
-        print("death %-26s <- %s" % (name, fn))
+        src, _ = pick_source(os.path.join(ROOT, "补充卡图", fn),
+                             os.path.join(RECOVERED, "death_%s.png" % name))
+        if src is None:
+            print("death %-26s 源图缺失，跳过" % name)
+            continue
+        add_texture(files, uid_cache, src, "death", name)
+        print("death %-26s <- %s" % (name, os.path.relpath(src, ROOT)))
 
     # 商店人物形象
-    add_texture(files, uid_cache, os.path.join(ROOT, "补充卡图", "商店.png"), "merchant", "merchant")
-    print("merchant merchant <- 补充卡图/商店.png")
+    src, _ = pick_source(os.path.join(ROOT, "补充卡图", "商店.png"),
+                         os.path.join(RECOVERED, "merchant.png"))
+    if src is None:
+        print("merchant 源图缺失，跳过")
+    else:
+        add_texture(files, uid_cache, src, "merchant", "merchant")
+        print("merchant merchant <- %s" % os.path.relpath(src, ROOT))
 
     # 背景：原图 10752×10752 方形、白底插画。
     # 1) 白底转黑底：从四边做"近白色连通域"抠底（scipy label，只把连到边框的白色区域变黑，
@@ -387,18 +421,9 @@ def main():
         ancients["THE_ARCHITECT.talk.AMIYA-AMIYA_CHARACTER.%d-0r.next" % i] = "继续"
         ancients["THE_ARCHITECT.talk.AMIYA-AMIYA_CHARACTER.%d-1r.ancient" % i] = "…………？"
         ancients["THE_ARCHITECT.talk.AMIYA-AMIYA_CHARACTER.%d-1r.next" % i] = "继续"
-    # 克雷松 boss：地图节点图标 + 血条头像（含 _outline 变体）。
-    # 这三条路径是引擎按 res:// 预加载的资源，必须是 pck 里的真实资源
-    # （拿 TakeOverPath 注册进资源缓存不够：预加载走磁盘，读不到会抛
-    #  AssetLoadException 直接把开图流程搞崩）。
-    boss_dir = os.path.join(IMAGES, "boss")
-    for boss_name in ("kreson_icon", "kreson_icon_outline"):
-        boss_src = os.path.join(boss_dir, boss_name + ".png")
-        if os.path.exists(boss_src):
-            add_texture(files, uid_cache, boss_src, "boss", boss_name)
-            print("boss  %-26s <- images/boss/%s.png" % (boss_name, boss_name))
-        else:
-            print("boss  %-26s 缺失（跳过；游戏会退回原版占位图标）" % boss_name)
+    # 注意：克雷松的地图图标 / 自制状态图标不打进主 pck，
+    # 统一由 tools/build_boss_pck.py 打进独立小包 Amiya_boss.pck（模组启动时挂载），
+    # 这样新增资源不必重建这个 4.7MB 的主包。
 
     ancients_json = json.dumps(ancients, ensure_ascii=False, indent=1)
     files.append(("%s/localization/zhs/ancients.json" % MOD, ancients_json.encode("utf-8")))

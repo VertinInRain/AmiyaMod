@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -70,9 +72,9 @@ public sealed class KresonTaintSourcePower : CustomPowerModel
 
 /// <summary>
 /// 【育苗】：每回合开始时，为玩家牌组中随机 2 张攻击或技能牌附加 2 层污染（优先选择当前无污染的）。
-/// 挂在每个玩家身上（InstanceType None，一人一份），自己回合开始时结算自己那份。
+/// 挂在克雷松身上（状态栏里是它的第 3 个状态），回合开始时对所有玩家统一结算一次。
 ///
-/// 说明：「牌组」在战斗中以战斗牌堆的形式存在（PlayerCombatState.AllCards = 抽牌堆+手牌+弃牌堆+消耗堆+出牌区），
+/// 说明：「牌组」在战斗中以战斗牌堆的形式存在（抽牌堆+手牌+弃牌堆），
 /// 附加的污染是战斗内状态（游戏存档里不保存词条），所以实际是对这套战斗卡牌生效。
 /// </summary>
 public sealed class KresonNursingPower : CustomPowerModel
@@ -95,13 +97,18 @@ public sealed class KresonNursingPower : CustomPowerModel
 
     public override PowerStackType StackType => PowerStackType.None;
 
-    public override async Task AfterPlayerTurnStartLate(PlayerChoiceContext choiceContext, Player player)
+    /// <summary>玩家方回合开始时（即每个回合开始）给所有玩家撒污染。</summary>
+    public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
-        if (Owner?.Player == null || player != Owner.Player)
+        if (side != CombatSide.Player || combatState == null || Owner?.IsAlive != true)
         {
             return;
         }
-        await KresonTaintHelper.ApplyToPlayer(choiceContext, player, CardsPerTurn, StacksPerCard);
+        var choiceContext = new ThrowingPlayerChoiceContext();
+        foreach (Player player in combatState.Players.ToList())
+        {
+            await KresonTaintHelper.ApplyToPlayer(choiceContext, player, CardsPerTurn, StacksPerCard);
+        }
     }
 }
 

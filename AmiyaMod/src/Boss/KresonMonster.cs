@@ -94,16 +94,20 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
         }
         var choiceContext = new ThrowingPlayerChoiceContext();
         Creature self = Creature;
+        // 施加顺序 = 状态栏显示顺序：无敌 → 飘忽 → 育苗 → 终点
         await PowerCmd.Apply<KresonInvinciblePower>(choiceContext, self, 1m, self, null, silent: true);
-        await PowerCmd.Apply<KresonTerminusPower>(choiceContext, self, KresonTerminusPower.BaseTurns, self, null, silent: true);
         foreach (Player player in Creature.CombatState.Players.ToList())
         {
             // 飘忽：每个玩家一份实例（Target = 该玩家，只有本人看得到自己的计数）
             KresonFadePower fade = (KresonFadePower)ModelDb.Power<KresonFadePower>().ToMutable();
             fade.Target = player.Creature;
             await PowerCmd.Apply(choiceContext, fade, self, KresonFadePower.BaseCardsLeft, self, null, silent: true);
-            // 育苗 + 污染来源（挂在玩家自己身上）
-            await PowerCmd.Apply<KresonNursingPower>(choiceContext, player.Creature, 1m, self, null, silent: true);
+        }
+        await PowerCmd.Apply<KresonNursingPower>(choiceContext, self, 1m, self, null, silent: true);
+        await PowerCmd.Apply<KresonTerminusPower>(choiceContext, self, KresonTerminusPower.BaseTurns, self, null, silent: true);
+        // 污染来源：隐形状态，挂在每个玩家身上（不打乱克雷松自己的状态栏顺序）
+        foreach (Player player in Creature.CombatState.Players.ToList())
+        {
             await PowerCmd.Apply<KresonTaintSourcePower>(choiceContext, player.Creature, 1m, self, null, silent: true);
         }
         KresonVisuals.SetState(Creature, KresonVisuals.State.Invincible);
