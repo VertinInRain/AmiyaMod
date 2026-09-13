@@ -170,7 +170,7 @@ public sealed class FormManagerPower : CustomPowerModel
         ("description", "当前形态由角标数字表示：1=近卫，2=术士，3=医疗，4=魔王。\n近卫：进入时获得3点格挡与3点活力。\n术士：进入时给予全体敌人1层虚弱。\n医疗：进入时抽1张牌。")
     };
 
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Current = this;
         if (Owner?.Player != null && MegaCrit.Sts2.Core.Context.LocalContext.IsMe(Owner.Player))
@@ -190,12 +190,13 @@ public sealed class FormManagerPower : CustomPowerModel
         _lastCtx = null;
         TurnCount = 1; // 施加发生在第1回合中途，钩子从第2回合开始（保证"除第一回合外"不错位）
         Log.Info($"[Amiya] FormManagerPower applied (form={Form})");
-        _ = ApplyDemonFogToAll(Owner?.Player);
+        // 多人安全：黑雾/白光都是挂在牌上的状态（属于战斗状态校验范围），
+        // 必须 await 在确定性流程内完成，不能用 fire-and-forget（两端时序不同会分歧）
+        await ApplyDemonFogToAll(Owner?.Player);
         if (Owner?.Player != null)
         {
-            _ = RefreshLeaderGlow(Owner.Player);
+            await RefreshLeaderGlow(Owner.Player);
         }
-        return Task.CompletedTask;
     }
 
     // —— 形态 ——
@@ -217,8 +218,10 @@ public sealed class FormManagerPower : CustomPowerModel
         Form = (AmiyaForm)(((int)Form % 3) + 1);
         FormSwitchTotal++;
         Log.Info($"[Amiya] Form switch -> {Form} (total={FormSwitchTotal})");
-        _ = OnFormSwitched(choiceContext);
-        _ = SyncAmountAndEffects(choiceContext);
+        // 多人安全：入形态附带效果（燎原/灵魂堡垒/蔓延/铁卫/奔夜、术士给全体虚弱、医疗抽牌等）
+        // 都改变战斗状态，必须在确定性流程内 await 完成，不能 fire-and-forget
+        await OnFormSwitched(choiceContext);
+        await SyncAmountAndEffects(choiceContext);
     }
 
     /// <summary>形态切换成功后联动各能力牌（燎原/灵魂堡垒/蔓延/铁卫）。</summary>

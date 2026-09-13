@@ -24,28 +24,28 @@ public sealed class AmiyaCombatHarness : AbstractModel
 {
     public override bool ShouldReceiveCombatHooks => true;
 
-    private static bool GraveyardMoved;
+    // 多人安全：按玩家记录（原来用单个 bool，两名阿米娅玩家时只有一人会执行墓园）
+    private static readonly HashSet<ulong> GraveyardMovedPlayers = new();
 
     public override Task BeforeCombatStart()
     {
-        GraveyardMoved = false;
+        GraveyardMovedPlayers.Clear();
         FormManagerPower.AmiyaDeathForm = null;
         return Task.CompletedTask;
     }
 
     /// <summary>
-    /// 墓园：在每回合抽牌之前把抽牌堆中的墓园牌移入弃牌堆（一次性，GraveyardMoved 保证只执行一次）。
+    /// 墓园：在每回合抽牌之前把抽牌堆中的墓园牌移入弃牌堆（每名玩家每场战斗一次）。
     /// 必须挂在 BeforeHandDraw——官方时序为 SetupPlayerTurn 内：BeforeHandDraw -> 固有牌置顶 -> 抽牌，
     /// 而 AfterAutoPrePlayPhaseEntered 在 setupPlayerTurnTask（已含开局抽牌）之后才触发，挂那里会导致墓园牌已被抽入手牌。
     /// </summary>
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
     {
         await base.BeforeHandDraw(player, choiceContext, combatState);
-        if (GraveyardMoved || PaleRelicHelper.TriggerCount(player) == 0)
+        if (!GraveyardMovedPlayers.Add(player.NetId) || PaleRelicHelper.TriggerCount(player) == 0)
         {
             return;
         }
-        GraveyardMoved = true;
 
         var draw = PileType.Draw.GetPile(player);
         // 快照遍历：CardPileCmd.Add 会从抽牌堆移除卡牌，直接枚举会被"集合已修改"打断

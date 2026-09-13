@@ -1,13 +1,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Amiya.Cards;
 using Amiya.Models;
-using BaseLib.Utils;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
@@ -17,15 +13,17 @@ namespace Amiya.Patches;
 
 /// <summary>
 /// 先古遗物联动（仅阿米娅）：
-///   古老牙齿（ArchaicTooth）→ 将卡组中的思念变化为先古牌万千愿景（保持升级状态）；
+///   古老牙齿（ArchaicTooth）→ 卡组中的思念变为先古牌万千愿景（保持升级状态）；
 ///   尘封魔典（DustyTome）→ 获得一张升级后的神圣复苏。
 ///
-/// 双保险机制：
-///   1) 官方接口：思念实现 ITranscendenceCard（BaseLib 会把 思念→万千愿景 注册进
-///      ArchaicTooth 的升华映射表）；神圣复苏实现 ITomeCard（BaseLib 会把尘封魔典的
-///      候选卡池限定为神圣复苏，事件展示与发放都固定为它）。
-///   2) 本文件的手工 Harmony 前缀：覆盖两件遗物的 AfterObtained，直接执行阿米娅版效果，
-///      防止原版流程找不到对应初始牌而空引用/随机发错卡。
+/// 实现方式：走官方接口 + 官方流程（都是被 await 的确定性流程，多人安全）：
+///   思念实现 ITranscendenceCard（BaseLib 注册进 ArchaicTooth 的升华映射表）；
+///   神圣复苏实现 ITomeCard（BaseLib 把尘封魔典的候选池锁定为它）。
+/// 本补丁只保留"护栏"，不再自己执行异步效果——此前的 fire-and-forget 版本会在
+/// 确定性流程之外改动牌组，多人下存在状态分歧风险：
+///   · 非阿米娅 → 放行原版逻辑；
+///   · 阿米娅 + 古老牙齿但牌组里没有思念 → 跳过原版（原版会对 null 调 Transform 抛异常）；
+///   · 阿米娅 + 尘封魔典但遗物没有候选牌 → 跳过原版（避免空引用）。
 /// </summary>
 internal static class AncientRelicPatch
 {
@@ -61,65 +59,31 @@ internal static class AncientRelicPatch
 
     private static bool ArchaicToothPrefix(ArchaicTooth __instance)
     {
-        var player = __instance.Owner;
-        Log.Info($"[Amiya] archaic tooth AfterObtained fired: owner={player != null}, isAmiya={player?.Character is AmiyaCharacter}");
+        Player? player = __instance.Owner;
         if (player == null || player.Character is not AmiyaCharacter)
         {
-            return true; // 非阿米娅：原版流程
+            return true;
         }
-        _ = HandleArchaicTooth(player);
+        if (player.Deck.Cards.Any(c => c is AmiyaFormSwitch))
+        {
+            return true; // 官方流程（经 ITranscendenceCard 映射）完成 思念 → 万千愿景
+        }
+        Log.Info("[Amiya] archaic tooth: 牌组中没有思念，跳过原版流程");
         return false;
     }
 
     private static bool DustyTomePrefix(DustyTome __instance)
     {
-        var player = __instance.Owner;
-        Log.Info($"[Amiya] dusty tome AfterObtained fired: owner={player != null}, isAmiya={player?.Character is AmiyaCharacter}");
+        Player? player = __instance.Owner;
         if (player == null || player.Character is not AmiyaCharacter)
         {
-            return true; // 非阿米娅：原版流程
+            return true;
         }
-        _ = HandleDustyTome(player);
-        return false;
-    }
-
-    private static async Task HandleArchaicTooth(Player player)
-    {
-        try
+        if (__instance.AncientCard == null)
         {
-            var card = player.Deck.Cards.FirstOrDefault(c => c is AmiyaFormSwitch);
-            if (card == null)
-            {
-                Log.Info("[Amiya] archaic tooth: 牌组中没有思念，跳过");
-                return;
-            }
-            bool upgraded = card.IsUpgraded;
-            var ancient = card.Owner.RunState.CreateCard(ModelDb.Card<ThousandVisions>(), card.Owner);
-            if (upgraded)
-            {
-                CardCmd.Upgrade(ancient);
-            }
-            await CardCmd.Transform(card, ancient);
-            Log.Info($"[Amiya] archaic tooth: 思念 -> 万千愿景{(upgraded ? "+" : "")}");
+            Log.Info("[Amiya] dusty tome: 遗物没有候选远古牌，跳过原版流程");
+            return false;
         }
-        catch (Exception ex)
-        {
-            Log.Error($"[Amiya] archaic tooth effect failed: {ex}");
-        }
-    }
-
-    private static async Task HandleDustyTome(Player player)
-    {
-        try
-        {
-            var card = player.RunState.CreateCard(ModelDb.Card<SeeLight>(), player);
-            CardCmd.Upgrade(card);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.Add(card, PileType.Deck), 2f);
-            Log.Info("[Amiya] dusty tome: 获得升级后的神圣复苏");
-        }
-        catch (Exception ex)
-        {
-            Log.Error($"[Amiya] dusty tome effect failed: {ex}");
-        }
+        return true; // 官方流程发放"升级后的候选牌"（ITomeCard 已锁定为神圣复苏）
     }
 }

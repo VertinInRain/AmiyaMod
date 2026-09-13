@@ -40,7 +40,7 @@ public sealed class CannotRefuse : BaseAmiyaCard
                     {
                         if (Amiya.Powers.FormManagerPower.Of(Owner) is { } fm)
                         {
-                            _ = fm.RefreshLeaderGlow(Owner!);
+                            await fm.RefreshLeaderGlow(Owner!);
                         }
                     }
                     else if (card.Affliction == null)
