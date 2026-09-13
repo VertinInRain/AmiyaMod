@@ -45,10 +45,11 @@ internal static class AmiyaMaxHandPatch
         {
             if (CurrentDrawPlayer is { } player)
             {
-                int reduction = HandLimitHelper.ReductionFor(player);
-                if (reduction > 0)
+                // 净削减 = 削减（尘霾之冠/祈愿）− 增加（痛悼无垠）；负值表示上限提高
+                int net = HandLimitHelper.NetReductionFor(player);
+                if (net != 0)
                 {
-                    __result = Math.Max(0, __result - reduction);
+                    __result = Math.Max(0, __result - net);
                 }
             }
         }

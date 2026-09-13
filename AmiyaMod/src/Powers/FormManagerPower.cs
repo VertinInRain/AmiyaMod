@@ -543,6 +543,16 @@ public sealed class FormManagerPower : CustomPowerModel
 
     // —— 回合流程 ——
 
+    /// <summary>痛悼无垠：被消耗时的代价由常驻力量代为监听（卡牌本身不是稳定的战斗钩子监听者）。</summary>
+    public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
+    {
+        await base.AfterCardExhausted(choiceContext, card, causedByEthereal);
+        if (card is BoundlessMourning mourning && card.Owner?.Creature == Owner)
+        {
+            await mourning.OnExhausted(choiceContext);
+        }
+    }
+
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         await base.AfterPlayerTurnStart(choiceContext, player);
