@@ -34,13 +34,27 @@ public sealed class KresonBossEncounter : CustomEncounterModel, ILocalizationPro
     /// <summary>沿用原版三层 boss 战音乐（原版三个三层 boss 用的都是这首）。</summary>
     public override string CustomBgm => "event:/music/act3_boss_queen";
 
-    /// <summary>地图上的 boss 节点图标（自制的克雷松图标，运行时注册进资源缓存）。</summary>
-    public override string BossNodePath => KresonVisuals.IconNodePath;
+    /// <summary>
+    /// 自制图标是否真的可用。地图节点图 / 血条头像是引擎按 res:// 路径「预加载」的资源，
+    /// 路径存在但读不到会直接抛 AssetLoadException 并让开图崩掉，
+    /// 所以这里先探测一次，缺失就退回原版占位图（绝对不能把开局搞崩）。
+    /// </summary>
+    private static bool OwnIconsAvailable =>
+        ResourceLoader.Exists(KresonVisuals.IconPath) && ResourceLoader.Exists(KresonVisuals.IconOutlinePath);
+
+    /// <summary>地图上的 boss 节点图标（自制；缺失时退回原版占位）。</summary>
+    public override string BossNodePath => OwnIconsAvailable
+        ? KresonVisuals.IconNodePath
+        : "res://images/map/placeholder/aeonglass_boss_icon";
 
     /// <summary>顶部血条 / 历史记录里的 boss 头像。</summary>
-    public override string? CustomRunHistoryIconPath => KresonVisuals.IconPath;
+    public override string? CustomRunHistoryIconPath => OwnIconsAvailable
+        ? KresonVisuals.IconPath
+        : "res://images/ui/run_history/aeonglass_boss.png";
 
-    public override string? CustomRunHistoryIconOutlinePath => KresonVisuals.IconOutlinePath;
+    public override string? CustomRunHistoryIconOutlinePath => OwnIconsAvailable
+        ? KresonVisuals.IconOutlinePath
+        : "res://images/ui/run_history/aeonglass_boss_outline.png";
 
     public List<(string, string)>? Localization => new()
     {

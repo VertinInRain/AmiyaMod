@@ -27,43 +27,12 @@ public static class KresonVisuals
 
     private static readonly Dictionary<string, Texture2D?> Cache = new();
 
-    /// <summary>地图 boss 节点图标（游戏会在后面自动接 .png / _outline.png）。</summary>
-    public const string IconNodePath = "res://Amiya/boss/kreson_icon";
+    /// <summary>地图 boss 节点图标（游戏会在后面自动接 .png / _outline.png；资源由 Amiya.pck 提供）。</summary>
+    public const string IconNodePath = "res://Amiya/images/boss/kreson_icon";
 
     public const string IconPath = IconNodePath + ".png";
 
     public const string IconOutlinePath = IconNodePath + "_outline.png";
-
-    /// <summary>
-    /// 把图标 PNG 注册进资源缓存：地图节点 / 顶部血条 / 历史记录都是用
-    /// res:// 路径直接加载的，mod 的 pck 里没有这些图，所以用 TakeOverPath
-    /// 让引擎按路径加载时直接命中我们运行时读入的纹理（与卡图同一套做法）。
-    /// </summary>
-    public static void RegisterIcons()
-    {
-        RegisterIcon("kreson_icon.png", IconPath);
-        RegisterIcon("kreson_icon_outline.png", IconOutlinePath);
-    }
-
-    private static void RegisterIcon(string file, string resourcePath)
-    {
-        try
-        {
-            Image img = Image.LoadFromFile(Dir + "/" + file);
-            if (img == null || img.IsEmpty())
-            {
-                Log.Error($"[Amiya] kreson icon missing: {Dir}/{file}");
-                return;
-            }
-            Texture2D tex = ImageTexture.CreateFromImage(img);
-            tex.TakeOverPath(resourcePath);
-            Log.Info($"[Amiya] kreson icon registered: {file} -> {resourcePath}");
-        }
-        catch (Exception ex)
-        {
-            Log.Error($"[Amiya] kreson icon register failed ({file}): {ex}");
-        }
-    }
 
     private static string FileFor(State state) => state switch
     {

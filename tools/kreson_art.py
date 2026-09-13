@@ -20,6 +20,7 @@ from PIL import Image, ImageDraw, ImageFilter
 SRC = "补充卡图"
 REPO_BOSS = "AmiyaMod/assets/boss"
 REPO_CARD = "AmiyaMod/assets/card_art"
+PCK_IMAGES = "images/boss"  # build_art_pck.py 的输入目录（打进 Amiya.pck）
 GAME_MOD = r"D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\Amiya"
 
 BATTLE_HEIGHT = 420
@@ -188,9 +189,13 @@ def main() -> None:
         "boss/kreson_icon.png": icon,
         "boss/kreson_icon_outline.png": outline,
     }
+    gameplay_icons = {"kreson_icon.png": icon, "kreson_icon_outline.png": outline}
     for rel, img in outputs.items():
         save(img, os.path.join(REPO_BOSS, os.path.basename(rel)))
         save(img, os.path.join(GAME_MOD, "spine", os.path.basename(os.path.dirname(rel)), os.path.basename(rel)))
+    # 地图节点/血条图标必须进 pck（引擎按 res:// 预加载），所以也写到打包输入目录
+    for name, img in gameplay_icons.items():
+        save(img, os.path.join(PCK_IMAGES, name))
 
     save(anchor, os.path.join(REPO_CARD, "Anchor.png"))
     save(anchor, os.path.join(GAME_MOD, "spine", "card_art", "Anchor.png"))

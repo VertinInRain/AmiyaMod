@@ -19,6 +19,29 @@ namespace Amiya;
 [ModInitializer("Init")]
 public static class Entry
 {
+    /// <summary>
+    /// 挂载额外的 pck（可选的附加资源包）。文件不存在时静默跳过——
+    /// 例如只换了 dll 没换附件的旧安装，也应该能正常启动。
+    /// </summary>
+    private static void MountExtraPck(string fileName)
+    {
+        try
+        {
+            string full = AmiyaPaths.ModDir + "/" + fileName;
+            if (!System.IO.File.Exists(full))
+            {
+                Log.Info($"[Amiya] extra pck not present, skipped: {fileName}");
+                return;
+            }
+            bool ok = ProjectSettings.LoadResourcePack(full, true, 0);
+            Log.Info($"[Amiya] extra pck mounted: {fileName} -> {ok}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"[Amiya] mounting {fileName} failed: {ex}");
+        }
+    }
+
     public static void Init()
     {
         ScriptManagerBridge.LookupScriptsInAssembly(Assembly.GetExecutingAssembly());
@@ -33,8 +56,22 @@ public static class Entry
         AmiyaArtifactPatch.Apply(harmony);
         // 克雷松 boss：强制替换三层 boss（新局 + 读档两个补丁点）
         KresonBossPatch.Apply(harmony);
-        // 克雷松的地图节点/血条图标：注册进资源缓存，供引擎按 res:// 路径加载
-        Amiya.Boss.KresonVisuals.RegisterIcons();
+        // 克雷松的地图节点/血条图标：独立小 pck，必须在这里挂载（引擎按 res:// 路径加载）
+        MountExtraPck("Amiya_boss.pck");
+        // 诊断：确认这两张图真的能被引擎按路径加载（这两条路径被地图预加载使用，读不到会让开图崩溃）
+        foreach (string p in new[] { Amiya.Boss.KresonVisuals.IconPath, Amiya.Boss.KresonVisuals.IconOutlinePath })
+        {
+            try
+            {
+                bool exists = ResourceLoader.Exists(p);
+                Texture2D tex = ResourceLoader.Load<Texture2D>(p, null, ResourceLoader.CacheMode.Reuse);
+                Log.Info($"[Amiya] DIAG icon {p}: exists={exists} loaded={(tex != null ? tex.GetWidth() + "x" + tex.GetHeight() : "NULL")}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[Amiya] DIAG icon {p} failed: {ex.Message}");
+            }
+        }
         // 类级 [HarmonyPatch] 的挂载确认（本环境下 PatchAll 有可能静默跳过某些条目）
         foreach (var type in typeof(AmiyaPowerIconPatch).Assembly.GetTypes())
         {

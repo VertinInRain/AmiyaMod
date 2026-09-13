@@ -16,6 +16,7 @@ using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using Godot;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Amiya.Boss;
@@ -57,6 +58,14 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
 
     /// <summary>贴图版战斗立绘（运行时从 mods 目录读 PNG）。</summary>
     public override NCreatureVisuals? CreateCustomVisuals() => KresonVisuals.Build();
+
+    /// <summary>
+    /// 只暴露真实存在的资源给引擎预加载。
+    /// 基类默认的 VisualsPath 是 res://scenes/creature_visuals/kreson_monster.tscn（不存在），
+    /// 我们的立绘又是运行时按文件读的——若让引擎去预加载那条不存在的路径，
+    /// 会抛 AssetLoadException 把战斗开始流程搞崩（与地图图标那次同一个坑）。
+    /// </summary>
+    public override IEnumerable<string> AssetPaths => base.AssetPaths.Where(p => ResourceLoader.Exists(p));
 
     private int SlashDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DoubleBoss, 27, 24);
 
