@@ -22,6 +22,7 @@ SOURCES = (
     (os.path.join("images", "boss"), "boss"),
     (os.path.join("images", "custom_powers"), "powers"),
     (os.path.join("images", "custom_relics"), "relic"),
+    (os.path.join("images", "events"), "events"),
 )
 
 
