@@ -6,7 +6,9 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 namespace Amiya.Relics;
 
 /// <summary>
-/// 无垠花：事件「在冰原之上」任务链的终点奖励（不入常规遗物池，稀有度为 Event，只能由【路网】任务牌发放）。
+/// 无垠花：事件「在冰原之上」任务链的终点奖励，由任务牌【路网】完成时发放。
+/// 稀有度 Event 才是"不进常规奖励"的关键（RelicGrabBag 只收 Common/Uncommon/Rare/Shop），
+/// 但 [Pool] 仍然必须有：BaseLib 注册会强制要求，且 RelicModel.Pool 找不到归属会抛异常（悬停即崩）。
 /// 效果：克雷松【育苗】给予你的污染层数由 4 层降为 2 层。
 /// </summary>
 [Pool(typeof(Amiya.Models.AmiyaRelicPool))]

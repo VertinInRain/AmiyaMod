@@ -29,4 +29,14 @@ public sealed class PaleCrownRelic : BaseLib.Abstracts.CustomRelicModel
         : base(autoAdd: true)
     {
     }
+
+    /// <summary>第一层第一个 ? 房间锁定为事件房（花冠是赐福的升级形态，同样要保证事件出现）。</summary>
+    public override IReadOnlySet<MegaCrit.Sts2.Core.Rooms.RoomType> ModifyUnknownMapPointRoomTypes(
+        IReadOnlySet<MegaCrit.Sts2.Core.Rooms.RoomType> roomTypes)
+        => IceFieldEventForcer.CanOverrideRoomTypes(Owner)
+            ? new HashSet<MegaCrit.Sts2.Core.Rooms.RoomType> { MegaCrit.Sts2.Core.Rooms.RoomType.Event }
+            : roomTypes;
+
+    public override MegaCrit.Sts2.Core.Models.EventModel ModifyNextEvent(MegaCrit.Sts2.Core.Models.EventModel currentEvent)
+        => IceFieldEventForcer.ForceEvent(Owner, currentEvent);
 }

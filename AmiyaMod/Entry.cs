@@ -56,6 +56,8 @@ public static class Entry
         AmiyaArtifactPatch.Apply(harmony);
         // 克雷松 boss：强制替换三层 boss（新局 + 读档两个补丁点）
         KresonBossPatch.Apply(harmony);
+        // 事件「在冰原之上」的任务链：放弃卡牌奖励的计数点
+        AmiyaQuestPatch.Apply(harmony);
         // 克雷松的地图节点/血条图标：独立小 pck，必须在这里挂载（引擎按 res:// 路径加载）
         MountExtraPck("Amiya_boss.pck");
         // 诊断：确认这两张图真的能被引擎按路径加载（这两条路径被地图预加载使用，读不到会让开图崩溃）
