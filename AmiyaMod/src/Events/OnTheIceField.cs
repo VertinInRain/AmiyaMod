@@ -30,6 +30,12 @@ public sealed class OnTheIceField : CustomEventModel
     /// <summary>多人共享事件（与原版战史学家一致）：所有玩家看到同一份状态。</summary>
     public override bool IsShared => true;
 
+    /// <summary>
+    /// 事件立绘：引擎默认去 res://images/events/&lt;entry小写&gt;.png 找图，
+    /// mod 的图在 res://Amiya/... 下，所以必须走 BaseLib 的覆写钩子。
+    /// </summary>
+    public override string? CustomInitialPortraitPath => "res://Amiya/images/events/on_the_ice_field.png";
+
     /// <summary>不参与随机事件池，只能由 PaleBlessingRelic / PaleCrownRelic 强制插入。</summary>
     public override bool IsAllowed(IRunState runState) => false;
 
