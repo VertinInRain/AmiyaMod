@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
@@ -94,8 +97,62 @@ public sealed class KresonNursingPower : CustomPowerModel
     public override List<(string, string)>? Localization => new()
     {
         ("title", "育苗"),
-        ("description", "每回合开始时，为玩家牌组中随机 3 张攻击或技能牌附加 4 层【污染】（优先选择当前无污染的）。")
+        // {Stacks} 在 Description 里按「本地玩家是否持有【无垠花】」填成 4 或 2
+        ("description", "每回合开始时，为玩家牌组中随机 3 张攻击或技能牌附加 {Stacks} 层【污染】（优先选择当前无污染的）。")
     };
+
+    /// <summary>
+    /// 状态栏描述里的层数按「本地玩家实际会吃到的层数」显示：
+    /// 持有【无垠花】的玩家看到 2，其它人看到 4（所以不能把 4 写死在文本里）。
+    /// 只影响显示，实际层数由 <see cref="StacksFor"/> 在结算时决定。
+    /// </summary>
+    public override LocString Description
+    {
+        get
+        {
+            LocString text = base.Description;
+            try
+            {
+                text?.Add("Stacks", (decimal)StacksForLocalPlayer());
+                // 诊断：确认 {Stacks} 真的被替换（状态栏悬停时才会走到这里，值变化才打日志）
+                string formatted = text?.GetFormattedText() ?? string.Empty;
+                if (formatted != _lastLoggedDescription)
+                {
+                    _lastLoggedDescription = formatted;
+                    MegaCrit.Sts2.Core.Logging.Log.Info($"[Amiya] 育苗描述(本地玩家视角): {formatted}");
+                }
+            }
+            catch (Exception)
+            {
+                // 描述构建失败不能影响战斗
+            }
+            return text;
+        }
+    }
+
+    private static string? _lastLoggedDescription;
+
+    /// <summary>本地玩家这次会吃到的层数（判定不到时退回基础值）。</summary>
+    public int StacksForLocalPlayer()
+    {
+        try
+        {
+            Player? me = Owner?.CombatState != null ? LocalContext.GetMe(Owner.CombatState) : null;
+            if (me != null)
+            {
+                return StacksFor(me);
+            }
+            if (Owner?.Player != null)
+            {
+                return StacksFor(Owner.Player);
+            }
+        }
+        catch (Exception)
+        {
+            // 忽略：退回基础值
+        }
+        return StacksPerCard;
+    }
 
     public override PowerType Type => PowerType.Debuff;
 
