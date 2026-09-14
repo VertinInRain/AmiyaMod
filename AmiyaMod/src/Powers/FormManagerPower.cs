@@ -512,7 +512,10 @@ public sealed class FormManagerPower : CustomPowerModel
             Log.Info($"[Amiya] i am yours: {amount} block -> {amount} regen");
         }
 
-        if (PhaseChangeActive && cardSource != null && !Owner.HasPower<EmberPower>())
+        // 相变不息：本回合每次「卡牌来源」的获得格挡 → 触发一次形态转换。
+        // 魔王形态下 Trigger() 自己会改走「燃烬：选择消耗一张手牌」，所以这里不能把魔王形态排除掉
+        // （之前多了 !HasPower<EmberPower>() 这个条件，导致魔王形态下打出防御拿到格挡后什么都不发生）。
+        if (PhaseChangeActive && cardSource != null)
         {
             await Trigger(_lastCtx);
         }
