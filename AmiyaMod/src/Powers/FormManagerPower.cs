@@ -348,11 +348,16 @@ public sealed class FormManagerPower : CustomPowerModel
     /// <summary>领袖：本回合第奇数张打出的牌 → 放入抽牌堆（随机洗入）；带消耗词条则照常消耗。</summary>
     public override CardLocation ModifyCardPlayResultLocation(CardModel card, bool isAutoPlay, ResourceInfo resources, CardLocation cardLocation)
     {
+        // 多人：这个钩子会被「每个」形态机实例问到（包括别人的形态机），
+        // 必须先确认这张牌属于本形态机的主人，否则别人的领袖牌会被塞进自己的抽牌堆。
+        if (Owner?.Player == null || card.Owner != Owner.Player)
+        {
+            return cardLocation;
+        }
         if (card is BaseAmiyaCard amiyaCard
             && amiyaCard.HasAmiyaTag(AmiyaTag.Leader)
             && !card.Keywords.Contains(CardKeyword.Exhaust)
-            && TurnCardPlayCount % 2 == 0 // 位置钩子先于本牌计数
-            && Owner?.Player != null)
+            && TurnCardPlayCount % 2 == 0) // 位置钩子先于本牌计数
         {
             Log.Info($"[Amiya] leader effect: {card.Id.Entry} -> draw pile (play #{TurnCardPlayCount + 1})");
             return new CardLocation(Owner.Player, PileType.Draw, CardPilePosition.Random);
@@ -528,14 +533,19 @@ public sealed class FormManagerPower : CustomPowerModel
     public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
         await base.AfterCardDrawn(choiceContext, card, fromHandDraw);
+        // 多人：抽牌钩子对所有人的抽牌都会触发，只处理自己主人抽到的牌，
+        // 否则别人抽到打击/防御也会让主人白抽一张（湍流），并刷新主人的白光。
+        if (Owner?.Player == null || card.Owner != Owner.Player)
+        {
+            return;
+        }
         if (Owner.HasPower<TurbulencePower>()
-            && Owner.Player != null
             && (card.Tags.Contains(CardTag.Strike) || card.Tags.Contains(CardTag.Defend)))
         {
             await CardPileCmd.Draw(choiceContext, 1m, Owner.Player);
         }
         // 抽到领袖牌：白光状态可能变化
-        if (card is BaseAmiyaCard ac && ac.HasAmiyaTag(AmiyaTag.Leader) && Owner.Player != null)
+        if (card is BaseAmiyaCard ac && ac.HasAmiyaTag(AmiyaTag.Leader))
         {
             await RefreshLeaderGlow(Owner.Player);
         }

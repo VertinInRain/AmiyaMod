@@ -65,6 +65,12 @@ public sealed class SeeLightPower : CustomPowerModel
 
     public override bool ShouldPlay(CardModel card, AutoPlayType autoPlayType)
     {
+        // 多人：这个钩子对所有人的出牌都会被问到，只封禁持有者自己的非攻击牌，
+        // 否则队友在你的神圣复苏期间也打不出技能牌/能力牌。
+        if (Owner?.Player == null || card.Owner != Owner.Player)
+        {
+            return true;
+        }
         return card.Type == CardType.Attack;
     }
 
