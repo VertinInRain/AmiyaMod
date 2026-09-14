@@ -12,6 +12,7 @@
 """
 import os
 import shutil
+import sys
 from collections import deque
 
 import numpy as np
@@ -30,6 +31,7 @@ ICON_SIZE = 256
 CARD_W, CARD_H = 250, 190
 RELIC_SIZE = 128
 # 新素材（用户 2026-09 追加）
+ICON_SRC_30 = "克雷松-在地图上以及其他地方的显示3.0.png"
 ICON_SRC_20 = "克雷松-在地图上以及其他地方的显示2.0.png"
 RELIC_FLOWER = "无垠花.png"
 CARD_ROAD = "路网.png"
@@ -103,6 +105,31 @@ def key_white(img: Image.Image, light_min: int = 200, sat_max: int = 34, feather
         soft = out.split()[3].filter(ImageFilter.GaussianBlur(feather))
         out.putalpha(soft)
     return out
+
+
+def crop_to_main_band(img: Image.Image, pad: int = 40, thr: int = 8) -> Image.Image:
+    """只保留「最宽的那条竖向内容带」，清掉画面外的零碎（例如右下角的生成水印）。"""
+    alpha = np.asarray(img)[:, :, 3]
+    col_has = alpha.max(axis=0) > thr
+    best, start = None, None
+    for i, v in enumerate(col_has):
+        if v and start is None:
+            start = i
+        elif not v and start is not None:
+            if best is None or i - start > best[1] - best[0]:
+                best = (start, i - 1)
+            start = None
+    if start is not None and (best is None or len(col_has) - start > best[1] - best[0]):
+        best = (start, len(col_has) - 1)
+    if best is None:
+        return img
+    x0 = max(0, best[0] - pad)
+    x1 = min(img.width, best[1] + 1 + pad)
+    out = np.asarray(img).copy()
+    keep = np.zeros(img.width, bool)
+    keep[x0:x1] = True
+    out[:, ~keep, 3] = 0
+    return Image.fromarray(out)
 
 
 def dense_bbox(img: Image.Image, thr: int = 200):
@@ -211,7 +238,40 @@ def save(img: Image.Image, path: str) -> None:
     print(f"  -> {path}  {img.size}  {os.path.getsize(path) // 1024} KB")
 
 
+def build_icon():
+    """克雷松的地图节点 / 血条图标（256×256）+ 描边变体。"""
+    icon30 = os.path.join(SRC, ICON_SRC_30)
+    icon20 = os.path.join(SRC, ICON_SRC_20)
+    if os.path.exists(icon30):
+        # 3.0 版是白底单张（RGB，无 alpha 通道）：按"与边缘连通的浅色"抠，再清掉画面外的水印
+        sheet = crop_content(crop_to_main_band(key_white(Image.open(icon30))))
+        print(f"  地图素材主体(3.0) {sheet.size}")
+    elif os.path.exists(icon20):
+        # 2.0 版是深色底：按"与边缘连通的深色"抠
+        sheet = crop_content(key_dark(Image.open(icon20)))
+        print(f"  地图素材主体(2.0) {sheet.size}")
+    else:
+        sheet = crop_dense(key_white(Image.open(os.path.join(SRC, "克雷松-在地图上以及其他地方的显示.png"))))
+        print(f"  地图素材主体(旧版) {sheet.size}")
+    icon = make_icon(sheet, ICON_SIZE)
+    return icon, make_outline(icon)
+
+
+def write_icon(icon: Image.Image, outline: Image.Image) -> None:
+    for name, img in (("kreson_icon.png", icon), ("kreson_icon_outline.png", outline)):
+        save(img, os.path.join(REPO_BOSS, name))
+        save(img, os.path.join(GAME_MOD, "spine", "boss", name))
+        # 地图节点/血条图标必须进 pck（引擎按 res:// 预加载），所以也写到打包输入目录
+        save(img, os.path.join(PCK_IMAGES, name))
+
+
 def main() -> None:
+    if len(sys.argv) > 1 and sys.argv[1] in ("icons", "icon"):
+        print("处理图标（仅图标）…")
+        icon, outline = build_icon()
+        write_icon(icon, outline)
+        return
+
     print("处理战斗立绘…")
     invincible = crop_content(key_white(Image.open(os.path.join(SRC, "克雷松-无敌状态.png"))))
     released = crop_content(key_white(Image.open(os.path.join(SRC, "克雷松-解除无敌.png"))))
@@ -220,16 +280,7 @@ def main() -> None:
     states = compose_states({"kreson_invincible": invincible, "kreson_released": released, "kreson_dead": dead}, BATTLE_HEIGHT)
 
     print("处理图标…")
-    icon_src = os.path.join(SRC, ICON_SRC_20)
-    if os.path.exists(icon_src):
-        # 2.0 版是深色底：按"与边缘连通的深色"抠
-        sheet = crop_content(key_dark(Image.open(icon_src)))
-        print(f"  地图素材主体(2.0) {sheet.size}")
-    else:
-        sheet = crop_dense(key_white(Image.open(os.path.join(SRC, "克雷松-在地图上以及其他地方的显示.png"))))
-        print(f"  地图素材主体(旧版) {sheet.size}")
-    icon = make_icon(sheet, ICON_SIZE)
-    outline = make_outline(icon)
+    icon, outline = build_icon()
 
     print("处理锚点卡图…")
     anchor_src = crop_content(key_white(Image.open(os.path.join(SRC, "锚点.png"))))
@@ -247,16 +298,11 @@ def main() -> None:
         "boss/kreson_invincible.png": states["kreson_invincible"],
         "boss/kreson_released.png": states["kreson_released"],
         "boss/kreson_dead.png": states["kreson_dead"],
-        "boss/kreson_icon.png": icon,
-        "boss/kreson_icon_outline.png": outline,
     }
-    gameplay_icons = {"kreson_icon.png": icon, "kreson_icon_outline.png": outline}
     for rel, img in outputs.items():
         save(img, os.path.join(REPO_BOSS, os.path.basename(rel)))
         save(img, os.path.join(GAME_MOD, "spine", os.path.basename(os.path.dirname(rel)), os.path.basename(rel)))
-    # 地图节点/血条图标必须进 pck（引擎按 res:// 预加载），所以也写到打包输入目录
-    for name, img in gameplay_icons.items():
-        save(img, os.path.join(PCK_IMAGES, name))
+    write_icon(icon, outline)
 
     save(anchor, os.path.join(REPO_CARD, "Anchor.png"))
     save(anchor, os.path.join(GAME_MOD, "spine", "card_art", "Anchor.png"))
