@@ -71,7 +71,8 @@ public sealed class KresonTaintSourcePower : CustomPowerModel
 }
 
 /// <summary>
-/// 【育苗】：每回合开始时，为玩家牌组中随机 2 张攻击或技能牌附加 2 层污染（优先选择当前无污染的）。
+/// 【育苗】：每回合开始时，为玩家牌组中随机 3 张攻击或技能牌附加 4 层污染（优先选择当前无污染的）。
+/// 持有遗物【无垠花】的玩家只受 2 层。
 /// 挂在克雷松身上（状态栏里是它的第 3 个状态），回合开始时对所有玩家统一结算一次。
 ///
 /// 说明：「牌组」在战斗中以战斗牌堆的形式存在（抽牌堆+手牌+弃牌堆），
@@ -80,17 +81,20 @@ public sealed class KresonTaintSourcePower : CustomPowerModel
 public sealed class KresonNursingPower : CustomPowerModel
 {
     /// <summary>每次点名的牌数。</summary>
-    public const int CardsPerTurn = 2;
+    public const int CardsPerTurn = 3;
 
     /// <summary>每张牌附加的污染层数。</summary>
-    public const int StacksPerCard = 2;
+    public const int StacksPerCard = 4;
+
+    /// <summary>持有【无垠花】时的层数。</summary>
+    public const int StacksWithFlower = 2;
 
     public override string? CustomPackedIconPath => "res://Amiya/images/powers/KresonNursingPower.png";
 
     public override List<(string, string)>? Localization => new()
     {
         ("title", "育苗"),
-        ("description", "每回合开始时，为玩家牌组中随机 2 张攻击或技能牌附加 2 层【污染】（优先选择当前无污染的）。")
+        ("description", "每回合开始时，为玩家牌组中随机 3 张攻击或技能牌附加 4 层【污染】（优先选择当前无污染的）。")
     };
 
     public override PowerType Type => PowerType.Debuff;
@@ -107,9 +111,13 @@ public sealed class KresonNursingPower : CustomPowerModel
         var choiceContext = new ThrowingPlayerChoiceContext();
         foreach (Player player in combatState.Players.ToList())
         {
-            await KresonTaintHelper.ApplyToPlayer(choiceContext, player, CardsPerTurn, StacksPerCard);
+            await KresonTaintHelper.ApplyToPlayer(choiceContext, player, CardsPerTurn, StacksFor(player));
         }
     }
+
+    /// <summary>该玩家这次会受到几层污染（持有【无垠花】减半档：4 → 2）。</summary>
+    public static int StacksFor(Player player)
+        => player.Relics.Any(r => r is Amiya.Relics.BoundlessFlowerRelic) ? StacksWithFlower : StacksPerCard;
 }
 
 /// <summary>污染施加的公共逻辑（育苗 / 其它来源共用）。</summary>

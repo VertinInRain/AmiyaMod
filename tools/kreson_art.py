@@ -20,12 +20,53 @@ from PIL import Image, ImageDraw, ImageFilter
 SRC = "补充卡图"
 REPO_BOSS = "AmiyaMod/assets/boss"
 REPO_CARD = "AmiyaMod/assets/card_art"
+REPO_RELIC = "AmiyaMod/assets/relic"
 PCK_IMAGES = "images/boss"  # build_art_pck.py 的输入目录（打进 Amiya.pck）
+PCK_RELICS = "images/custom_relics"
 GAME_MOD = r"D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\Amiya"
 
 BATTLE_HEIGHT = 420
 ICON_SIZE = 256
 CARD_W, CARD_H = 250, 190
+RELIC_SIZE = 128
+# 新素材（用户 2026-09 追加）
+ICON_SRC_20 = "克雷松-在地图上以及其他地方的显示2.0.png"
+RELIC_FLOWER = "无垠花.png"
+CARD_ROAD = "路网.png"
+
+
+def key_dark(img: Image.Image, dark_max: int = 78, sat_max: int = 46, feather: float = 0.8) -> Image.Image:
+    """抠掉「与画面边缘连通的深色背景」（新地图图标是深色底，不能按白色抠）。"""
+    rgb = img.convert("RGB")
+    arr = np.asarray(rgb).astype(np.int16)
+    mx = arr.max(axis=2)
+    mn = arr.min(axis=2)
+    dark = (mx <= dark_max) & ((mx - mn) <= sat_max)
+
+    bg = np.zeros_like(dark)
+    bg[0, :] = dark[0, :]
+    bg[-1, :] = dark[-1, :]
+    bg[:, 0] = dark[:, 0]
+    bg[:, -1] = dark[:, -1]
+    for _ in range(4000):
+        grown = bg.copy()
+        grown[1:, :] |= bg[:-1, :]
+        grown[:-1, :] |= bg[1:, :]
+        grown[:, 1:] |= bg[:, :-1]
+        grown[:, :-1] |= bg[:, 1:]
+        grown &= dark
+        if grown.sum() == bg.sum():
+            break
+        bg = grown
+
+    alpha = np.where(bg, 0, 255).astype(np.uint8)
+    if img.mode == "RGBA":
+        alpha = np.minimum(alpha, np.asarray(img)[:, :, 3])
+    out = img.convert("RGBA")
+    out.putalpha(Image.fromarray(alpha))
+    if feather > 0:
+        out.putalpha(out.split()[3].filter(ImageFilter.GaussianBlur(feather)))
+    return out
 
 
 def key_white(img: Image.Image, light_min: int = 200, sat_max: int = 34, feather: float = 0.8) -> Image.Image:
@@ -133,6 +174,15 @@ def compose_states(states: dict, height: int, pad: int = 24) -> dict:
     return out
 
 
+def fit_canvas(img: Image.Image, width: int, height: int) -> Image.Image:
+    """等比缩放后居中贴到指定画布（卡图统一 250×190）。"""
+    s = min(width / img.width, height / img.height)
+    scaled = img.resize((max(1, round(img.width * s)), max(1, round(img.height * s))), Image.LANCZOS)
+    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    canvas.alpha_composite(scaled, ((width - scaled.width) // 2, (height - scaled.height) // 2))
+    return canvas
+
+
 def make_icon(img: Image.Image, size: int) -> Image.Image:
     s = min(size / img.width, size / img.height)
     scaled = img.resize((max(1, round(img.width * s)), max(1, round(img.height * s))), Image.LANCZOS)
@@ -170,17 +220,28 @@ def main() -> None:
     states = compose_states({"kreson_invincible": invincible, "kreson_released": released, "kreson_dead": dead}, BATTLE_HEIGHT)
 
     print("处理图标…")
-    sheet = crop_dense(key_white(Image.open(os.path.join(SRC, "克雷松-在地图上以及其他地方的显示.png"))))
-    print(f"  地图素材主体 {sheet.size}")
+    icon_src = os.path.join(SRC, ICON_SRC_20)
+    if os.path.exists(icon_src):
+        # 2.0 版是深色底：按"与边缘连通的深色"抠
+        sheet = crop_content(key_dark(Image.open(icon_src)))
+        print(f"  地图素材主体(2.0) {sheet.size}")
+    else:
+        sheet = crop_dense(key_white(Image.open(os.path.join(SRC, "克雷松-在地图上以及其他地方的显示.png"))))
+        print(f"  地图素材主体(旧版) {sheet.size}")
     icon = make_icon(sheet, ICON_SIZE)
     outline = make_outline(icon)
 
     print("处理锚点卡图…")
     anchor_src = crop_content(key_white(Image.open(os.path.join(SRC, "锚点.png"))))
-    s = min(CARD_W / anchor_src.width, CARD_H / anchor_src.height)
-    anchor = Image.new("RGBA", (CARD_W, CARD_H), (0, 0, 0, 0))
-    resized = anchor_src.resize((max(1, round(anchor_src.width * s)), max(1, round(anchor_src.height * s))), Image.LANCZOS)
-    anchor.alpha_composite(resized, ((CARD_W - resized.width) // 2, (CARD_H - resized.height) // 2))
+    anchor = fit_canvas(anchor_src, CARD_W, CARD_H)
+
+    print("处理路网卡图…")
+    road_src = crop_content(Image.open(os.path.join(SRC, CARD_ROAD)))
+    road = fit_canvas(road_src, CARD_W, CARD_H)
+
+    print("处理无垠花遗物图标…")
+    flower_src = crop_content(Image.open(os.path.join(SRC, RELIC_FLOWER)))
+    flower = make_icon(flower_src, RELIC_SIZE)
 
     outputs = {
         "boss/kreson_invincible.png": states["kreson_invincible"],
@@ -199,6 +260,11 @@ def main() -> None:
 
     save(anchor, os.path.join(REPO_CARD, "Anchor.png"))
     save(anchor, os.path.join(GAME_MOD, "spine", "card_art", "Anchor.png"))
+    save(road, os.path.join(REPO_CARD, "RoadNetwork.png"))
+    save(road, os.path.join(GAME_MOD, "spine", "card_art", "RoadNetwork.png"))
+    # 遗物图标走 pck（PackedIconPath 是按 res:// 路径加载的）
+    save(flower, os.path.join(REPO_RELIC, "BoundlessFlowerRelic.png"))
+    save(flower, os.path.join(PCK_RELICS, "BoundlessFlowerRelic.png"))
 
 
 if __name__ == "__main__":

@@ -24,10 +24,10 @@ namespace Amiya.Boss;
 /// <summary>
 /// 无垠回荡克雷松（三层 boss）。
 ///
-/// 血量 280（进阶 10 起 300）。开局自带四个状态：
+/// 血量 365。开局自带四个状态：
 ///   【无敌】体力不会减少（可被【锚点】临时解除）、
 ///   【飘忽】每玩家每打出 4 张牌给其一张锚点、
-///   【育苗】每回合开始给玩家随机 2 张攻击/技能牌附加 2 层污染、
+///   【育苗】每回合开始给玩家随机 3 张攻击/技能牌附加 4 层污染（持有【无垠花】时改为 2 层）、
 ///   【终点】8 个克雷松回合后自爆。
 /// 意图为 1→2→3 无限循环（确定性，无随机分支）：
 ///   1. 27 点伤害 + 1 层易伤
@@ -49,8 +49,8 @@ public sealed class KresonMonster : CustomMonsterModel, ILocalizationProvider
         ("moves.KRESON_RALLY_MOVE.title", "回响蓄势")
     };
 
-    /// <summary>进阶 10（DoubleBoss）起血量 300，否则 280。</summary>
-    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.DoubleBoss, 300, 280);
+    /// <summary>血量 365（不再随进阶变化）。</summary>
+    public override int MinInitialHp => 365;
 
     public override int MaxInitialHp => MinInitialHp;
 

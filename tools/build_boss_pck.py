@@ -21,6 +21,7 @@ OUT_PCK = r"D:\SteamLibrary\steamapps\common\Slay the Spire 2\mods\Amiya\Amiya_b
 SOURCES = (
     (os.path.join("images", "boss"), "boss"),
     (os.path.join("images", "custom_powers"), "powers"),
+    (os.path.join("images", "custom_relics"), "relic"),
 )
 
 
