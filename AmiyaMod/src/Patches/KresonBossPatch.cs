@@ -26,9 +26,9 @@ internal static class KresonBossPatch
 {
     /// <summary>
     /// 【测试开关】true = 把克雷松放进第一层的 boss（跑几步就能打，方便调试）；
-    /// false = 正式行为，替换三层的 boss。测完记得改回 false。
+    /// false = 正式行为，替换三层的 boss。
     /// </summary>
-    private const bool ReplaceFirstActForTesting = true;
+    private const bool ReplaceFirstActForTesting = false;
 
     private static PropertyInfo? _stateProperty;
 
