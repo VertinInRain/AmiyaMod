@@ -71,6 +71,12 @@ public sealed class SeeLightPower : CustomPowerModel
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         await base.AfterPlayerTurnStart(choiceContext, player);
+        // 多人：钩子会对每个玩家的回合开始触发，只数自己主人的回合，
+        // 否则两个玩家的回合都会让 _turn 自增（3 回合的等待会变成 1.5 回合）
+        if (Owner?.Player == null || player != Owner.Player)
+        {
+            return;
+        }
         _turn++;
         if (_turn < 3)
         {

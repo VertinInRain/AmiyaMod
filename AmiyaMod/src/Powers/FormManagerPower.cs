@@ -556,6 +556,17 @@ public sealed class FormManagerPower : CustomPowerModel
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         await base.AfterPlayerTurnStart(choiceContext, player);
+
+        // 多人：这个钩子会在「每个玩家」的回合开始时、为「每个」形态机实例各触发一次，
+        // 必须只处理自己主人的那个回合。否则两名阿米娅玩家会互相触发：
+        //   · 每人在每个玩家回合开始时都切换一次形态（等于每回合切两次、而且会切到别人身上）；
+        //   · TurnCount 每回合 +2，使「除第一回合外」的判定在真正的第 1 回合就成立（刚进战斗就转换）；
+        //   · 还会用别人的手牌/消耗堆结算（领袖白光、存续先兆、求而不得之物）。
+        if (Owner?.Player == null || player != Owner.Player)
+        {
+            return;
+        }
+
         TurnCount++;
         TurnCardPlayCount = 0;
         TurnAttackPlayedCount = 0;

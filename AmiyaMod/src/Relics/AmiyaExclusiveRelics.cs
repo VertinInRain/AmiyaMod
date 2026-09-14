@@ -124,6 +124,11 @@ public sealed class NamelessTotemRelic : CustomRelicModel
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         await base.AfterPlayerTurnStart(choiceContext, player);
+        // 多人：只处理持有者自己的回合，否则别人的回合开始会把持有者的图腾状态提前清掉
+        if (player != Owner)
+        {
+            return;
+        }
         _turnDamageDealt = 0m;
         if (_statusApplied && Owner?.Creature != null && Owner.Creature.HasPower<NamelessTotemPower>())
         {
