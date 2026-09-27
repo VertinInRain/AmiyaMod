@@ -15,33 +15,24 @@ using MegaCrit.Sts2.Core.Models;
 namespace Amiya.Patches;
 
 /// <summary>
-/// 溢流消耗：每次抽牌结束后，把"本应抽到但超出手牌上限"的牌（仍留在抽牌堆顶）直接消耗。
-/// DrawInternal 是 async 方法：Harmony 的异步 Postfix 在 Task 完成后执行，可以拿到抽牌结果。
+/// 溢流消耗（平凡亦是喜乐）：每次抽牌结束后，把"本应抽到但超出手牌上限"的牌直接消耗。
+///
+/// 补丁挂在 <c>CardPileCmd.Draw</c>（公开包装）而不是 DrawInternal 上：
+/// 按玩家上限裁剪张数是在 DrawInternal 入口做的（AmiyaDrawLimitPatch），
+/// 那里会把 count 改小；这里要的是**调用方原本请求的张数**，才能算出溢出了几张。
+/// Draw 的 count 参数不受那次裁剪影响（值传递），所以挂在这里看得见原值。
 /// </summary>
-[HarmonyPatch(typeof(CardPileCmd), "DrawInternal")]
+[HarmonyPatch(typeof(CardPileCmd), "Draw", new Type[] { typeof(PlayerChoiceContext), typeof(decimal), typeof(Player), typeof(bool) })]
 internal static class AmiyaDrawOverflowPatch
 {
-    /// <summary>
-    /// 抽牌期间登记"当前抽牌玩家"，让手牌上限补丁按该玩家自己的削减层数计算
-    /// （静态 getter 拿不到玩家，只能靠这个上下文；嵌套抽牌用栈保存）。
-    /// 前缀在方法体执行前登记，后置补丁在 Task 完成后出栈。
-    /// </summary>
-    private static void Prefix(Player player)
-    {
-        try
-        {
-            AmiyaMaxHandPatch.PushDrawContext(player);
-        }
-        catch (Exception ex)
-        {
-            Log.Error("[Amiya] push draw context failed: " + ex);
-        }
-    }
-
     // 注意：直通式异步后置补丁的返回类型必须与第一参数（__result）类型一致，
     // 且必须把原结果返回——否则调用方 await 得到 null（CentennialPuzzle 对结果
     // 调 FirstOrDefault 直接抛异常，战斗回合循环死亡 → 游戏卡死）。
-    private static async Task<IEnumerable<CardModel>> Postfix(Task<IEnumerable<CardModel>> __result, PlayerChoiceContext choiceContext, decimal count, Player player)
+    private static async Task<IEnumerable<CardModel>> Postfix(
+        Task<IEnumerable<CardModel>> __result,
+        PlayerChoiceContext choiceContext,
+        decimal count,
+        Player player)
     {
         IEnumerable<CardModel> drawn = Array.Empty<CardModel>();
         try
@@ -81,10 +72,6 @@ internal static class AmiyaDrawOverflowPatch
         catch (Exception ex)
         {
             Log.Error("[Amiya] draw overflow patch failed: " + ex);
-        }
-        finally
-        {
-            AmiyaMaxHandPatch.PopDrawContext();
         }
         return drawn;
     }
