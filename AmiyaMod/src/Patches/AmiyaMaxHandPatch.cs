@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Amiya.Cards;
 using Amiya.Powers;
 using HarmonyLib;
@@ -8,6 +9,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Models;
 
 namespace Amiya.Patches;
 
@@ -124,4 +126,58 @@ internal static class AmiyaDrawLimitPatch
             Log.Error("[Amiya] draw limit patch failed: " + ex);
         }
     }
+}
+
+/// <summary>
+/// 抽牌之外的"直接塞进手牌"（各种生成/回收卡牌的效果）也要按**各自**的手牌上限处理：
+/// 引擎自己的判定用的是全局上限（= 本场最高值），所以当某个玩家自己的上限更低时，
+/// 一张效果牌会绕过他自己的上限挤进手牌。这里在 Add 的入口把目标牌堆改成弃牌堆，
+/// 和原版"手牌已满时改入弃牌堆"的处理一致。
+///
+/// 只在"该玩家自己的上限低于引擎上限"时才动手（即有人吃了手牌上限削减/别人提高了上限），
+/// 其它情况一律交给引擎，原版行为（含"手牌已满"提示）不受影响。
+/// </summary>
+internal static class AmiyaHandFullRedirect
+{
+    internal static void Redirect(Player? owner, ref PileType pileType)
+    {
+        try
+        {
+            if (pileType != PileType.Hand || owner?.Creature == null)
+            {
+                return;
+            }
+            int limit = HandLimitHelper.LimitFor(owner);
+            if (limit >= AmiyaMaxHandPatch.CeilingInCombat)
+            {
+                return; // 引擎的判定就是对的
+            }
+            int hand = PileType.Hand.GetPile(owner).Cards.Count;
+            if (hand >= limit)
+            {
+                Log.Info($"[Amiya] 手牌上限：{owner.NetId} 手牌={hand} 已达自己的上限 {limit}，改入弃牌堆");
+                pileType = PileType.Discard;
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error("[Amiya] hand full redirect failed: " + ex);
+        }
+    }
+}
+
+/// <summary>Add(CardModel, PileType, ...)：单张卡直接进手牌时按牌主自己的上限判断。</summary>
+[HarmonyPatch(typeof(CardPileCmd), "Add", new Type[] { typeof(CardModel), typeof(PileType), typeof(CardPilePosition), typeof(AbstractModel), typeof(bool) })]
+internal static class AmiyaHandFullRedirectSinglePatch
+{
+    private static void Prefix(CardModel card, ref PileType newPileType)
+        => AmiyaHandFullRedirect.Redirect(card?.Owner, ref newPileType);
+}
+
+/// <summary>Add(IEnumerable&lt;CardModel&gt;, PileType, ...)：多张卡同一个主人，按第一张的主人判断。</summary>
+[HarmonyPatch(typeof(CardPileCmd), "Add", new Type[] { typeof(IEnumerable<CardModel>), typeof(PileType), typeof(CardPilePosition), typeof(AbstractModel), typeof(bool) })]
+internal static class AmiyaHandFullRedirectManyPatch
+{
+    private static void Prefix(IEnumerable<CardModel> cards, ref PileType newPileType)
+        => AmiyaHandFullRedirect.Redirect(cards?.FirstOrDefault()?.Owner, ref newPileType);
 }
