@@ -13,11 +13,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Amiya.Powers;
@@ -271,21 +273,56 @@ public sealed class FormManagerPower : CustomPowerModel
                 Log.Info("[Amiya] ember: no cards in hand, skip");
                 return;
             }
+            // AfterBlockGained 这类钩子没有 choiceContext 参数，只能沿用上一次 Trigger 记下的
+            // _lastCtx；如果此刻队列上跑的是**另一个**动作（联机下很常见：上一次记下的是
+            // 我方某张牌，现在触发的是相变不息的另一张牌），引擎会报
+            // "Tried to interrupt shared queue action ..."，并且这次选牌结束时在
+            // WaitForActionToResumeExecutingAfterPlayerChoice 抛 NRE —— 选牌结果被丢掉、牌没被消耗。
+            // 所以这里校验一下：上下文对应的动作不是"当前正在执行的动作"时，改用当前动作的上下文。
+            PlayerChoiceContext context = EnsureContextMatchesRunningAction(choiceContext);
             var selected = await CardSelectCmd.FromHand(
-                choiceContext, Owner.Player,
+                context, Owner.Player,
                 new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1, 1),
                 _ => true, this);
             var list = selected.ToList();
             Log.Info($"[Amiya] ember: selection returned {list.Count} card(s)");
             foreach (var card in list)
             {
-                await CardCmd.Exhaust(choiceContext, card);
+                await CardCmd.Exhaust(context, card);
                 Log.Info($"[Amiya] ember: exhausted {card.Id.Entry}");
             }
         }
         catch (Exception ex)
         {
             Log.Error($"[Amiya] ember consume failed: {ex}");
+        }
+    }
+
+    /// <summary>
+    /// 选牌上下文必须与"当前正在执行的动作"一致：不一致时换成当前动作的上下文，
+    /// 否则引擎不会暂停动作队列，选牌结束后会抛 NRE（见 EmberConsume 里的说明）。
+    /// 已经一致时原样返回，不影响原本正常的路径。
+    /// </summary>
+    private static PlayerChoiceContext EnsureContextMatchesRunningAction(PlayerChoiceContext choiceContext)
+    {
+        try
+        {
+            GameAction? running = RunManager.Instance?.ActionExecutor?.CurrentlyRunningAction;
+            if (running == null)
+            {
+                return choiceContext;
+            }
+            if (choiceContext is GameActionPlayerChoiceContext mine && mine.Action == running)
+            {
+                return choiceContext;
+            }
+            Log.Info("[Amiya] ember: 选牌上下文与当前动作不一致，改用当前动作的上下文");
+            return new GameActionPlayerChoiceContext(running);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("[Amiya] ember: context fix failed: " + ex.Message);
+            return choiceContext;
         }
     }
 

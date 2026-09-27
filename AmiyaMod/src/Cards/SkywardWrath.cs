@@ -41,7 +41,10 @@ public sealed class SkywardWrath : BaseAmiyaCard
             return;
         }
         decimal perHit = DynamicVars.Damage.BaseValue;
-        decimal friendlyLoss = 0m;
+        // 按"损失生命的那个友方单位"分别累计（含自己与其他玩家）：
+        // 原来只把总量的一半给了出牌者自己，队友挨了打却拿不到再生。
+        // 用 List 而不是 Dictionary，保证顺序在两端一致（联机下不能依赖字典枚举顺序）。
+        var losses = new List<(Creature Creature, decimal Lost)>();
 
         for (int i = 0; i < HitCount; i++)
         {
@@ -57,15 +60,31 @@ public sealed class SkywardWrath : BaseAmiyaCard
 
             if (target.Side == CombatSide.Player)
             {
-                friendlyLoss += results.Sum(r => r.UnblockedDamage);
+                decimal lost = results.Sum(r => r.UnblockedDamage);
+                if (lost > 0m)
+                {
+                    int idx = losses.FindIndex(x => x.Creature == target);
+                    if (idx >= 0)
+                    {
+                        losses[idx] = (target, losses[idx].Lost + lost);
+                    }
+                    else
+                    {
+                        losses.Add((target, lost));
+                    }
+                }
             }
         }
 
-        // 友方（含自己与其他玩家）因此损失的生命 → 一半转化为再生
-        if (friendlyLoss > 0)
+        // 每个因此损失生命的友方单位，各自获得"自己损失量一半"的再生
+        foreach ((Creature creature, decimal lost) in losses)
         {
-            decimal regen = Math.Max(1m, friendlyLoss / 2m);
-            await PowerCmd.Apply<RegenPower>(choiceContext, Owner.Creature, regen, Owner.Creature, null, silent: true);
+            if (!creature.IsAlive)
+            {
+                continue;
+            }
+            decimal regen = Math.Max(1m, lost / 2m);
+            await PowerCmd.Apply<RegenPower>(choiceContext, creature, regen, Owner.Creature, null, silent: true);
         }
     }
 
